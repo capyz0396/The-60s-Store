@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Trang chủ</title>
+</head>
+<body>
+<h1>Welcome to the Home Page</h1>
+
+<div th:if="${#authorization.expression('isAuthenticated()')}">
+    <p>User:
+    <span th:text="${#authentication.principal.username}"></span></p>
+    <p>Authorities: <span th:text="${#authentication.authorities}"></span></p>
+</div>
+
+<div th:unless="${#authorization.expression('isAuthenticated()')}">
+    <p>You are not logged in</p>
+</div>
+
+<form action="/logout" method="post">
+    <button type="submit">Logout</button>
+</form>
+
+<!-- Thêm đường dẫn đến trang thêm sản phẩm -->
+<a href="/add-product">Thêm Sản Phẩm</a>
+
+<!-- Thêm đường dẫn đến trang sản phẩm -->
+<a href="/edit-price">Chỉnh Sản Phẩm</a>
+
+<a href="/products">Sản Phẩm</a>
+
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Đăng nhập</title>
+</head>
+<body>
+<h1>Đăng nhập</h1>
+<form action="/login" method="post">
+    <label for="username">Tên người dùng:</label>
+    <input type="text" id="username" name="username">
+    <br>
+    <label for="password">Mật khẩu:</label>
+    <input type="password" id="password" name="password">
+    <br>
+    <button type="submit">Đăng nhập</button>
+</form>
+
+<th:block th:if="${param.error}">
+    <p style="color: red;" th:text="'Error is ' + ${param.error}"></p>
+</th:block>
+</body>
+</html>

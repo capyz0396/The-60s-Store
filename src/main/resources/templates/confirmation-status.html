@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Token Confirmation</title>
+</head>
+<body>
+
+<div>
+    <h2>Confirmation Result</h2>
+
+    <p th:text="${status == 'agreed' ? 'Token confirmed successfully.': ''}"></p>
+    <p th:text="${status == 'denied' ? 'Token confirmation failed.': ''}"></p>
+    <p th:text="${status == 'expired' ? 'Token has expired. Click the button below to request a new token.' : ''}"></p>
+    <p th:text="${status == 'renew-denied' ? 'Token already has sent. We cannot renew in this time.' : ''}"></p>
+
+    <form action="/reconfirm" method="post">
+        <input type="hidden" name="token" th:value="${token}" />
+        <button type="submit" th:if="${status == 'expired'}">Request New Token</button>
+    </form>
+</div>
+
+</body>
+</html>
