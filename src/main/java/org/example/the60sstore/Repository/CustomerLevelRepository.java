@@ -1,6 +1,6 @@
-package org.example.testspring.Repository;
+package org.example.the60sstore.Repository;
 
-import org.example.testspring.Entity.CustomerLevel;
+import org.example.the60sstore.Entity.CustomerLevel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

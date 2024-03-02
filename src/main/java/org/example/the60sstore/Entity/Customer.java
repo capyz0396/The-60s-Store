@@ -1,4 +1,4 @@
-package org.example.testspring.Entity;
+package org.example.the60sstore.Entity;
 
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;

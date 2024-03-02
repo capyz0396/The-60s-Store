@@ -1,13 +1,15 @@
-package org.example.testspring.Controller;
+package org.example.the60sstore.Controller;
 
-import org.example.testspring.Entity.Product;
-import org.example.testspring.Entity.ProductPrice;
-import org.example.testspring.Service.ProductPriceService;
-import org.example.testspring.Service.ProductService;
+import jakarta.servlet.http.HttpSession;
+import org.example.the60sstore.Entity.Product;
+import org.example.the60sstore.Entity.ProductPrice;
+import org.example.the60sstore.Service.ProductPriceService;
+import org.example.the60sstore.Service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -81,8 +83,8 @@ public class ProductController {
         return "home";
     }
 
-    @GetMapping("/products")
-    public String showProductList(Model model) {
+    @GetMapping("/product")
+    public String showProductList(Model model, @ModelAttribute("cartSize") String cartSize) {
 
         List<Product> products = productService.getAllProducts();
 
@@ -92,7 +94,8 @@ public class ProductController {
         }
 
         model.addAttribute("products", products);
+        model.addAttribute("cartSize", cartSize);
 
-        return "products";
+        return "product";
     }
 }

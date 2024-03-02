@@ -1,8 +1,8 @@
-package org.example.testspring.Service;
+package org.example.the60sstore.Service;
 
-import org.example.testspring.Entity.AccessHistory;
-import org.example.testspring.Entity.Customer;
-import org.example.testspring.Repository.AccessHistoryRepository;
+import org.example.the60sstore.Entity.AccessHistory;
+import org.example.the60sstore.Entity.Customer;
+import org.example.the60sstore.Repository.AccessHistoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

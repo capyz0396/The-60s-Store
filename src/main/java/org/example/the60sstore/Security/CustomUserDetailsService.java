@@ -1,7 +1,7 @@
-package org.example.testspring.Security;
+package org.example.the60sstore.Security;
 
-import org.example.testspring.Entity.Customer;
-import org.example.testspring.Repository.CustomerRepository;
+import org.example.the60sstore.Entity.Customer;
+import org.example.the60sstore.Repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

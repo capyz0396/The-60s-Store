@@ -1,12 +1,13 @@
-package org.example.testspring.Controller;
+package org.example.the60sstore.Controller;
 
-import org.example.testspring.Entity.Customer;
-import org.example.testspring.Entity.Invoice;
-import org.example.testspring.Entity.InvoiceDetail;
-import org.example.testspring.Entity.Product;
-import org.example.testspring.Service.InvoiceDetailService;
-import org.example.testspring.Service.InvoiceService;
-import org.example.testspring.Service.ProductService;
+import org.example.the60sstore.Entity.Customer;
+import org.example.the60sstore.Entity.Invoice;
+import org.example.the60sstore.Entity.InvoiceDetail;
+import org.example.the60sstore.Entity.Product;
+import org.example.the60sstore.Service.InvoiceDetailService;
+import org.example.the60sstore.Service.InvoiceService;
+import org.example.the60sstore.Service.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -24,6 +25,7 @@ public class InvoiceController {
     private final InvoiceService invoiceService;
     private final InvoiceDetailService invoiceDetailService;
 
+    @Autowired
     public InvoiceController(ProductService productService,
                              InvoiceService invoiceService,
                              InvoiceDetailService invoiceDetailService) {
@@ -35,15 +37,6 @@ public class InvoiceController {
     @PostMapping("/create-invoice")
     public String createInvoice(@RequestParam("selectedProducts") List<Integer> selectedProductIds,
                                 @RequestParam("quantities") List<BigDecimal> quantities) {
-
-        /*for (int i = 0; i < selectedProductIds.size(); i++) {
-            int productId = selectedProductIds.get(i);
-            Integer quantity = quantities.get(i);
-
-            Product product = productService.getProductByProductId(productId);
-            System.out.println("Product: " + product.getProductNameEn() + " | Quantity: " + quantity);
-        }*/
-
 
         if (selectedProductIds.size() != quantities.size()) {
             return "redirect:/products";
@@ -62,8 +55,6 @@ public class InvoiceController {
 
         for (int i = 0; i < selectedProductIds.size(); i++) {
 
-            System.out.println(quantities.get(i));
-
             if (!quantities.get(i).equals(BigDecimal.ZERO)) {
                 Product product = productService.getProductByProductId(selectedProductIds.get(i));
                 InvoiceDetail invoiceDetail = new InvoiceDetail();
@@ -74,7 +65,6 @@ public class InvoiceController {
                 totalAmount = totalAmount.add(invoiceDetail.getSubtotal());
                 invoiceDetailService.save(invoiceDetail);
             }
-
         }
 
         invoice.setTotalAmount(totalAmount);

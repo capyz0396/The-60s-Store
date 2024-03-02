@@ -1,8 +1,8 @@
-package org.example.testspring.Service;
+package org.example.the60sstore.Service;
 
-import org.example.testspring.Entity.Product;
-import org.example.testspring.Entity.ProductPrice;
-import org.example.testspring.Repository.ProductPriceRepository;
+import org.example.the60sstore.Entity.Product;
+import org.example.the60sstore.Entity.ProductPrice;
+import org.example.the60sstore.Repository.ProductPriceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

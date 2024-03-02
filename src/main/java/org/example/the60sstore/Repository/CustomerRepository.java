@@ -1,6 +1,6 @@
-package org.example.testspring.Repository;
+package org.example.the60sstore.Repository;
 
-import org.example.testspring.Entity.Customer;
+import org.example.the60sstore.Entity.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

@@ -1,4 +1,4 @@
-package org.example.testspring.Controller;
+package org.example.the60sstore.Controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

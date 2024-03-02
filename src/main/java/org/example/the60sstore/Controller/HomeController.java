@@ -1,8 +1,8 @@
-package org.example.testspring.Controller;
+package org.example.the60sstore.Controller;
 
-import org.example.testspring.Entity.Customer;
-import org.example.testspring.Service.AccessHistoryService;
-import org.example.testspring.Service.CustomerService;
+import org.example.the60sstore.Entity.Customer;
+import org.example.the60sstore.Service.AccessHistoryService;
+import org.example.the60sstore.Service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

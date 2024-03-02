@@ -1,8 +1,8 @@
-package org.example.testspring.Controller;
+package org.example.the60sstore.Controller;
 
-import org.example.testspring.Entity.Token;
-import org.example.testspring.Service.CustomerService;
-import org.example.testspring.Service.TokenService;
+import org.example.the60sstore.Entity.Token;
+import org.example.the60sstore.Service.CustomerService;
+import org.example.the60sstore.Service.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

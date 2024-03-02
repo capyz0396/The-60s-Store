@@ -1,6 +1,6 @@
-package org.example.testspring.Repository;
+package org.example.the60sstore.Repository;
 
-import org.example.testspring.Entity.InvoiceDetail;
+import org.example.the60sstore.Entity.InvoiceDetail;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

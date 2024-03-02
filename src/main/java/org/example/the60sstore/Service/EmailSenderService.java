@@ -1,4 +1,4 @@
-package org.example.testspring.Service;
+package org.example.the60sstore.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;

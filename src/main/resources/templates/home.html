@@ -1,33 +1,65 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Trang chủ</title>
+    <title>60s Store - Cart</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" th:href="@{img/apple-icon.png}">
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/img/favicon.ico}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/templatemo.css}">
+    <link rel="stylesheet" th:href="@{/css/custom.css}">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+    <link rel="stylesheet" th:href="@{css/fontawesome.min.css}">
 </head>
+
 <body>
-<h1>Welcome to the Home Page</h1>
 
-<div th:if="${#authorization.expression('isAuthenticated()')}">
-    <p>User:
-    <span th:text="${#authentication.principal.username}"></span></p>
-    <p>Authorities: <span th:text="${#authentication.authorities}"></span></p>
+<!-- Header Fragment -->
+<div th:replace="~{fragments/headerFragment::headerFragment}"></div>
+
+<!-- Content -->
+<div class="container py-5">
+    <div class="row">
+        <div class="col-lg-12 text-center">
+            <h2>Home Page</h2>
+
+            <div class="mt-5">
+                <form th:action="@{/add-product}" method="post">
+                    <button type="submit" class="btn btn-lg btn-primary">Add product</button>
+                </form>
+            </div>
+
+            <div class="mt-5">
+                <form th:action="@{/edit-price}" method="post">
+                    <button type="submit" class="btn btn-lg btn-dark">Edit price</button>
+                </form>
+            </div>
+
+            <div class="mt-5">
+                <form th:action="@{/logout}" method="post">
+                    <button type="submit" class="btn btn-lg btn-danger">Log out</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 
-<div th:unless="${#authorization.expression('isAuthenticated()')}">
-    <p>You are not logged in</p>
-</div>
+<!-- Brand Fragment -->
+<div th:replace="~{fragments/brandFragment :: brandFragment}"></div>
 
-<form action="/logout" method="post">
-    <button type="submit">Logout</button>
-</form>
+<!-- Footer Fragment -->
+<div th:replace="~{fragments/footerFragment :: footerFragment}"></div>
 
-<!-- Thêm đường dẫn đến trang thêm sản phẩm -->
-<a href="/add-product">Thêm Sản Phẩm</a>
-
-<!-- Thêm đường dẫn đến trang sản phẩm -->
-<a href="/edit-price">Chỉnh Sản Phẩm</a>
-
-<a href="/products">Sản Phẩm</a>
+<!-- Script -->
+<script th:src="@{/js/jquery-1.11.0.min.js}"></script>
+<script th:src="@{/js/jquery-migrate-1.2.1.min.js}"></script>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/js/templatemo.js}"></script>
+<script th:src="@{/js/custom.js}"></script>
 
 </body>
+
 </html>

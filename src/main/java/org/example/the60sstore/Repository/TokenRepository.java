@@ -1,7 +1,7 @@
-package org.example.testspring.Repository;
+package org.example.the60sstore.Repository;
 
 import jakarta.transaction.Transactional;
-import org.example.testspring.Entity.Token;
+import org.example.the60sstore.Entity.Token;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

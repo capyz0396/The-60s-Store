@@ -1,8 +1,8 @@
-package org.example.testspring.Controller;
+package org.example.the60sstore.Controller;
 
-import org.example.testspring.Entity.Customer;
-import org.example.testspring.Entity.Role;
-import org.example.testspring.Service.*;
+import org.example.the60sstore.Entity.Customer;
+import org.example.the60sstore.Entity.Role;
+import org.example.the60sstore.Service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;

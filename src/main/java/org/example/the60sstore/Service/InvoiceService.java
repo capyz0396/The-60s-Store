@@ -1,7 +1,7 @@
-package org.example.testspring.Service;
+package org.example.the60sstore.Service;
 
-import org.example.testspring.Entity.Invoice;
-import org.example.testspring.Repository.InvoiceRepository;
+import org.example.the60sstore.Entity.Invoice;
+import org.example.the60sstore.Repository.InvoiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

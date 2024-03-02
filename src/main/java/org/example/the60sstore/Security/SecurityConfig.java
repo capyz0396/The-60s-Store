@@ -1,6 +1,5 @@
-package org.example.testspring.Security;
+package org.example.the60sstore.Security;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
 
 @Configuration
@@ -20,27 +20,26 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    private final CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
-
-    @Autowired
-    public SecurityConfig(CustomAuthenticationFailureHandler customAuthenticationFailureHandler) {
-        this.customAuthenticationFailureHandler = customAuthenticationFailureHandler;
-    }
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         return http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/signup", "/confirm**", "/confirmation-status**", "/login**", "/reconfirm").permitAll()
+                        .requestMatchers("/signup", "/confirm**", "/confirmation-status**", "login**", "/reconfirm",
+                                "/css/**", "/js/**", "/img/**", "/webfonts/**").permitAll()
                         .anyRequest().authenticated()
                 ).formLogin(formLogin ->
                         formLogin
                                 .loginPage("/login").
                                 defaultSuccessUrl("/home?logged=true").
-                                failureHandler(customAuthenticationFailureHandler)
+                                failureHandler(authenticationFailureHandler())
                                 .permitAll()).
                 logout(Customizer.withDefaults()).build();
+    }
+
+    @Bean
+    public AuthenticationFailureHandler authenticationFailureHandler() {
+        return new CustomAuthenticationFailureHandler();
     }
 
     @Bean

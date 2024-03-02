@@ -1,4 +1,4 @@
-package org.example.testspring.Entity;
+package org.example.the60sstore.Entity;
 
 import jakarta.persistence.*;
 
@@ -28,6 +28,8 @@ public class Product {
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<ProductPrice> productPrices;
+
+    private int quantity;
 
     public Integer getProductId() {
         return productId;
@@ -83,5 +85,13 @@ public class Product {
 
     public void setProductPrices(List<ProductPrice> productPrices) {
         this.productPrices = productPrices;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 }

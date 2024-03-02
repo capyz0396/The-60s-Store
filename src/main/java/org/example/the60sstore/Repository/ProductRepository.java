@@ -1,7 +1,6 @@
-package org.example.testspring.Repository;
+package org.example.the60sstore.Repository;
 
-import org.example.testspring.Entity.Customer;
-import org.example.testspring.Entity.Product;
+import org.example.the60sstore.Entity.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;

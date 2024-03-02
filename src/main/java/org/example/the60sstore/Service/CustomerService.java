@@ -1,9 +1,9 @@
-package org.example.testspring.Service;
+package org.example.the60sstore.Service;
 
 import jakarta.transaction.Transactional;
-import org.example.testspring.Entity.Customer;
-import org.example.testspring.Repository.CustomerRepository;
-import org.example.testspring.Repository.RoleRepository;
+import org.example.the60sstore.Entity.Customer;
+import org.example.the60sstore.Repository.CustomerRepository;
+import org.example.the60sstore.Repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
