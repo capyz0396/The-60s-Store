@@ -31,7 +31,7 @@ public class ProductController {
     @GetMapping("/add-product")
     public String showAddProductForm(Model model) {
         model.addAttribute("product", new Product());
-        return "add-product";
+        return "store-add-product";
     }
 
     @PostMapping("/save-product")
@@ -57,7 +57,7 @@ public class ProductController {
         productPrice.setStartDate(LocalDateTime.now());
         productPriceService.addProductPrice(productPrice);
 
-        return "home";
+        return "store-home";
     }
 
     @GetMapping("/edit-price")
@@ -67,7 +67,7 @@ public class ProductController {
         model.addAttribute("products", products);
         model.addAttribute("productPrice", new ProductPrice());
 
-        return "edit-price";
+        return "store-edit-price";
     }
 
     @PostMapping("edited-price")
@@ -80,7 +80,7 @@ public class ProductController {
         newProductPrice.setPrice(price);
         newProductPrice.setStartDate(LocalDateTime.now());
         productPriceService.addProductPrice(newProductPrice);
-        return "home";
+        return "store-home";
     }
 
     @GetMapping("/product")
@@ -91,11 +91,13 @@ public class ProductController {
         for (Product product : products) {
             List<ProductPrice> prices = productPriceService.getProductPriceByProduct(product);
             product.setProductPrices(prices);
+            System.out.println(product.getProductNameVi());
+            System.out.println(product.getProductPrices().getLast().getPrice());
         }
 
         model.addAttribute("products", products);
         model.addAttribute("cartSize", cartSize);
 
-        return "product";
+        return "store-product";
     }
 }

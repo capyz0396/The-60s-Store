@@ -25,7 +25,7 @@ public class ConfirmationController {
     }
 
 
-    @GetMapping("/confirm")
+    @GetMapping("/register-confirm")
     public String confirmRegistration(@RequestParam("token") String token) {
 
         Token customerToken = tokenService.findByToken(token);
@@ -33,19 +33,19 @@ public class ConfirmationController {
         if (customerToken != null && customerToken.getExpiryDate().isAfter(LocalDateTime.now())) {
             customerService.confirmCustomer(customerToken.getCustomer().getCustomerId());
             tokenService.updateConfirm(customerToken.getToken());
-            return "redirect:/confirmation-status?status=agreed";
+            return "redirect:/register-confirm-status?status=agreed";
         } else if (customerToken != null && !customerToken.getExpiryDate().isAfter(LocalDateTime.now())) {
-            return "redirect:/confirmation-status?status=expired&token=" + token;
+            return "redirect:/register-confirm-status?status=expired&token=" + token;
         } else {
-            return "redirect:/confirmation-status?status=denied";
+            return "redirect:/register-confirm-status?status=denied";
         }
     }
 
-    @GetMapping("/confirmation-status")
+    @GetMapping("/register-confirm-status")
     public String confirmationStatus(@RequestParam (name = "status", required = false) String status,
                                      @RequestParam (name = "token", required = false) String token, Model model) {
         model.addAttribute("status", status);
         model.addAttribute("token", token);
-        return "confirmation-status";
+        return "register-confirm-status";
     }
 }

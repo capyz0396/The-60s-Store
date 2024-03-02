@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>60s Store - Cart</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" th:href="@{img/apple-icon.png}">
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/img/favicon.ico}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/templatemo.css}">
+    <link rel="stylesheet" th:href="@{/css/custom.css}">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+    <link rel="stylesheet" th:href="@{css/fontawesome.min.css}">
+</head>
+
+<body>
+
+<!-- Header Fragment -->
+<div th:replace="~{fragments/headerFragmentAnonymous :: headerFragmentAnonymous}"></div>
+
+<!-- Content -->
+<div class="container py-5">
+    <div class="row">
+        <div class="col-lg-3"></div>
+        <div class="col-lg-6">
+            <h2 class="text-center">Sign up</h2>
+
+            <div style="min-height: 27px; width: auto" class="mt-2 text-center">
+                <p style="color: red;"></p>
+            </div>
+            <div style="width: 320px; margin: 0 auto">
+                <form th:action="@{/signup}" method="post">
+
+                    <p>
+                        <label for="firstName" class="lbl_default">First Name:</label>
+                        <input type="text" id="firstName" name="firstName" required minlength="4">
+                    </p>
+
+                    <p>
+                        <label for="lastName" class="lbl_default">Last Name:</label>
+                        <input type="text" id="lastName" name="lastName" required minlength="4">
+                    </p>
+
+                    <p>
+                        <label for="birthDate" class="lbl_default">Date of Birth:</label>
+                        <input type="date" id="birthDate" name="birthDate" required style="width: 213px">
+                    </p>
+
+                    <p>
+                        <label for="email" class="lbl_default">Email:</label>
+                        <input type="email" id="email" name="email" required>
+                    </p>
+
+                    <p>
+                        <label for="address" class="lbl_default">Address:</label>
+                        <input type="text" id="address" name="address" required>
+                    </p>
+
+                    <p>
+                        <label for="username" class="lbl_default">Username:</label>
+                        <input type="text" id="username" name="username" required>
+                    </p>
+
+                    <p>
+                        <label for="password" class="lbl_default">Password:</label>
+                        <input type="password" id="password" name="password" required>
+                    </p>
+
+                    <p>
+                        <label for="role" class="lbl_default">Role:</label>
+                        <select class="custom-select" id="role" name="role" required>
+                            <option value="ADMIN">ADMIN</option>
+                            <option value="OWNER">OWNER</option>
+                            <option value="USER">USER</option>
+                        </select>
+                    </p>
+
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary btn-lg btn-block mt-3 btn-default" style="margin: 0 auto">Sign up</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+        <div class="col-lg-3"></div>
+    </div>
+</div>
+
+<!-- Brand Fragment -->
+<div th:replace="~{fragments/brandFragment :: brandFragment}"></div>
+
+<!-- Footer Fragment -->
+<div th:replace="~{fragments/footerFragment :: footerFragment}"></div>
+
+<!-- Script -->
+<script th:src="@{/js/jquery-1.11.0.min.js}"></script>
+<script th:src="@{/js/jquery-migrate-1.2.1.min.js}"></script>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/js/templatemo.js}"></script>
+<script th:src="@{/js/custom.js}"></script>
+
+</body>
+
+</html>

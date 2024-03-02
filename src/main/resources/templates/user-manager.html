@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>60s Store - Manager</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" th:href="@{img/apple-icon.png}">
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/img/favicon.ico}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/templatemo.css}">
+    <link rel="stylesheet" th:href="@{/css/custom.css}">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+    <link rel="stylesheet" th:href="@{css/fontawesome.min.css}">
+</head>
+
+<body>
+
+<!-- Header Fragment -->
+<div th:replace="~{fragments/headerFragment::headerFragment}"></div>
+
+<!-- Content -->
+<div class="container py-5">
+    <div class="row">
+        <div class="col-lg-12 text-center">
+            <h2>Manager Page</h2>
+
+            <div class="mt-5">
+                <form th:action="@{/add-product}" method="get">
+                    <button type="submit" class="btn btn-lg btn-primary btn-default">Add product</button>
+                </form>
+            </div>
+
+            <div class="mt-5">
+                <form th:action="@{/edit-price}" method="get">
+                    <button type="submit" class="btn btn-lg btn-dark btn-default">Edit price</button>
+                </form>
+            </div>
+
+            <div class="mt-5">
+                <form th:action="@{/logout}" method="get">
+                    <button type="submit" class="btn btn-lg btn-danger btn-default">Log out</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Brand Fragment -->
+<div th:replace="~{fragments/brandFragment :: brandFragment}"></div>
+
+<!-- Footer Fragment -->
+<div th:replace="~{fragments/footerFragment :: footerFragment}"></div>
+
+<!-- Script -->
+<script th:src="@{/js/jquery-1.11.0.min.js}"></script>
+<script th:src="@{/js/jquery-migrate-1.2.1.min.js}"></script>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/js/templatemo.js}"></script>
+<script th:src="@{/js/custom.js}"></script>
+
+</body>
+
+</html>

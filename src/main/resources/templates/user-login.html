@@ -18,31 +18,33 @@
 <body>
 
 <!-- Header Fragment -->
-<div th:replace="~{fragments/headerFragment::headerFragment}"></div>
+<div th:replace="~{fragments/headerFragmentAnonymous :: headerFragmentAnonymous}"></div>
 
 <!-- Content -->
 <div class="container py-5">
     <div class="row">
         <div class="col-lg-12 text-center">
-            <h2>Home Page</h2>
+            <h2>Login</h2>
 
-            <div class="mt-5">
-                <form th:action="@{/add-product}" method="post">
-                    <button type="submit" class="btn btn-lg btn-primary">Add product</button>
-                </form>
+            <div style="min-height: 27px; width: auto" class="mt-2 text-center">
+                <p style="color: red;" th:text="${param.error}"></p>
             </div>
 
-            <div class="mt-5">
-                <form th:action="@{/edit-price}" method="post">
-                    <button type="submit" class="btn btn-lg btn-dark">Edit price</button>
-                </form>
-            </div>
+            <form action="/login" method="post">
+                <div class="mt-2">
+                    <label for="username">Username: </label>
+                    <input type="text" id="username" name="username" required>
+                </div>
 
-            <div class="mt-5">
-                <form th:action="@{/logout}" method="post">
-                    <button type="submit" class="btn btn-lg btn-danger">Log out</button>
-                </form>
-            </div>
+                <div class="mt-2">
+                    <label for="password">Password: </label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg btn-block mt-3 btn-default">Log in</button>
+            </form>
+            <form action="signup">
+                <button type="submit" class="btn btn-primary btn-lg btn-light btn-default mt-2 text-primary border border-info">Sign up</button>
+            </form>
         </div>
     </div>
 </div>

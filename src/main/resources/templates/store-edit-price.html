@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>60s Store - Add Product</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="apple-touch-icon" th:href="@{img/apple-icon.png}">
+  <link rel="shortcut icon" type="image/x-icon" th:href="@{/img/favicon.ico}">
+  <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+  <link rel="stylesheet" th:href="@{/css/templatemo.css}">
+  <link rel="stylesheet" th:href="@{/css/custom.css}">
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+  <link rel="stylesheet" th:href="@{css/fontawesome.min.css}">
+</head>
+
+<body>
+
+<!-- Header Fragment -->
+<div th:replace="~{fragments/headerFragment :: headerFragment}"></div>
+
+<!-- Content -->
+<div class="container py-5">
+  <div class="row">
+    <div class="col-lg-3"></div>
+    <div class="col-lg-6">
+      <h2 class="text-center">Add product</h2>
+
+      <div style="min-height: 27px; width: auto" class="mt-2 text-center">
+        <p style="color: red;"></p>
+      </div>
+      <div style="margin: 0 auto" class="div-add-product">
+        <form th:action="@{/edited-price}" method="post">
+
+          <p>
+            <label for="product" class="lbl-add-product">Selected product:</label>
+            <select class="custom-select btn-add-product" id="product" name="productId" required>
+              <option th:each="product : ${products}" th:value="${product.productId}" th:text="${product.productNameEn}"></option>
+            </select>
+          </p>
+
+          <p>
+            <label for="price" class="lbl-add-product">New price:</label>
+            <input type="number" id="price" name="price" class="btn-add-product" required min="0">
+          </p>
+
+          <div class="text-center">
+            <button type="submit" class="btn btn-primary btn-lg btn-block mt-3 btn-add-product" style="margin: 0 auto">Save price</button>
+          </div>
+        </form>
+
+        <div class="text-center">
+          <form action="home">
+            <button type="submit" class="btn btn-primary btn-lg btn-light btn-add-product mt-2 text-primary border border-info">Return home page</button>
+          </form>
+        </div>
+      </div>
+
+    </div>
+    <div class="col-lg-3"></div>
+  </div>
+</div>
+
+<!-- Brand Fragment -->
+<div th:replace="~{fragments/brandFragment :: brandFragment}"></div>
+
+<!-- Footer Fragment -->
+<div th:replace="~{fragments/footerFragment :: footerFragment}"></div>
+
+<!-- Script -->
+<script th:src="@{/js/jquery-1.11.0.min.js}"></script>
+<script th:src="@{/js/jquery-migrate-1.2.1.min.js}"></script>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/js/templatemo.js}"></script>
+<script th:src="@{/js/custom.js}"></script>
+
+</body>
+
+</html>

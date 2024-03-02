@@ -1,3 +1,20 @@
-/*
-Custom Css
-*/
+.btn-default {
+    width: 144px;
+}
+
+.lbl_default {
+    width: 102px;
+}
+
+.btn-add-product {
+    width: 213px;
+}
+
+.lbl-add-product {
+    width: 212px;
+}
+
+.div-add-product {
+    width: fit-content;
+    margin: auto;
+}

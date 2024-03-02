@@ -23,8 +23,8 @@ public class HomeController {
         this.accessHistoryService = accessHistoryService;
     }
 
-    @GetMapping("/home")
-    public String home(@RequestParam(name = "logged", defaultValue = "false") boolean logged) {
+    @GetMapping({"/", "/home"})
+    public String defaultHome(@RequestParam(name = "logged", defaultValue = "false") boolean logged) {
 
         if (logged) {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -32,6 +32,6 @@ public class HomeController {
             customerService.incrementAccessCount(customer.getCustomerId());
             accessHistoryService.logAccess(customer);
         }
-        return "home";
+        return "store-home";
     }
 }

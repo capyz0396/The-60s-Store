@@ -6,7 +6,9 @@ import org.example.the60sstore.Service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -16,7 +18,6 @@ public class SignupController {
     private final CustomerService customerService;
     private final AccessHistoryService accessHistoryService;
     private final TokenService tokenService;
-    private final RoleService roleService;
     private final EmailSenderService emailSenderService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -25,21 +26,20 @@ public class SignupController {
             CustomerService customerService,
             AccessHistoryService accessHistoryService,
             TokenService tokenService,
-            RoleService roleService,
             EmailSenderService emailSenderService,
             BCryptPasswordEncoder bCryptPasswordEncoder
     ) {
         this.customerService = customerService;
         this.accessHistoryService = accessHistoryService;
         this.tokenService = tokenService;
-        this.roleService = roleService;
         this.emailSenderService = emailSenderService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     @GetMapping("/signup")
-    public String showSignupForm() {
-        return "signup";
+    public String signup(Model model) {
+        model.addAttribute("customer", new Customer());
+        return "user-signup";
     }
 
     @PostMapping("/signup")
@@ -55,9 +55,9 @@ public class SignupController {
         String token = tokenService.generateToken();
         accessHistoryService.logAccess(newCustomer);
         tokenService.createToken(newCustomer, token);
-        emailSenderService.sendEmail(email, "Welcome to my factory!", "Here is your token:\n http://localhost:8080/confirm?token=" + token);
+        emailSenderService.sendEmail(email, "Welcome to my factory!", "Here is your token:\n http://localhost:8080/register-confirm?token=" + token);
 
-        return "alert_confirm";
+        return "register-confirm";
     }
 
     @PostMapping("/reconfirm")
@@ -69,21 +69,9 @@ public class SignupController {
             token = tokenService.generateToken();
             tokenService.createToken(customer, token);
             emailSenderService.sendEmail(customer.getEmail(), "Welcome to my factory!", "Here is your token:\n http://localhost:8080/confirm?token=" + token);
-            return "alert_confirm";
+            return "register-confirm";
         } else {
-            return "redirect:/confirmation-status?status=renew-denied";
+            return "redirect:/register-confirm-status?status=renew-denied";
         }
-    }
-
-
-    @GetMapping("/test")
-    public String test() {
-        Role role = roleService.getRoleByRoleName("ADMIN");
-        if (role == null) {
-            System.out.println("NULL");
-        } else {
-            System.out.println(role.getRoleid());
-        }
-        return "signup";
     }
 }

@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>60s Store - Cart</title>
+    <title>60s Store - Registration Success</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="apple-touch-icon" th:href="@{img/apple-icon.png}">
@@ -18,31 +18,14 @@
 <body>
 
 <!-- Header Fragment -->
-<div th:replace="~{fragments/headerFragment :: headerFragment}"></div>
+<div th:replace="~{fragments/headerFragmentAnonymous :: headerFragmentAnonymous}"></div>
 
 <!-- Content -->
-<div class="container py-5">
+<div class="container py-5 text-center">
     <div class="row">
-        <div class="col-lg-12 text-center">
-            <h2>Login</h2>
+        <h2>Registration Successful!</h2>
 
-            <div style="min-height: 27px; width: auto" class="mt-2 text-center">
-                <p style="color: red;" th:text="${param.error}"></p>
-            </div>
-
-            <form action="/login" method="post">
-                <div class="mt-2">
-                    <label for="username">Username: </label>
-                    <input type="text" id="username" name="username" required>
-                </div>
-
-                <div class="mt-2">
-                    <label for="password">Password: </label>
-                    <input type="password" id="password" name="password" required>
-                </div>
-                <button type="submit" class="btn btn-primary btn-lg btn-block mt-3">Log in</button>
-            </form>
-        </div>
+        <h3>Please check your mail and confirm by attached link before sign in the web.</h3>
     </div>
 </div>
 

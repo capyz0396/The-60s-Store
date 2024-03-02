@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
 
@@ -25,8 +26,9 @@ public class SecurityConfig {
 
         return http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/signup", "/confirm**", "/confirmation-status**", "login**", "/reconfirm",
-                                "/css/**", "/js/**", "/img/**", "/webfonts/**").permitAll()
+                        .requestMatchers("/signup", "/confirm**", "/register-confirm**", "login**",
+                                "/css/**", "/js/**", "/img/**", "/webfonts/**").permitAll().requestMatchers("manager")
+                        .hasAnyRole("ADMIN", "OWNER")
                         .anyRequest().authenticated()
                 ).formLogin(formLogin ->
                         formLogin
@@ -34,12 +36,18 @@ public class SecurityConfig {
                                 defaultSuccessUrl("/home?logged=true").
                                 failureHandler(authenticationFailureHandler())
                                 .permitAll()).
-                logout(Customizer.withDefaults()).build();
+                logout(Customizer.withDefaults())
+                .exceptionHandling(ex -> ex.accessDeniedHandler(accessDeniedHandler())).build();
     }
 
     @Bean
     public AuthenticationFailureHandler authenticationFailureHandler() {
         return new CustomAuthenticationFailureHandler();
+    }
+
+    @Bean
+    public AccessDeniedHandler accessDeniedHandler() {
+        return new CustomAccessDeniedHandler();
     }
 
     @Bean

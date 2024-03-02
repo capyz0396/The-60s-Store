@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>60s Store - Token Confirmation</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" th:href="@{img/apple-icon.png}">
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/img/favicon.ico}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/templatemo.css}">
+    <link rel="stylesheet" th:href="@{/css/custom.css}">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+    <link rel="stylesheet" th:href="@{css/fontawesome.min.css}">
+</head>
+
+<body>
+
+<!-- Header Fragment -->
+<div th:replace="~{fragments/headerFragmentAnonymous :: headerFragmentAnonymous}"></div>
+
+<!-- Content -->
+<div class="container py-5 text-center">
+    <div class="row">
+        <h2>Confirmation Result</h2>
+
+        <p th:text="${status == 'agreed' ? 'Token confirmed successfully.': ''}"></p>
+        <p th:text="${status == 'denied' ? 'Token confirmation failed.': ''}"></p>
+        <p th:text="${status == 'expired' ? 'Token has expired. Click the button below to request a new token.' : ''}"></p>
+        <p th:text="${status == 'renew-denied' ? 'Token already has sent. We cannot renew in this time.' : ''}"></p>
+
+        <form action="/reconfirm" method="post">
+            <input type="hidden" name="token" th:value="${token}" />
+            <button type="submit" th:if="${status == 'expired'}">Request New Token</button>
+        </form>
+    </div>
+</div>
+
+<!-- Brand Fragment -->
+<div th:replace="~{fragments/brandFragment :: brandFragment}"></div>
+
+<!-- Footer Fragment -->
+<div th:replace="~{fragments/footerFragment :: footerFragment}"></div>
+
+<!-- Script -->
+<script th:src="@{/js/jquery-1.11.0.min.js}"></script>
+<script th:src="@{/js/jquery-migrate-1.2.1.min.js}"></script>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/js/templatemo.js}"></script>
+<script th:src="@{/js/custom.js}"></script>
+
+</body>
+
+</html>
