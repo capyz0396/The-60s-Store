@@ -5,8 +5,8 @@
     <title>60s Store - Add Product</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="apple-touch-icon" th:href="@{img/apple-icon.png}">
-    <link rel="shortcut icon" type="image/x-icon" th:href="@{/img/favicon.ico}">
+    <link rel="apple-touch-icon" th:href="@{img/logo-no-background.png}">
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/img/logo-no-background.png}">
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/css/templatemo.css}">
     <link rel="stylesheet" th:href="@{/css/custom.css}">
@@ -35,17 +35,22 @@
 
                     <p>
                         <label for="productNameEn" class="lbl-add-product">Tên sản phẩm (Tiếng Anh):</label>
-                        <input type="text" id="productNameEn" name="productNameEn" class="btn-add-product" required minlength="4">
+                        <input type="text" id="productNameEn" name="productNameEn" class="btn-add-product" required>
                     </p>
 
                     <p>
                         <label for="productNameVi" class="lbl-add-product">Tên sản phẩm (Tiếng Việt):</label>
-                        <input type="text" id="productNameVi" name="productNameVi" class="btn-add-product" required minlength="4">
+                        <input type="text" id="productNameVi" name="productNameVi" class="btn-add-product" required>
                     </p>
 
                     <p>
                         <label for="origin" class="lbl-add-product">Xuất xứ:</label>
-                        <input type="text" id="origin" name="origin" class="btn-add-product" required minlength="4">
+                        <input type="text" id="origin" name="origin" class="btn-add-product" required>
+                    </p>
+
+                    <p>
+                        <label for="imgUrl" class="lbl-add-product">Image URL:</label>
+                        <input type="text" id="imgUrl" name="imgUrl" class="btn-add-product" required>
                     </p>
 
                     <p>

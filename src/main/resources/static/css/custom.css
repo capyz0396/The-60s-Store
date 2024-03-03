@@ -18,3 +18,18 @@
     width: fit-content;
     margin: auto;
 }
+
+.txt-total {
+    text-align: end;
+    margin-right: 10px;
+}
+
+.img-fluid {
+    width: 460px;
+    max-height: 350px;
+}
+
+.img-product {
+    width: 302px;
+    height: 206px;
+}

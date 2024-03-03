@@ -35,41 +35,39 @@ public class InvoiceController {
     }
 
     @PostMapping("/create-invoice")
-    public String createInvoice(@RequestParam("selectedProducts") List<Integer> selectedProductIds,
-                                @RequestParam("quantities") List<BigDecimal> quantities) {
+    public String createInvoice(@RequestParam List<String> productNameEn,
+                                @RequestParam List<Integer> quantity,
+                                @RequestParam List<Integer> price) {
 
-        if (selectedProductIds.size() != quantities.size()) {
-            return "redirect:/products";
-        }
+        if (productNameEn.size() == quantity.size() && quantity.size() == price.size()) {
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Customer customer = (Customer) authentication.getPrincipal();
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            Customer customer = (Customer) authentication.getPrincipal();
 
-        Invoice invoice = new Invoice();
-        invoice.setInvoiceDate(LocalDateTime.now());
-        invoice.setTotalAmount(BigDecimal.ZERO);
-        invoice.setCustomer(customer);
+            Invoice invoice = new Invoice();
+            invoice.setInvoiceDate(LocalDateTime.now());
+            invoice.setTotalAmount(BigDecimal.ZERO);
+            invoice.setCustomer(customer);
 
-        invoice = invoiceService.save(invoice);
-        BigDecimal totalAmount = BigDecimal.ZERO;
+            invoice = invoiceService.save(invoice);
+            BigDecimal totalAmount = BigDecimal.ZERO;
 
-        for (int i = 0; i < selectedProductIds.size(); i++) {
+            for (int i = 0; i < productNameEn.size(); i++) {
 
-            if (!quantities.get(i).equals(BigDecimal.ZERO)) {
-                Product product = productService.getProductByProductId(selectedProductIds.get(i));
+                Product product = productService.getProductByNameEn(productNameEn.get(i));
                 InvoiceDetail invoiceDetail = new InvoiceDetail();
                 invoiceDetail.setInvoice(invoice);
                 invoiceDetail.setProduct(product);
-                invoiceDetail.setQuantity(quantities.get(i).intValue());
-                invoiceDetail.setSubtotal(BigDecimal.valueOf(product.getProductPrices().getLast().getPrice()).multiply(quantities.get(i)));
+                invoiceDetail.setQuantity(quantity.get(i));
+                invoiceDetail.setSubtotal(BigDecimal.valueOf((long) price.get(i) * quantity.get(i)));
                 totalAmount = totalAmount.add(invoiceDetail.getSubtotal());
                 invoiceDetailService.save(invoiceDetail);
             }
+
+            invoice.setTotalAmount(totalAmount);
+            invoiceService.save(invoice);
         }
 
-        invoice.setTotalAmount(totalAmount);
-        invoiceService.save(invoice);
-
-        return "home";
+        return "store-home";
     }
 }

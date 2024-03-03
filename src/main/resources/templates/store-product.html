@@ -5,8 +5,8 @@
     <title>60s Store - Product</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="apple-touch-icon" th:href="@{img/apple-icon.png}">
-    <link rel="shortcut icon" type="image/x-icon" th:href="@{/img/favicon.ico}">
+    <link rel="apple-touch-icon" th:href="@{img/logo-no-background.png}">
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/img/logo-no-background.png}">
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/css/templatemo.css}">
     <link rel="stylesheet" th:href="@{/css/custom.css}">
@@ -18,7 +18,7 @@
 <body>
 
 <!-- Header Fragment -->
-<div th:replace="fragments/headerFragment :: headerFragment"></div>
+<div th:replace="~{fragments/headerFragment::headerFragment}"></div>
 
 <!-- Container -->
 <div class="container py-5">
@@ -28,6 +28,8 @@
         <div class="col-lg-3">
             <h1 class="h2 pb-4">Categories</h1>
             <ul class="list-unstyled templatemo-accordion">
+
+                <!-- Categorires part-->
                 <li class="pb-3">
                     <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
                         Gender
@@ -67,25 +69,14 @@
 
             <!-- Title and sort content-->
             <div class="row">
-                <div class="col-md-6">
-                    <ul class="list-inline shop-top-menu pb-3 pt-1">
-                        <li class="list-inline-item">
-                            <a class="h3 text-dark text-decoration-none mr-3" href="#">All</a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a class="h3 text-dark text-decoration-none mr-3" href="#">Medicine</a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a class="h3 text-dark text-decoration-none" href="#">Hair Dye</a>
-                        </li>
-                    </ul>
-                </div>
+                <div class="col-md-6"></div>
                 <div class="col-md-6 pb-4">
                     <div class="d-flex">
                         <select class="form-control">
-                            <option>Featured</option>
-                            <option>A to Z</option>
-                            <option>Item</option>
+                            <option>Name: A to Z</option>
+                            <option>Name: Z to A</option>
+                            <option>Price: Low - High</option>
+                            <option>Price: High - Low</option>
                         </select>
                     </div>
                 </div>
@@ -98,7 +89,7 @@
                         <input type="hidden" name="productId" th:value="${product.productId}"/>
                         <div class="card mb-4 product-wap rounded-0">
                             <div class="card rounded-0">
-                                <img class="card-img rounded-0 img-fluid" th:src="@{/img/shop_01.jpg}"
+                                <img class="card-img rounded-0 img-fluid img-product" th:src="${product.imgUrl}"
                                      th:alt="${product.descriptionEn}">
                                 <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
                                     <ul class="list-unstyled">
@@ -125,10 +116,10 @@
 </div>
 
 <!-- Brand Fragment -->
-<div th:replace="fragments/brandFragment :: brandFragment"></div>
+<div th:replace="~{fragments/brandFragment :: brandFragment}"></div>
 
 <!-- Footer Fragment -->
-<div th:replace="fragments/footerFragment :: footerFragment"></div>
+<div th:replace="~{fragments/footerFragment :: footerFragment}"></div>
 
 <!-- Script -->
 <script th:src="@{/js/jquery-1.11.0.min.js}"></script>

@@ -18,7 +18,11 @@ public class Product {
     @Column(name = "product_name_vi")
     private String productNameVi;
 
+    @Column(name = "origin")
     private String origin;
+
+    @Column(name = "img_url")
+    private String imgUrl;
 
     @Column(name = "description_en")
     private String descriptionEn;
@@ -26,7 +30,7 @@ public class Product {
     @Column(name = "description_vi")
     private String descriptionVi;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<ProductPrice> productPrices;
 
     private int quantity;
@@ -61,6 +65,15 @@ public class Product {
 
     public void setOrigin(String origin) {
         this.origin = origin;
+    }
+
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 
     public String getDescriptionEn() {

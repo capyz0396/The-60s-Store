@@ -39,6 +39,7 @@ public class ProductController {
             @RequestParam String productNameEn,
             @RequestParam String productNameVi,
             @RequestParam String origin,
+            @RequestParam String imgUrl,
             @RequestParam String descriptionEn,
             @RequestParam String descriptionVi,
             @RequestParam int price) {
@@ -47,6 +48,7 @@ public class ProductController {
         product.setProductNameEn(productNameEn);
         product.setProductNameVi(productNameVi);
         product.setOrigin(origin);
+        product.setImgUrl(imgUrl);
         product.setDescriptionEn(descriptionEn);
         product.setDescriptionVi(descriptionVi);
         productService.addProduct(product);
@@ -91,8 +93,6 @@ public class ProductController {
         for (Product product : products) {
             List<ProductPrice> prices = productPriceService.getProductPriceByProduct(product);
             product.setProductPrices(prices);
-            System.out.println(product.getProductNameVi());
-            System.out.println(product.getProductPrices().getLast().getPrice());
         }
 
         model.addAttribute("products", products);
