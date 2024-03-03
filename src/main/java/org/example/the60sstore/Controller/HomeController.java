@@ -1,6 +1,5 @@
 package org.example.the60sstore.Controller;
 
-import jakarta.servlet.http.HttpSession;
 import org.example.the60sstore.Entity.Customer;
 import org.example.the60sstore.Service.AccessHistoryService;
 import org.example.the60sstore.Service.CustomerService;
@@ -27,22 +26,19 @@ public class HomeController {
 
     @GetMapping({"/", "/home"})
     public String defaultHome(@RequestParam(name = "logged", defaultValue = "false") boolean logged,
-                              Model model, HttpSession session) {
+                              Model model) {
 
-        boolean alreadyLogged = false;
-
-        if (session.getAttribute("logged") != null) {
-             alreadyLogged = (boolean) session.getAttribute("logged");
-        }
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (logged) {
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             Customer customer = (Customer) authentication.getPrincipal();
             customerService.incrementAccessCount(customer.getCustomerId());
             accessHistoryService.logAccess(customer);
             model.addAttribute("logged", true);
-        } else if (alreadyLogged) {
+            System.out.println("OV1");
+        } else if (!authentication.getName().equals("anonymousUser")) {
             model.addAttribute("logged", true);
+            System.out.println("OV2");
         } else {
             model.addAttribute("logged", false);
         }

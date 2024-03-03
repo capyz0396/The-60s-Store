@@ -26,18 +26,16 @@ public class SecurityConfig {
 
         return http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/signup**", "/confirm**", "/register-confirm**", "login**",
-                                "/css/**", "/js/**", "/img/**", "/webfonts/**", "/home**").permitAll().requestMatchers("manager")
-                        .hasAnyRole("ADMIN", "OWNER")
-                        .anyRequest().authenticated()
-                ).formLogin(formLogin ->
-                        formLogin
-                                .loginPage("/login").
-                                defaultSuccessUrl("/home?logged=true").
-                                failureHandler(authenticationFailureHandler())
-                                .permitAll()).
-                logout(Customizer.withDefaults())
-                .exceptionHandling(ex -> ex.accessDeniedHandler(accessDeniedHandler())).build();
+                        .requestMatchers("/css/**", "/js/**", "/img/**", "/webfonts/**", "/home**", "/").permitAll()
+                        .requestMatchers("/signup**", "/confirm**", "/register-confirm**", "/login**").anonymous()
+                        .requestMatchers("manager").hasAnyRole("ADMIN", "OWNER")
+                        .anyRequest().authenticated())
+                .formLogin(formLogin -> formLogin
+                        .loginPage("/login").defaultSuccessUrl("/home?logged=true").
+                        failureHandler(authenticationFailureHandler())
+                        .permitAll()).
+                logout(Customizer.withDefaults()).exceptionHandling(ex -> ex.accessDeniedHandler(accessDeniedHandler()))
+                .build();
     }
 
     @Bean
