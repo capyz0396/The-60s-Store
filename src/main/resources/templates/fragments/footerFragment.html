@@ -16,37 +16,36 @@
                     <ul class="list-unstyled text-light footer-link-list">
                         <li>
                             <i class="fas fa-map-marker-alt fa-fw"></i>
-                            107, 38 Street, Ho Chi Minh City
+                            <a th:text="#{footer.street}"></a>
                         </li>
                         <li>
                             <i class="fa fa-phone fa-fw"></i>
-                            <a class="text-decoration-none" href="tel:010-020-0340">0935-244-604</a>
+                            <a class="text-decoration-none" th:text="#{footer.phone}"></a>
                         </li>
                         <li>
                             <i class="fa fa-envelope fa-fw"></i>
-                            <a class="text-decoration-none" href="mailto:longlhfx02906@funix.edu.vn">longlhfx02906@funix.edu.vn</a>
+                            <a class="text-decoration-none" th:text="#{footer.mail}"></a>
                         </li>
                     </ul>
                 </div>
 
                 <div class="col-md-4 pt-5">
-                    <h2 class="h2 text-light border-bottom pb-3 border-light">Products</h2>
+                    <h2 class="h2 text-light border-bottom pb-3 border-light" th:text="#{footer.title.1}"></h2>
                     <ul class="list-unstyled text-light footer-link-list">
-                        <li><a class="text-decoration-none" href="#">Hair Dye</a></li>
-                        <li><a class="text-decoration-none" href="#">Functional Food</a></li>
-                        <li><a class="text-decoration-none" href="#">Eyes Drops</a></li>
+                        <li><a class="text-decoration-none" th:href="'/productType?typeEn=' + #{home.categories.1}" th:text="#{footer.type.1}"></a></li>
+                        <li><a class="text-decoration-none" th:href="'/productType?typeEn=' + #{home.categories.2}" th:text="#{footer.type.2}"></a></li>
+                        <li><a class="text-decoration-none" th:href="'/productType?typeEn=' + #{home.categories.3}" th:text="#{footer.type.3}"></a></li>
                     </ul>
                 </div>
 
                 <div class="col-md-4 pt-5">
-                    <h2 class="h2 text-light border-bottom pb-3 border-light">Further Info</h2>
+                    <h2 class="h2 text-light border-bottom pb-3 border-light" th:text="#{footer.title.2}"></h2>
                     <ul class="list-unstyled text-light footer-link-list">
-                        <li><a class="text-decoration-none" href="#">Home</a></li>
-                        <li><a class="text-decoration-none" href="#">About Us</a></li>
-                        <li><a class="text-decoration-none" href="#">Shop Locations</a></li>
+                        <li><a class="text-decoration-none" href="#" th:text="#{footer.home}">Home</a></li>
+                        <li><a class="text-decoration-none" href="#"th:text="#{footer.about}"></a></li>
+                        <li><a class="text-decoration-none" href="#" th:text="#{footer.location}"></a></li>
                     </ul>
                 </div>
-
             </div>
 
             <div class="row text-light mb-4">
@@ -83,7 +82,6 @@
                 </div>
             </div>
         </div>
-
     </footer>
 </div>
 

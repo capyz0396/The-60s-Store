@@ -1,11 +1,13 @@
 package org.example.the60sstore.Service;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import org.example.the60sstore.Entity.Customer;
 import org.example.the60sstore.Repository.CustomerRepository;
 import org.example.the60sstore.Repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -49,5 +51,20 @@ public class CustomerService {
     @Transactional
     public void confirmCustomer(int customerId) {
         customerRepository.updateConfirmationStatusById(customerId, true);
+    }
+
+    public void addLogged(HttpSession session, Model model) {
+        boolean logged = false;
+        if (session.getAttribute("logged") != null) {
+            logged = (boolean) session.getAttribute("logged");
+        } else {
+            session.setAttribute("logged", false);
+        }
+
+        model.addAttribute("logged", logged);
+    }
+
+    public Customer getCustomerByCustomerId(int customerId) {
+        return customerRepository.getCustomerByCustomerId(customerId);
     }
 }

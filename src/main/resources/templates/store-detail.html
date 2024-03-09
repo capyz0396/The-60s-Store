@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+
+<head>
+    <title>60s Store - Detail Product</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" th:href="@{img/logo-no-background.png}">
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/img/logo-no-background.png}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/templatemo.css}">
+    <link rel="stylesheet" th:href="@{/css/custom.css}">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+    <link rel="stylesheet" th:href="@{css/fontawesome.min.css}">
+</head>
+
+<body>
+
+<!-- Header Fragment -->
+<div th:replace="~{fragments/headerFragment::headerFragment}"></div>
+
+<!-- Content -->
+<section class="bg-light">
+    <div class="container pb-5">
+        <div class="row">
+            <!-- Product's image-->
+            <div class="col-lg-4 mt-3">
+                <div class="card mb-3">
+                    <img class="card-img img-fluid img-product" th:src="${product.imgUrl}" th:alt="${product.descriptionEn}">
+                </div>
+            </div>
+            <!-- Product's content -->
+            <div class="col-lg-8 mt-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h1 class="h2" th:text="${lang == 'en' ? product.productNameEn : product.productNameVi}"></h1>
+                        <p class="h3 py-2"
+                           th:text="${#numbers.formatDecimal(product.getProductPrices().getLast().getPrice(), 1, 'DEFAULT', 0, 'DEFAULT') + ' VND'}"></p>
+
+                        <h6 th:text="#{product-detail-type}"></h6>
+                        <p th:text="${lang == 'en' ? product.productTypeEn : product.productTypeVi}"></p>
+
+                        <h6 th:text="#{product-detail-origin}"></h6>
+                        <p th:text="${lang == 'en' ? product.originEn : product.originVi}"></p>
+
+                        <h6 th:text="#{product-detail-description}"></h6>
+                        <p th:text="${lang == 'en' ? product.descriptionEn : product.descriptionVi}"></p>
+
+                        <div class="row pb-3">
+                            <div class="col d-grid">
+                                <form th:action="@{/addToCart}" method="post">
+                                    <input type="hidden" name="productId" th:value="${product.productId}"/>
+                                    <button class="btn btn-success btn-lg" type="submit" th:text="#{product-detail-add}"></button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer Fragment -->
+<div th:replace="~{fragments/footerFragment :: footerFragment}"></div>
+
+<!-- Script -->
+<script th:src="@{/js/jquery-1.11.0.min.js}"></script>
+<script th:src="@{/js/jquery-migrate-1.2.1.min.js}"></script>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/js/templatemo.js}"></script>
+<script th:src="@{/js/custom.js}"></script>
+
+
+</body>
+
+</html>

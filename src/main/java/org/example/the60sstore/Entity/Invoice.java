@@ -20,8 +20,14 @@ public class Invoice {
     @Column(name = "invoice_date")
     private LocalDateTime invoiceDate;
 
+    @Column(name = "shipping_address")
+    private String shippingAddress;
+
     @Column(name = "total_amount")
     private BigDecimal totalAmount;
+
+    @Column(name = "invoice_status")
+    private String invoiceStatus;
 
     public Integer getInvoiceId() {
         return invoiceId;
@@ -53,5 +59,21 @@ public class Invoice {
 
     public void setTotalAmount(BigDecimal totalAmount) {
         this.totalAmount = totalAmount;
+    }
+
+    public String getShippingAddress() {
+        return shippingAddress;
+    }
+
+    public void setShippingAddress(String shippingAddress) {
+        this.shippingAddress = shippingAddress;
+    }
+
+    public String getInvoiceStatus() {
+        return invoiceStatus;
+    }
+
+    public void setInvoiceStatus(String invoiceStatus) {
+        this.invoiceStatus = invoiceStatus;
     }
 }

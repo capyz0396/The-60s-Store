@@ -1,16 +1,19 @@
 package org.example.the60sstore.Controller;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.example.the60sstore.Entity.Customer;
 import org.example.the60sstore.Entity.Invoice;
 import org.example.the60sstore.Entity.InvoiceDetail;
 import org.example.the60sstore.Entity.Product;
-import org.example.the60sstore.Service.InvoiceDetailService;
-import org.example.the60sstore.Service.InvoiceService;
-import org.example.the60sstore.Service.ProductService;
+import org.example.the60sstore.Service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -21,23 +24,34 @@ import java.util.List;
 @Controller
 public class InvoiceController {
 
-    private final ProductService productService;
+    private final CartService cartService;
+    private final CustomerService customerService;
     private final InvoiceService invoiceService;
     private final InvoiceDetailService invoiceDetailService;
+    private final LanguageService languageService;
+    private final ProductService productService;
 
     @Autowired
-    public InvoiceController(ProductService productService,
+    public InvoiceController(CartService cartService, CustomerService customerService,
                              InvoiceService invoiceService,
-                             InvoiceDetailService invoiceDetailService) {
-        this.productService = productService;
+                             InvoiceDetailService invoiceDetailService,
+                             LanguageService languageService,
+                             ProductService productService) {
+        this.cartService = cartService;
+        this.customerService = customerService;
         this.invoiceService = invoiceService;
         this.invoiceDetailService = invoiceDetailService;
+        this.languageService = languageService;
+        this.productService = productService;
     }
 
     @PostMapping("/create-invoice")
-    public String createInvoice(@RequestParam List<String> productNameEn,
+    public String createInvoice(HttpSession session,
+                                Model model,
+                                @RequestParam List<String> productNameEn,
                                 @RequestParam List<Integer> quantity,
-                                @RequestParam List<Integer> price) {
+                                @RequestParam List<Integer> price,
+                                @RequestParam String shippingAdress) {
 
         if (productNameEn.size() == quantity.size() && quantity.size() == price.size()) {
 
@@ -46,8 +60,15 @@ public class InvoiceController {
 
             Invoice invoice = new Invoice();
             invoice.setInvoiceDate(LocalDateTime.now());
+            if (!shippingAdress.isEmpty()) {
+                invoice.setShippingAddress(shippingAdress);
+            }
+            else {
+                invoice.setShippingAddress(customer.getAddress());
+            }
             invoice.setTotalAmount(BigDecimal.ZERO);
             invoice.setCustomer(customer);
+            invoice.setInvoiceStatus("Waiting");
 
             invoice = invoiceService.save(invoice);
             BigDecimal totalAmount = BigDecimal.ZERO;
@@ -66,8 +87,46 @@ public class InvoiceController {
 
             invoice.setTotalAmount(totalAmount);
             invoiceService.save(invoice);
+            cartService.resetNumCart(session, model);
+            customerService.addLogged(session, model);
+
         }
 
         return "store-home";
+    }
+
+    @GetMapping("/invoice")
+    public String showInvoices(HttpServletRequest request, Model model) {
+        List<Invoice> invoices = invoiceService.getAll();
+        model.addAttribute("invoices", invoices);
+        languageService.addLanguagle(request, model);
+        return "manager-invoice";
+    }
+
+    @GetMapping("/invoice/{id}")
+    public String showInvoiceDetails(HttpServletRequest request,
+                                     @PathVariable("id") int invoiceId,
+                                     Model model) {
+        List<InvoiceDetail> invoiceDetails = invoiceDetailService.findByInvoiceId(invoiceId);
+        model.addAttribute("invoiceDetails", invoiceDetails);
+        languageService.addLanguagle(request, model);
+        return "manager-detail";
+    }
+
+    @GetMapping("/invoice/{id}/action")
+    public String completeInvoice(HttpServletRequest request,
+                                  @PathVariable("id") int invoiceId,
+                                  @RequestParam("action") String action) {
+
+        Invoice invoice = invoiceService.getInvoiceByInvoiceId(invoiceId);
+        invoice.setInvoiceStatus(action);
+        invoiceService.save(invoice);
+
+        String referrer = request.getHeader("referer");
+        if (referrer != null && referrer.contains(request.getContextPath())) {
+            return "redirect:" + referrer;
+        } else {
+            return "redirect:/";
+        }
     }
 }

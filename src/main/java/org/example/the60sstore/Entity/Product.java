@@ -18,8 +18,21 @@ public class Product {
     @Column(name = "product_name_vi")
     private String productNameVi;
 
-    @Column(name = "origin")
-    private String origin;
+    @Column(name = "origin_en")
+    private String originEn;
+
+    @Column(name = "origin_vi")
+    private String originVi;
+
+    @Column(name = "product_type_en")
+    private String productTypeEn;
+
+    @Column(name = "product_type_vi")
+    private String productTypeVi;
+
+    public String getOriginEn() {
+        return originEn;
+    }
 
     @Column(name = "img_url")
     private String imgUrl;
@@ -59,14 +72,33 @@ public class Product {
         this.productNameVi = productNameVi;
     }
 
-    public String getOrigin() {
-        return origin;
+    public void setOriginEn(String originEn) {
+        this.originEn = originEn;
     }
 
-    public void setOrigin(String origin) {
-        this.origin = origin;
+    public String getOriginVi() {
+        return originVi;
     }
 
+    public void setOriginVi(String originVi) {
+        this.originVi = originVi;
+    }
+
+    public String getProductTypeEn() {
+        return productTypeEn;
+    }
+
+    public void setProductTypeEn(String productTypeEn) {
+        this.productTypeEn = productTypeEn;
+    }
+
+    public String getProductTypeVi() {
+        return productTypeVi;
+    }
+
+    public void setProductTypeVi(String productTypeVi) {
+        this.productTypeVi = productTypeVi;
+    }
 
     public String getImgUrl() {
         return imgUrl;

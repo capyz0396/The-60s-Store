@@ -11,7 +11,7 @@
 }
 
 .lbl-add-product {
-    width: 212px;
+    width: 224px;
 }
 
 .div-add-product {
@@ -30,6 +30,44 @@
 }
 
 .img-product {
-    width: 302px;
-    height: 206px;
+    width: 301px;
+    height: 400px;
+    margin: auto;
+}
+
+.form-control-edited {
+    width: 78%;
+    float: left;
+    margin-right: 10px;
+}
+
+.form-select {
+    width: fit-content;
+    height: 41px;
+    background-image: none;
+}
+
+.btn-manger {
+    width: 200px;
+}
+
+.input-shipping {
+    margin-left: 13px;
+    width: 467px;
+}
+
+.manager-invoice-inline {
+    display: inline-block;
+}
+
+.manager-invoice-button {
+    width: 120px;
+}
+
+.manager-invoice-line {
+    width: 262px;
+}
+
+.table {
+    vertical-align: middle;
 }

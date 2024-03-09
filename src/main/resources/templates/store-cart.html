@@ -24,30 +24,39 @@
 <div class="container py-5">
     <div class="row">
         <div class="col-lg-12">
-            <h2>Your Cart</h2>
+            <h2 th:text="#{cart.title}"></h2>
             <form action="/create-invoice" method="post">
             <table class="table">
                 <thead>
                 <tr>
-                    <th scope="col">Product</th>
-                    <th scope="col">Quantity</th>
-                    <th scope="col">Price</th>
+                    <th scope="col" th:text="#{cart.product}"></th>
+                    <th scope="col" th:text="#{cart.quantity}"></th>
+                    <th scope="col" th:text="#{cart.price}"></th>
+                    <th scope="col" th:text="#{cart.remove}"></th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="product : ${products}">
-                    <td th:text="${product.productNameEn}"></td>
+                    <td th:text="${lang == 'en' ? product.productNameEn : product.productNameVi}"></td>
                     <input type="hidden" name="productNameEn" th:value="${product.productNameEn}"/>
                     <td th:text="${product.quantity}"></td>
                     <input type="hidden" name="quantity" th:value="${product.quantity}"/>
-                    <td th:text="${product.getProductPrices().getLast().getPrice()}"></td>
+                    <td th:text="${#numbers.formatDecimal(product.getProductPrices().getLast().getPrice(), 1, 'DEFAULT', 0, 'DEFAULT') + ' VND'}"></td>
                     <input type="hidden" name="price" th:value="${product.getProductPrices().getLast().getPrice()}"/>
+                    <td><a th:href="'removeOutCart?productId=' + ${product.productId}" th:text="#{cart.delete}"></a></td>
                 </tr>
                 </tbody>
             </table>
-            <div>
-                <p class="txt-total" th:text="'Total: ' + ${total} + ' VND'">0</p>
-                <button type="submit">Create Invoice</button>
+
+                <div>
+                    <label for="shippingAdress" th:text="#{cart.shipping}"></label>
+                    <input type="text" id="shippingAdress" name="shippingAdress" class="input-shipping">
+                </div>
+
+            <div style="text-align: end">
+                <p class="txt-total" th:text="${lang == 'vi' ? 'Tổng đơn: ' : 'Total: '} + ${#numbers.formatDecimal(total, 1, 'DEFAULT', 0, 'DEFAULT') + ' VND'}">0</p>
+
+                <button type="submit" th:text="#{cart.create.invoice}"></button>
             </div>
             </form>
         </div>

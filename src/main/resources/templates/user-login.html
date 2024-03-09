@@ -18,49 +18,13 @@
 <body>
 
 <!-- Header -->
-<div>
-    <nav class="navbar navbar-expand-lg navbar-light shadow">
-        <div class="container d-flex justify-content-between align-items-center">
-
-            <a class="navbar-brand text-success logo h1 align-self-center" href="home">
-                60s
-            </a>
-
-            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#templatemo_main_nav" aria-controls="navbarSupportedContent" aria-expanded="false"
-                    aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="align-self-center collapse navbar-collapse flex-fill  d-lg-flex justify-content-lg-between"
-                 id="templatemo_main_nav">
-                <div class="flex-fill">
-                    <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="home">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="about.html">About</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="product">Product</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="contact.html">Contact</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-        </div>
-    </nav>
-</div>
+<div th:replace="~{fragments/headerFragmentLogin::headerFragmentLogin}"></div>
 
 <!-- Content -->
 <div class="container py-5">
     <div class="row">
         <div class="col-lg-12 text-center">
-            <h2>Login</h2>
+            <h2 th:text="#{login.title}"></h2>
 
             <div style="min-height: 27px; width: auto" class="mt-2 text-center">
                 <p style="color: red;" th:text="${param.error}"></p>
@@ -68,18 +32,18 @@
 
             <form action="/login" method="post">
                 <div class="mt-2">
-                    <label for="username">Username: </label>
+                    <label for="username" th:text="#{login.username}"></label>
                     <input type="text" id="username" name="username" required>
                 </div>
 
                 <div class="mt-2">
-                    <label for="password">Password: </label>
+                    <label for="password" th:text="#{login.password}"> </label>
                     <input type="password" id="password" name="password" required>
                 </div>
-                <button type="submit" class="btn btn-primary btn-lg btn-block mt-3 btn-default">Log in</button>
+                <button type="submit" class="btn btn-primary btn-lg btn-block mt-3 btn-default" th:text="#{login.sign.in.button}"></button>
             </form>
             <form action="signup">
-                <button type="submit" class="btn btn-primary btn-lg btn-light btn-default mt-2 text-primary border border-info">Sign up</button>
+                <button type="submit" class="btn btn-primary btn-lg btn-light btn-default mt-2 text-primary border border-info" th:text="#{login.sign.up.button}">Sign up</button>
             </form>
         </div>
     </div>

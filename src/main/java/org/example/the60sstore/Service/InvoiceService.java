@@ -5,6 +5,8 @@ import org.example.the60sstore.Repository.InvoiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class InvoiceService {
 
@@ -17,5 +19,13 @@ public class InvoiceService {
 
     public Invoice save(Invoice invoice) {
         return invoiceRepository.save(invoice);
+    }
+
+    public List<Invoice> getAll() {
+        return invoiceRepository.findAll();
+    }
+
+    public Invoice getInvoiceByInvoiceId(int invoiceId) {
+        return invoiceRepository.getInvoiceByInvoiceId(invoiceId);
     }
 }

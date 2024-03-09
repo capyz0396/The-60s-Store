@@ -17,4 +17,6 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
     void incrementAccessCount(int customerId);
 
     Customer getCustomerByUsername(String username);
+
+    Customer getCustomerByCustomerId(int customerId);
 }

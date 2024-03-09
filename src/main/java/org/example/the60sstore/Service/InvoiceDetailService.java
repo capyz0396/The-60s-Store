@@ -24,4 +24,8 @@ public class InvoiceDetailService {
     public List<InvoiceDetail> findAll() {
         return invoiceDetailRepository.findAll();
     }
+
+    public List<InvoiceDetail> findByInvoiceId(int invoiceId) {
+        return invoiceDetailRepository.findByInvoice_InvoiceId(invoiceId);
+    }
 }

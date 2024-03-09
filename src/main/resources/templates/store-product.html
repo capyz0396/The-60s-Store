@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 
 <head>
     <title>60s Store - Product</title>
@@ -26,41 +26,18 @@
 
         <!--Categories part -->
         <div class="col-lg-3">
-            <h1 class="h2 pb-4">Categories</h1>
+            <h1 class="h2 pb-4" th:text="#{home.categories}"></h1>
             <ul class="list-unstyled templatemo-accordion">
 
-                <!-- Categorires part-->
-                <li class="pb-3">
-                    <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
-                        Gender
-                        <i class="fa fa-fw fa-chevron-circle-down mt-1"></i>
-                    </a>
-                    <ul class="collapse show list-unstyled pl-3">
-                        <li><a class="text-decoration-none" href="#">Men</a></li>
-                        <li><a class="text-decoration-none" href="#">Women</a></li>
-                    </ul>
-                </li>
-                <li class="pb-3">
-                    <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
-                        Sale
-                        <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
-                    </a>
-                    <ul id="collapseTwo" class="collapse list-unstyled pl-3">
-                        <li><a class="text-decoration-none" href="#">Sport</a></li>
-                        <li><a class="text-decoration-none" href="#">Luxury</a></li>
-                    </ul>
-                </li>
-                <li class="pb-3">
-                    <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
-                        Product
-                        <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
-                    </a>
-                    <ul id="collapseThree" class="collapse list-unstyled pl-3">
-                        <li><a class="text-decoration-none" href="#">Bag</a></li>
-                        <li><a class="text-decoration-none" href="#">Sweather</a></li>
-                        <li><a class="text-decoration-none" href="#">Sunglass</a></li>
-                    </ul>
-                </li>
+                <a class="collapsed d-flex justify-content-between h3 text-decoration-none" th:href="'/productType?typeEn=' + #{home.categories.1}"
+                   th:text="#{home.categories.1}">
+                </a>
+                <a class="collapsed d-flex justify-content-between h3 text-decoration-none" th:href="'/productType?typeEn=' + #{home.categories.2}"
+                   th:text="#{home.categories.2}">
+                </a>
+                <a class="collapsed d-flex justify-content-between h3 text-decoration-none" th:href="'/productType?typeEn=' + #{home.categories.3}"
+                   th:text="#{home.categories.3}">
+                </a>
             </ul>
         </div>
 
@@ -69,15 +46,26 @@
 
             <!-- Title and sort content-->
             <div class="row">
-                <div class="col-md-6"></div>
-                <div class="col-md-6 pb-4">
+                <div class="col-md-9">
+                    <form action="search-product" method="post" id="search-form">
+                        <input type="text" class="form-control form-control-edited" name="keyword"
+                               aria-label="Text input with segmented dropdown button">
+                        <button type="submit" class="bt n-default form-select" th:text="#{product.search}"></button>
+                    </form>
+                </div>
+
+                <div class="col-md-3 pb-4">
                     <div class="d-flex">
-                        <select class="form-control">
-                            <option>Name: A to Z</option>
-                            <option>Name: Z to A</option>
-                            <option>Price: Low - High</option>
-                            <option>Price: High - Low</option>
-                        </select>
+                        <form action="sort-product" method="post" id="sort-form">
+                            <select class="form-select form-select-sm text-center" name="selected"
+                                    onchange="submitForm()">
+                                <option selected th:text="#{product.open.select}">Open select menu</option>
+                                <option value="sorta" th:text="#{product.az}">A to Z</option>
+                                <option value="sortz" th:text="#{product.za}">Z to A</option>
+                                <option value="sortl" th:text="#{product.lh}">Low - High</option>
+                                <option value="sorth" th:text="#{product.hl}">High - Low</option>
+                            </select>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -85,30 +73,44 @@
             <!--Content-->
             <div class="row">
                 <div th:each="product : ${products}" class="col-md-4">
-                    <form th:action="@{/addToCart}" method="post">
-                        <input type="hidden" name="productId" th:value="${product.productId}"/>
-                        <div class="card mb-4 product-wap rounded-0">
-                            <div class="card rounded-0">
-                                <img class="card-img rounded-0 img-fluid img-product" th:src="${product.imgUrl}"
-                                     th:alt="${product.descriptionEn}">
-                                <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
-                                    <ul class="list-unstyled">
-                                        <li>
-                                            <button class="btn btn-success text-white mt-2" type="submit"><i
-                                                    class="fas fa-cart-plus"></i></button>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="card-body text-center">
-                                <a href="shop-single.html" class="h3 text-decoration-none"
-                                   th:text="${product.productNameEn}">Product Name</a>
-                                <p class="text-center mt-3-0"
-                                   th:text="${product.getProductPrices().getLast().getPrice()} + ' VND'"></p>
+                    <div class="card mb-4 product-wap rounded-0">
+                        <div class="card rounded-0">
+                            <img class="card-img rounded-0 img-fluid img-product" th:src="${product.imgUrl}"
+                                 th:alt="${product.descriptionEn}">
+                            <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
+                                <ul class="list-unstyled">
+                                    <li>
+                                        <!-- Form to see detail product -->
+                                        <form th:action="@{/detailProduct}" method="post">
+                                            <input type="hidden" name="productId" th:value="${product.productId}"/>
+                                            <button class="btn btn-success text-white mt-2" type="submit">
+                                                <i class="far fa-eye"></i>
+                                            </button>
+                                        </form>
+                                    </li>
+
+                                    <li>
+                                        <!-- Form to add product to cart -->
+                                        <form th:action="@{/addToCart}" method="post">
+                                            <input type="hidden" name="productId" th:value="${product.productId}"/>
+                                            <button class="btn btn-success text-white mt-2" type="submit">
+                                                <i class="fas fa-cart-plus"></i>
+                                            </button>
+                                        </form>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
-                    </form>
+                        <div class="card-body text-center">
+                            <a href="shop-single.html" class="h3 text-decoration-none"
+                               th:text="${lang == 'en' ? product.productNameEn : product.productNameVi}">Product
+                                Name</a>
 
+                            <p class="text-center mt-3-0"
+                               th:text="${#numbers.formatDecimal(product.getProductPrices().getLast().getPrice(), 1, 'DEFAULT', 0, 'DEFAULT') + ' VND'}">
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
