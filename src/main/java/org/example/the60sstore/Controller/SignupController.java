@@ -4,6 +4,7 @@ import org.example.the60sstore.Entity.Customer;
 import org.example.the60sstore.Entity.Role;
 import org.example.the60sstore.Service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,6 +41,12 @@ public class SignupController {
     public String signup(Model model) {
         model.addAttribute("customer", new Customer());
         return "user-signup";
+    }
+
+    @GetMapping("/admin-signup")
+    public String adminSignup(Model model) {
+        model.addAttribute("customer", new Customer());
+        return "admin-signup";
     }
 
     @PostMapping("/signup")

@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.RequestCacheConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
@@ -26,11 +27,13 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-        return http.csrf(AbstractHttpConfigurer::disable)
+        return http.requestCache(RequestCacheConfigurer::disable).csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/css/**", "/js/**", "/img/**", "/webfonts/**", "/home**", "/").permitAll()
-                        .requestMatchers("/signup**", "/confirm**", "/register-confirm**", "/login**").anonymous()
-                        .requestMatchers("manager").hasAnyRole("ADMIN", "OWNER")
+                        .requestMatchers("/signup**", "/confirm**", "/register-confirm**", "/login**",
+                                "/forgot-password", "/check-email",
+                                "/check-token-renew-password", "/reconfirm-password",
+                                "update-new-password").anonymous()
                         .anyRequest().authenticated())
                 .formLogin(formLogin -> formLogin
                         .loginPage("/login").defaultSuccessUrl("/home?logged=true").

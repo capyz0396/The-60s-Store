@@ -2,10 +2,7 @@ package org.example.the60sstore.Controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import org.example.the60sstore.Entity.Customer;
-import org.example.the60sstore.Entity.Invoice;
-import org.example.the60sstore.Entity.InvoiceDetail;
-import org.example.the60sstore.Entity.Product;
+import org.example.the60sstore.Entity.*;
 import org.example.the60sstore.Service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -18,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -26,19 +24,23 @@ public class InvoiceController {
 
     private final CartService cartService;
     private final CustomerService customerService;
+    private final CustomerLevelService customerLevelService;
     private final InvoiceService invoiceService;
     private final InvoiceDetailService invoiceDetailService;
     private final LanguageService languageService;
     private final ProductService productService;
 
     @Autowired
-    public InvoiceController(CartService cartService, CustomerService customerService,
+    public InvoiceController(CartService cartService,
+                             CustomerService customerService,
+                             CustomerLevelService customerLevelService,
                              InvoiceService invoiceService,
                              InvoiceDetailService invoiceDetailService,
                              LanguageService languageService,
                              ProductService productService) {
         this.cartService = cartService;
         this.customerService = customerService;
+        this.customerLevelService = customerLevelService;
         this.invoiceService = invoiceService;
         this.invoiceDetailService = invoiceDetailService;
         this.languageService = languageService;
@@ -51,7 +53,7 @@ public class InvoiceController {
                                 @RequestParam List<String> productNameEn,
                                 @RequestParam List<Integer> quantity,
                                 @RequestParam List<Integer> price,
-                                @RequestParam String shippingAdress) {
+                                @RequestParam String shippingAddress) {
 
         if (productNameEn.size() == quantity.size() && quantity.size() == price.size()) {
 
@@ -60,8 +62,8 @@ public class InvoiceController {
 
             Invoice invoice = new Invoice();
             invoice.setInvoiceDate(LocalDateTime.now());
-            if (!shippingAdress.isEmpty()) {
-                invoice.setShippingAddress(shippingAdress);
+            if (!shippingAddress.isEmpty()) {
+                invoice.setShippingAddress(shippingAddress);
             }
             else {
                 invoice.setShippingAddress(customer.getAddress());
@@ -89,10 +91,23 @@ public class InvoiceController {
             invoiceService.save(invoice);
             cartService.resetNumCart(session, model);
             customerService.addLogged(session, model);
-
         }
 
         return "store-home";
+    }
+
+    private void updateCustomerLevel(Customer customer) {
+        // Lấy danh sách cấp độ khách hàng từ database
+        List<CustomerLevel> customerLevels = customerLevelService.getAll();
+
+        // Tìm cấp độ mới dựa trên điểm tích lũy
+        for (CustomerLevel level : customerLevels) {
+            if (customer.getLoyaltyPoint() >= level.getMinPoints() &&
+                    (level.getMaxPoints() == null || customer.getLoyaltyPoint() <= level.getMaxPoints())) {
+                customer.setCustomerLevel(level);
+                break;
+            }
+        }
     }
 
     @GetMapping("/invoice")
@@ -119,6 +134,14 @@ public class InvoiceController {
                                   @RequestParam("action") String action) {
 
         Invoice invoice = invoiceService.getInvoiceByInvoiceId(invoiceId);
+
+        if (action.equals("Complete")) {
+            Customer customer = invoice.getCustomer();
+            BigDecimal loyaltyPointsEarned = invoice.getTotalAmount().divide(BigDecimal.valueOf(10000), 0, RoundingMode.DOWN);
+            customer.setLoyaltyPoint(customer.getLoyaltyPoint() + loyaltyPointsEarned.intValue());
+            updateCustomerLevel(customer);
+            customerService.save(customer);
+        }
         invoice.setInvoiceStatus(action);
         invoiceService.save(invoice);
 

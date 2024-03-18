@@ -18,7 +18,7 @@
 <body>
 
 <!-- Header Fragment -->
-<div th:replace="~{fragments/headerFragmentAnonymous :: headerFragmentAnonymous}"></div>
+<div th:replace="~{fragments/headerFragment :: headerFragment}"></div>
 
 <!-- Content -->
 <div class="container py-5">
@@ -60,15 +60,22 @@
 
                     <p>
                         <label for="username" class="lbl_default">Username:</label>
-                        <input type="text" id="username" name="username" required minlength="2">
+                        <input type="text" id="username" name="username" required>
                     </p>
 
                     <p>
                         <label for="password" class="lbl_default">Password:</label>
-                        <input type="password" id="password" name="password" required minlength="2">
+                        <input type="password" id="password" name="password" required>
                     </p>
 
-                    <input type="hidden" name="role" value="USER"/>
+                    <p>
+                        <label for="role" class="lbl_default">Role:</label>
+                        <select class="custom-select" id="role" name="role" required>
+                            <option value="ADMIN">ADMIN</option>
+                            <option value="OWNER">OWNER</option>
+                            <option value="USER">USER</option>
+                        </select>
+                    </p>
 
                     <div class="text-center">
                         <button type="submit" class="btn btn-primary btn-lg btn-block mt-3 btn-default" style="margin: 0 auto">Sign up</button>

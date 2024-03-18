@@ -3,6 +3,7 @@ package org.example.the60sstore.Service;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import org.example.the60sstore.Entity.Customer;
+import org.example.the60sstore.Entity.CustomerLevel;
 import org.example.the60sstore.Repository.CustomerRepository;
 import org.example.the60sstore.Repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.ui.Model;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class CustomerService {
@@ -39,6 +41,10 @@ public class CustomerService {
         customer.setAccessCount(1);
         customer.setConfirmationStatus(false);
         customer.setRole(roleRepository.getRoleByRolename(role));
+        customer.setLoyaltyPoint(0);
+        CustomerLevel customerLevel = new CustomerLevel();
+        customerLevel.setLevelId(1);
+        customer.setCustomerLevel(customerLevel);
         return customerRepository.save(customer);
     }
 
@@ -46,7 +52,6 @@ public class CustomerService {
     public void incrementAccessCount(int customerId) {
         customerRepository.incrementAccessCount(customerId);
     }
-
 
     @Transactional
     public void confirmCustomer(int customerId) {
@@ -66,5 +71,17 @@ public class CustomerService {
 
     public Customer getCustomerByCustomerId(int customerId) {
         return customerRepository.getCustomerByCustomerId(customerId);
+    }
+
+    public Customer getCustomerByEmail(String email) {
+        return customerRepository.getCustomerByEmail(email);
+    }
+
+    public Customer save(Customer customer) {
+        return customerRepository.save(customer);
+    }
+
+    public List<Customer> getAllCustomer() {
+        return customerRepository.findAll();
     }
 }

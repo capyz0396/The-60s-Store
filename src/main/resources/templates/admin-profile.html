@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>60s Store - Cart</title>
+    <title>60s Store - Manager</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="apple-touch-icon" th:href="@{img/logo-no-background.png}">
@@ -17,36 +17,26 @@
 
 <body>
 
-<!-- Header -->
-<div th:replace="~{fragments/headerFragmentLogin::headerFragmentLogin}"></div>
+<!-- Header Fragment -->
+<div th:replace="~{fragments/headerFragment::headerFragment}"></div>
 
+<!-- Content -->
 <!-- Content -->
 <div class="container py-5">
     <div class="row">
         <div class="col-lg-12 text-center">
-            <h2 th:text="#{login.title}"></h2>
+            <h2 th:text="#{admin.profile.title}"></h2>
 
-            <div style="min-height: 27px; width: auto" class="mt-2 text-center">
-                <p style="color: red;" th:text="${param.error}"></p>
+            <div class="mt-5">
+                <form th:action="@{/admin-signup}" method="get">
+                    <button type="submit" class="btn btn-lg btn-primary btn-manger" th:text="#{admin.profile.create-account}"></button>
+                </form>
             </div>
 
-            <form action="/login" method="post">
-                <div class="mt-2">
-                    <label for="username" th:text="#{login.username}"></label>
-                    <input type="text" id="username" name="username" required minlength="2">
-                </div>
-
-                <div class="mt-2">
-                    <label for="password" th:text="#{login.password}"> </label>
-                    <input type="password" id="password" name="password" required minlength="2">
-                </div>
-                <button type="submit" class="btn btn-primary btn-lg btn-block mt-3 btn-default" th:text="#{login.sign.in.button}"></button>
-            </form>
-            <form action="signup">
-                <button type="submit" class="btn btn-primary btn-lg btn-light btn-default mt-2 text-primary border border-info" th:text="#{login.sign.up.button}">Sign up</button>
-            </form>
-            <div class="mt-2">
-                <a href="forgot-password">Forgot password?</a>
+            <div class="mt-5">
+                <form th:action="@{/account-manager}" method="get">
+                    <button type="submit" class="btn btn-lg btn-primary btn-manger" th:text="#{admin.profile.account.manager}"></button>
+                </form>
             </div>
         </div>
     </div>

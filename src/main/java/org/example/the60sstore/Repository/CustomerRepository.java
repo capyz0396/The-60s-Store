@@ -19,4 +19,6 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
     Customer getCustomerByUsername(String username);
 
     Customer getCustomerByCustomerId(int customerId);
+
+    Customer getCustomerByEmail(String email);
 }
