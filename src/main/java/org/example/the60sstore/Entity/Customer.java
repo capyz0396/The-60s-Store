@@ -49,6 +49,9 @@ public class Customer implements UserDetails {
     @Column(name = "confirmation_status")
     private Boolean confirmationStatus = false;
 
+    @Column(name = "lock_status")
+    private Boolean lockStatus;
+
     @ManyToOne
     @JoinColumn(name = "roleid")
     private Role role;
@@ -135,7 +138,7 @@ public class Customer implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return !getLockStatus();
     }
 
     @Override
@@ -197,5 +200,13 @@ public class Customer implements UserDetails {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public Boolean getLockStatus() {
+        return lockStatus;
+    }
+
+    public void setLockStatus(Boolean lockStatus) {
+        this.lockStatus = lockStatus;
     }
 }
