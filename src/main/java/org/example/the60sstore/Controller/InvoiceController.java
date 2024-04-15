@@ -7,6 +7,7 @@ import org.example.the60sstore.Service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -91,6 +92,7 @@ public class InvoiceController {
             invoiceService.save(invoice);
             cartService.resetNumCart(session, model);
             customerService.addLogged(session, model);
+            model.addAttribute("order", "success");
         }
 
         return "store-home";
@@ -150,6 +152,33 @@ public class InvoiceController {
             return "redirect:" + referrer;
         } else {
             return "redirect:/";
+        }
+    }
+
+    @GetMapping("/user-invoice")
+    public String toUserInvoice(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        List<Invoice> invoiceList = invoiceService.getInvoiceByCustomerUserOrderByDateDesc(userDetails.getUsername());
+        model.addAttribute("invoiceList", invoiceList);
+        return "user-invoice";
+    }
+
+    @GetMapping("/user-invoice/{id}")
+    public String showUserInvoiceDetails(HttpServletRequest request,
+                                     @PathVariable("id") int invoiceId,
+                                     Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        Invoice invoice = invoiceService.getInvoiceByInvoiceId(invoiceId);
+        if (invoice.getCustomer().getUsername().equals(userDetails.getUsername())) {
+            List<InvoiceDetail> invoiceDetails = invoiceDetailService.findByInvoiceId(invoiceId);
+            model.addAttribute("invoiceDetails", invoiceDetails);
+            languageService.addLanguagle(request, model);
+            return "manager-detail";
+        }
+        else {
+            return "redirect:/user-invoice";
         }
     }
 }

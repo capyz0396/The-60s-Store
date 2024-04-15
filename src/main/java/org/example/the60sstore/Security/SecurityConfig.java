@@ -29,15 +29,17 @@ public class SecurityConfig {
 
         return http.requestCache(RequestCacheConfigurer::disable).csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/css/**", "/js/**", "/img/**", "/webfonts/**", "/home**", "/").permitAll()
-                        .requestMatchers("/signup**", "/confirm**", "/register-confirm**", "/login**",
+                        .requestMatchers("/css/**", "/js/**", "/img/**",
+                                "/webfonts/**", "/home**", "/",
+                                "/signup**", "/about", "/contact", "/sent-message").permitAll()
+                        .requestMatchers("/confirm**", "/register-confirm**", "/login**",
                                 "/forgot-password", "/check-email",
                                 "/check-token-renew-password", "/reconfirm-password",
                                 "update-new-password").anonymous()
                         .anyRequest().authenticated())
                 .formLogin(formLogin -> formLogin
-                        .loginPage("/login").defaultSuccessUrl("/home?logged=true").
-                        failureHandler(authenticationFailureHandler())
+                        .loginPage("/login").defaultSuccessUrl("/home?logged=true")
+                        .failureHandler(authenticationFailureHandler())
                         .permitAll()).
                 logout(Customizer.withDefaults()).exceptionHandling(ex -> ex.accessDeniedHandler(accessDeniedHandler()))
                 .build();

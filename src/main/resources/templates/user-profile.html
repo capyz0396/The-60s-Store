@@ -22,7 +22,29 @@
 
 <!-- Content -->
 <div class="container py-5">
-    <h1>Welcome, User!</h1>
+    <div class="row">
+        <div class="col-lg-12 text-center">
+            <h2 th:text="#{user.profile.title}"></h2>
+
+            <div class="mt-5">
+                <form th:action="@{/user-information}" method="get">
+                    <button type="submit" class="btn btn-lg btn-success  btn-manger" th:text="#{user.profile.information}"></button>
+                </form>
+            </div>
+
+            <div class="mt-5">
+                <form th:action="@{/user-information-edit}" method="get">
+                    <button type="submit" class="btn btn-lg btn-success btn-manger bg-gradient" th:text="#{user.profile.edit.information}"></button>
+                </form>
+            </div>
+
+            <div class="mt-5">
+                <form th:action="@{/user-invoice}" method="get">
+                    <button type="submit" class="btn btn-lg btn-success btn-manger bg-primary" th:text="#{user.profile.invoice}"></button>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Brand Fragment -->

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>60s Store - About</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" th:href="@{img/logo-no-background.png}">
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/img/logo-no-background.png}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/templatemo.css}">
+    <link rel="stylesheet" th:href="@{/css/custom.css}">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+    <link rel="stylesheet" th:href="@{css/fontawesome.min.css}">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+
+<body>
+
+<!-- Header Fragment -->
+<div th:if="${logged}">
+    <div th:replace="~{fragments/headerFragment::headerFragment}"></div>
+</div>
+<div th:if="${not logged}">
+    <div th:replace="~{fragments/headerFragmentAnonymous::headerFragmentAnonymous}"></div>
+</div>
+
+<!-- Content Fragment -->
+<section class="bg-success py-5">
+    <div class="container">
+        <div class="row align-items-center py-5">
+            <!--<div class="col-md-8 text-white">
+                <h1>About Us</h1>
+                <p>Welcome to 60s Shop!</p>
+                <p>At 60s Shop, we specialize in providing high-quality Japanese products, ranging from functional foods
+                    to hair dyes and eye drops for seniors. Our mission is to bring the best of Japanese health and
+                    beauty products to our customers, ensuring both quality and efficacy.</p>
+                <p>With a focus on catering to the needs of our older customers, we carefully select each product to
+                    meet the highest standards of safety and effectiveness. Whether you're looking for dietary
+                    supplements to support your health, hair dyes for a vibrant look, or eye drops for clear vision, we
+                    have you covered.</p>
+                <p>Customer satisfaction is our top priority, and we strive to deliver exceptional service with every
+                    purchase. Explore our collection of Japanese products and experience the difference with 60s Shop
+                    today!</p>
+            </div>-->
+            <div class="col-md-8 text-white">
+                <h1 th:text="#{about.title}"></h1>
+                <p th:text="#{about.welcome}"></p>
+                <p th:text="#{about.specialize}"></p>
+                <p th:text="#{about.focus}"></p>
+                <p th:text="#{about.satisfaction}"></p>
+            </div>
+            <div class="col-md-4">
+                <img th:src="@{/img/japanese-store.png}" alt="About Hero">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--Footer Fragment-->
+<div th:replace="~{fragments/footerFragment :: footerFragment}"></div>
+
+<!-- Script -->
+<script th:src="@{/js/jquery-1.11.0.min.js}"></script>
+<script th:src="@{/js/jquery-migrate-1.2.1.min.js}"></script>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/js/templatemo.js}"></script>
+<script th:src="@{/js/custom.js}"></script>
+</body>
+
+</html>

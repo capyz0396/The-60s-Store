@@ -1,15 +1,12 @@
 package org.example.the60sstore.Controller;
 
 import org.example.the60sstore.Entity.Customer;
-import org.example.the60sstore.Entity.Role;
 import org.example.the60sstore.Service.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -54,11 +51,22 @@ public class SignupController {
                                     @RequestParam String birthDate,
                                     @RequestParam String email, @RequestParam String address,
                                     @RequestParam String username, @RequestParam String password,
-                                    @RequestParam String role) {
+                                    @RequestParam String role, Model model) {
+
+        Customer customer = customerService.getCustomerByUsername(username);
+        if (customer != null) {
+            model.addAttribute("error", "This username is already in use");
+            return "user-signup";
+        }
+        customer = customerService.getCustomerByEmail(email);
+        if (customer != null) {
+            model.addAttribute("error", "This email is already in use");
+            return "user-signup";
+        }
 
         String hashedPassword = bCryptPasswordEncoder.encode(password);
-
         Customer newCustomer = customerService.createCustomer(firstName, lastName, birthDate, email, address, username, hashedPassword, role);
+        newCustomer.setLockStatus(false);
         String token = tokenService.generateToken();
         accessHistoryService.logAccess(newCustomer);
         tokenService.createToken(newCustomer, token);

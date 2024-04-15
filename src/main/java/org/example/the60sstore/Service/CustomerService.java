@@ -84,4 +84,8 @@ public class CustomerService {
     public List<Customer> getAllCustomer() {
         return customerRepository.findAll();
     }
+
+    public Customer getCustomerByUsername(String username) {
+        return customerRepository.getCustomerByUsername(username);
+    }
 }

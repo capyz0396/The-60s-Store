@@ -21,7 +21,6 @@
 <div th:replace="~{fragments/headerFragment::headerFragment}"></div>
 
 <!-- Content -->
-<!-- Content -->
 <div class="container py-5">
     <div class="row">
         <div class="col-lg-12 text-center">
@@ -29,13 +28,13 @@
 
             <div class="mt-5">
                 <form th:action="@{/admin-signup}" method="get">
-                    <button type="submit" class="btn btn-lg btn-primary btn-manger" th:text="#{admin.profile.create-account}"></button>
+                    <button type="submit" class="btn btn-lg btn-success btn-manger" th:text="#{admin.profile.create-account}"></button>
                 </form>
             </div>
 
             <div class="mt-5">
                 <form th:action="@{/account-manager}" method="get">
-                    <button type="submit" class="btn btn-lg btn-primary btn-manger" th:text="#{admin.profile.account.manager}"></button>
+                    <button type="submit" class="btn btn-lg btn-success btn-manger" th:text="#{admin.profile.account.manager}"></button>
                 </form>
             </div>
         </div>

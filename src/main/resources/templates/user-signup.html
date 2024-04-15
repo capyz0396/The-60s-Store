@@ -28,8 +28,9 @@
             <h2 class="text-center">Sign up</h2>
 
             <div style="min-height: 27px; width: auto" class="mt-2 text-center">
-                <p style="color: red;"></p>
+                <p style="color: red;" th:text="${error}"></p>
             </div>
+
             <div style="width: 320px; margin: 0 auto">
                 <form th:action="@{/signup}" method="post">
 

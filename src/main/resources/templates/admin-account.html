@@ -48,14 +48,20 @@
                     <td th:utext="${#temporals.format(account.registrationDate, 'dd-MM-yyyy HH:mm:ss')}"></td>
                     <td th:text="${account.isAccountNonLocked == true ? 'Active': 'Locked'}"></td>
                     <td>
-    <span>
-        <form class="manager-invoice-inline" action="change-status" method="get">
-            <input hidden="hidden" name="customerId" th:value="${account.customerId}">
-            <input hidden="hidden" name="action" th:value="${account.isAccountNonLocked == true ? 'Lock' : 'Unlock'}">
+
+                        <form class="manager-invoice-inline" action="change-status" method="get">
+                            <label>
+                                <input hidden="hidden" name="customerId" th:value="${account.customerId}">
+                            </label>
+                            <label>
+                                <input hidden="hidden" name="action"
+                                       th:value="${account.isAccountNonLocked == true ? 'Lock' : 'Unlock'}">
+                            </label>
+                            <span>
             <button type="submit" class="btn btn-lg btn-dark"
                     th:text="${account.isAccountNonLocked == true ? 'Lock' : 'Unlock'}"></button>
-        </form>
-    </span>
+                </span>
+                        </form>
                     </td>
 
                 </tr>

@@ -37,10 +37,14 @@ public class HomeController {
 
     @GetMapping({"/", "/home"})
     public String defaultHome(@RequestParam(name = "logged", defaultValue = "false") boolean logged,
+                              @RequestParam(name = "order", defaultValue = "") String order,
+                              @RequestParam(name = "update", defaultValue = "") String update,
                               Model model,
                               HttpServletRequest request,
                               HttpSession session) {
 
+        model.addAttribute("order", order);
+        model.addAttribute("update", update);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (logged) {

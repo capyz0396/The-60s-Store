@@ -18,70 +18,58 @@
 <body>
 
 <!-- Header Fragment -->
-<div th:replace="~{fragments/headerFragment :: headerFragment}"></div>
+<div th:replace="~{fragments/headerFragmentAnonymous :: headerFragmentAnonymous}"></div>
 
 <!-- Content -->
 <div class="container py-5">
     <div class="row">
         <div class="col-lg-3"></div>
         <div class="col-lg-6">
-            <h2 class="text-center" th:text="#{sign.up.title}">Sign up</h2>
+            <h2 class="text-center">Sign up</h2>
 
             <div style="min-height: 27px; width: auto" class="mt-2 text-center">
-                <p style="color: red;"></p>
+                <p style="color: red;" th:text="${error}"></p>
             </div>
+
             <div style="width: 320px; margin: 0 auto">
-                <form th:action="@{/signup}" method="post">
+                <form th:action="@{/update-user-information}" method="post">
 
                     <p>
-                        <label for="firstName" class="lbl_default" th:text="#{sign.up.first.name}">First Name:</label>
+                        <label for="firstName" class="lbl_default">First Name:</label>
                         <input type="text" id="firstName" name="firstName" required minlength="4">
                     </p>
 
                     <p>
-                        <label for="lastName" class="lbl_default" th:text="#{sign.up.last.name}">Last Name:</label>
+                        <label for="lastName" class="lbl_default">Last Name:</label>
                         <input type="text" id="lastName" name="lastName" required minlength="2">
                     </p>
 
                     <p>
-                        <label for="birthDate" class="lbl_default" th:text="#{sign.up.date.of.birth}">Date of Birth:</label>
+                        <label for="birthDate" class="lbl_default">Date of Birth:</label>
                         <input type="date" id="birthDate" name="birthDate" required style="width: 213px">
                     </p>
 
                     <p>
-                        <label for="email" class="lbl_default" th:text="#{sign.up.email}">Email:</label>
+                        <label for="email" class="lbl_default">Email:</label>
                         <input type="email" id="email" name="email" required>
                     </p>
 
                     <p>
-                        <label for="address" class="lbl_default" th:text="#{sign.up.address}">Address:</label>
+                        <label for="address" class="lbl_default">Address:</label>
                         <input type="text" id="address" name="address" required>
                     </p>
 
                     <p>
-                        <label for="username" class="lbl_default" th:text="#{sign.up.username}">Username:</label>
-                        <input type="text" id="username" name="username" required>
-                    </p>
-
-                    <p>
-                        <label for="password" class="lbl_default" th:text="#{sign.up.password}">Password:</label>
-                        <input type="password" id="password" name="password" required>
-                    </p>
-
-                    <p>
-                        <label for="role" class="lbl_default" th:text="#{sign.up.role}">Role:</label>
-                        <select class="custom-select" id="role" name="role" required>
-                            <option value="ADMIN">ADMIN</option>
-                            <option value="OWNER">OWNER</option>
-                            <option value="USER">USER</option>
-                        </select>
+                        <label for="password" class="lbl_default">Password:</label>
+                        <input type="password" id="password" name="password" required minlength="2">
                     </p>
 
                     <div class="text-center">
-                        <button type="submit" class="btn btn-primary btn-lg btn-block mt-3 btn-default" style="margin: 0 auto" th:text="#{sign.up.title}">Sign up</button>
+                        <button type="submit" class="btn btn-primary btn-lg btn-block mt-3 btn-default m-auto">Update</button>
                     </div>
                 </form>
             </div>
+
         </div>
         <div class="col-lg-3"></div>
     </div>

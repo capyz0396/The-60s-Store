@@ -28,4 +28,8 @@ public class InvoiceService {
     public Invoice getInvoiceByInvoiceId(int invoiceId) {
         return invoiceRepository.getInvoiceByInvoiceId(invoiceId);
     }
+
+    public List<Invoice> getInvoiceByCustomerUserOrderByDateDesc(String username) {
+        return invoiceRepository.getInvoiceByCustomer_UsernameOrderByInvoiceDateDesc(username);
+    }
 }

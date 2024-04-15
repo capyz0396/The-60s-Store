@@ -13,6 +13,7 @@
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
     <link rel="stylesheet" th:href="@{css/fontawesome.min.css}">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 
 <body>
@@ -32,6 +33,7 @@
         <li data-bs-target="#template-mo-zay-hero-carousel" data-bs-slide-to="1"></li>
         <li data-bs-target="#template-mo-zay-hero-carousel" data-bs-slide-to="2"></li>
     </ol>
+
     <div class="carousel-inner">
         <div class="carousel-item active">
             <div class="container">
@@ -41,9 +43,9 @@
                     </div>
                     <div class="col-lg-6 mb-0 d-flex">
                         <div class="text-align-left align-self-center">
-                            <h1 class="h1 text-success">Gateway to Japanese Elegance</h1>
-                            <h3 class="h2">Unveiling the Essence of Japanese Excellence</h3>
-                            <p>Japanese elegance, curated excellence. '60s brings authentic charm and innovation to your lifestyle with our thoughtfully selected products.</p>
+                            <h1 class="h1 text-success" th:text="#{elegance.gateway}">Gateway to Japanese Elegance</h1>
+                            <h3 class="h2" th:text="#{excellence.unveiling}">Unveiling the Essence of Japanese Excellence</h3>
+                            <p th:text="#{elegance.description}">Japanese elegance, curated excellence. '60s brings authentic charm and innovation to your lifestyle with our thoughtfully selected products.</p>
                         </div>
                     </div>
                 </div>
@@ -57,9 +59,9 @@
                     </div>
                     <div class="col-lg-6 mb-0 d-flex">
                         <div class="text-align-left">
-                            <h1 class="h1">Authentic Japanese Charm</h1>
-                            <h3 class="h2">Curated Excellence in Japanese Living</h3>
-                            <p>Discover '60s: Elevate your space with curated Japanese delights. Authenticity meets modern flair for a unique and enriching shopping experience.</p>
+                            <h1 class="h1" th:text="#{charm.authentic}">Authentic Japanese Charm</h1>
+                            <h3 class="h2" th:text="#{living.excellence}">Curated Excellence in Japanese Living</h3>
+                            <p th:text="#{charm.description}">Discover '60s: Elevate your space with curated Japanese delights. Authenticity meets modern flair for a unique and enriching shopping experience.</p>
                         </div>
                     </div>
                 </div>
@@ -73,15 +75,16 @@
                     </div>
                     <div class="col-lg-6 mb-0 d-flex">
                         <div class="text-align-left">
-                            <h1 class="h1">Your Japanese Oasis of Elegance</h1>
-                            <h3 class="h2">Meeting Contemporary Japanese Style</h3>
-                            <p>Embrace '60s: Japanese treasures await. Elevate your lifestyle with curated products, blending tradition and modernity for an unforgettable experience.</p>
+                            <h1 class="h1" th:text="#{oasis.japanese}">Your Japanese Oasis of Elegance</h1>
+                            <h3 class="h2" th:text="#{style.contemporary}">Meeting Contemporary Japanese Style</h3>
+                            <p th:text="#{oasis.description}">Embrace '60s: Japanese treasures await. Elevate your lifestyle with curated products, blending tradition and modernity for an unforgettable experience.</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
     <a class="carousel-control-prev text-decoration-none w-auto ps-3" href="#template-mo-zay-hero-carousel"
        role="button" data-bs-slide="prev">
         <i class="fas fa-chevron-left"></i>
@@ -102,24 +105,51 @@
     </div>
     <div class="row">
         <div class="col-12 col-md-4 p-5 mt-3">
-            <a href="#"><img th:src="@{/img/category_img_01.jpg}" class="rounded-circle img-fluid border"></a>
+            <a href="#"><img th:src="@{/img/category_img_01.jpg}" class="rounded-circle img-fluid border" alt="product1"></a>
             <h5 class="text-center mt-3 mb-3" th:text="#{home.categories.1}"></h5>
             <p class="text-center"><a class="btn btn-success" th:text="#{home.more}"></a></p>
         </div>
         <div class="col-12 col-md-4 p-5 mt-3">
-            <a href="#"><img th:src="@{/img/category_img_03.jpg}" class="rounded-circle img-fluid border"></a>
+            <a href="#"><img th:src="@{/img/category_img_03.jpg}" class="rounded-circle img-fluid border"  alt="product3"></a>
             <h2 class="h5 text-center mt-3 mb-3" th:text="#{home.categories.2}"></h2>
             <p class="text-center"><a class="btn btn-success" th:text="#{home.more}"></a></p>
         </div>
         <div class="col-12 col-md-4 p-5 mt-3">
-            <a href="#"><img th:src="@{/img/category_img_02.jpg}" class="rounded-circle img-fluid border"></a>
+            <a href="#"><img th:src="@{/img/category_img_02.jpg}" class="rounded-circle img-fluid border" alt="product2"></a>
             <h2 class="h5 text-center mt-3 mb-3" th:text="#{home.categories.3}"></h2>
             <p class="text-center"><a class="btn btn-success" th:text="#{home.more}"></a></p>
         </div>
     </div>
 </section>
 
-<!-- Footer Fragment -->
+<!-- Alert -->
+<div th:if="${update == 'success'}" class="alert show show-alert alert-success">
+    <i class="far fa-thumbs-up">
+        <span class="msg">Update successfully!</span>
+    </i>
+    <div class="close-button">
+        <span class="fas fa-times"></span>
+    </div>
+</div>
+<div th:if="${order == 'success'}" class="alert show show-alert alert-success">
+    <i class="far fa-thumbs-up">
+        <span class="msg">Order successfully!</span>
+    </i>
+    <div class="close-button">
+        <span class="fas fa-times"></span>
+    </div>
+</div>
+<div th:if="${sent == 'success'}" class="alert show show-alert alert-success">
+    <i class="far fa-thumbs-up">
+        <span class="msg">Your message is send successfully!</span>
+    </i>
+    <div class="close-button">
+        <span class="fas fa-times"></span>
+    </div>
+</div>
+
+
+<!--Footer Fragment-->
 <div th:replace="~{fragments/footerFragment :: footerFragment}"></div>
 
 <!-- Script -->

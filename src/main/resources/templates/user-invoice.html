@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>60s Store - Invoices</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" th:href="@{img/logo-no-background.png}">
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/img/logo-no-background.png}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/templatemo.css}">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+    <link rel="stylesheet" th:href="@{css/fontawesome.min.css}">
+    <link rel="stylesheet" th:href="@{/css/custom.css}">
+</head>
+
+<body>
+
+<!-- Header Fragment -->
+<div th:replace="~{fragments/headerFragment::headerFragment}"></div>
+
+<!-- Content -->
+<div class="container py-5">
+    <div class="row">
+        <div class="col-lg-12">
+            <h2 th:text="#{invoice.title}">Your Invoice</h2>
+            <table class="table text-center">
+                <thead>
+                <tr>
+                    <th scope="col" th:text="#{invoice.id}"></th>
+                    <th scope="col" th:text="#{invoice.date}"></th>
+                    <th scope="col" th:text="#{invoice.shipping}"></th>
+                    <th scope="col" th:text="#{invoice.total}"></th>
+                    <th scope="col" th:text="#{invoice.detail}"></th>
+                    <th scope="col" th:text="#{invoice.status}"></th>
+                    <th scope="col" th:text="#{invoice.action}"></th>
+                </tr>
+                </thead>
+                <tbody class="manager-invoice-middle">
+                <tr th:each="invoice : ${invoiceList}">
+                    <td th:text="${invoice.invoiceId}"></td>
+                    <td th:utext="${#temporals.format(invoice.invoiceDate, 'dd-MM-yyyy HH:mm:ss')}"></td>
+                    <td th:text="${invoice.shippingAddress}"></td>
+                    <td th:text="${#numbers.formatDecimal(invoice.totalAmount, 1, 'DEFAULT', 0, 'DEFAULT') + ' VND'}"></td>
+                    <td><a th:href="@{/user-invoice/{id}(id=${invoice.invoiceId})}" th:text="..."></a></td>
+                    <td th:text="${invoice.invoiceStatus}"></td>
+                    <td th:if="${invoice.invoiceStatus == 'Waiting'}" class="manager-invoice-line">
+                        <form class="manager-invoice-inline"
+                              th:action="@{/invoice/{id}/action(id=${invoice.invoiceId})}" method="get">
+                            <label><input hidden="hidden" name="action" value="Cancel"></label>
+                            <span>
+                                <button type="submit" class="btn btn-lg btn-danger"
+                                        th:text="#{invoice.cancel}"></button>
+                            </span>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Brand Fragment -->
+<div th:replace="~{fragments/brandFragment :: brandFragment}"></div>
+
+<!-- Footer Fragment -->
+<div th:replace="~{fragments/footerFragment :: footerFragment}"></div>
+
+<!-- Script -->
+<script th:src="@{/js/jquery-1.11.0.min.js}"></script>
+<script th:src="@{/js/jquery-migrate-1.2.1.min.js}"></script>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/js/templatemo.js}"></script>
+<script th:src="@{/js/custom.js}"></script>
+
+</body>
+
+</html>
