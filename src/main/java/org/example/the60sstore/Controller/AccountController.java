@@ -10,15 +10,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
+/* Controller executes features related Customer Entity. */
 @Controller
 public class AccountController {
 
     private final CustomerService customerService;
 
+    /* This controller needs create CustomerService for all features. */
     public AccountController(CustomerService customerService) {
         this.customerService = customerService;
     }
 
+    /* toAccountManager change customer view to admin-account.html.
+    * It adds account list from database. */
     @GetMapping("/account-manager")
     public String toAccountManager(Model model) {
 
@@ -28,6 +32,9 @@ public class AccountController {
         return "admin-account";
     }
 
+    /* changeStatus method receives action and customerId to change status of account.
+    * The "action" param received from client always contains "Lock" or "Unlock" of String.
+    * After executing, redirect to last page. */
     @GetMapping("/change-status")
     public String changeStatus(@RequestParam("customerId") int customerId,
                                @RequestParam("action") String action,

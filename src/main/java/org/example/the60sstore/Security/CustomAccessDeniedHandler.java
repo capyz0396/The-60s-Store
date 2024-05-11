@@ -8,7 +8,10 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 
 import java.io.IOException;
 
+/* CustomAccessDeniedHandler class resolves access failed by custom design. */
 public class CustomAccessDeniedHandler implements AccessDeniedHandler {
+
+    /* When access is denied, redirect client to /home url. */
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
         response.sendRedirect("/home");

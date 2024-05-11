@@ -4,10 +4,10 @@ function submitForm() {
 
 setTimeout(function() {
     $('.alert').addClass("hide");
-    $('.alert').removeClass("show");
+    $('.alert').removeClass("perform");
 }, 5000);
 
-$('.fas').click(function () {
+$('.close-icon').click(function () {
     $('.alert').addClass("hide");
-    $('.alert').removeClass("show");
+    $('.alert').removeClass("perform");
 });

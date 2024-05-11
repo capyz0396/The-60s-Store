@@ -7,9 +7,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.security.Principal;
+
+/* LoginController resolves feature related login page. */
 @Controller
 public class LoginController {
 
+    /* If a customer is not logged, they can access to login page.
+    * Else redirecting to home page. */
     @GetMapping("/login")
     @PreAuthorize("isAnonymous()")
     public String login(HttpSession session) {
