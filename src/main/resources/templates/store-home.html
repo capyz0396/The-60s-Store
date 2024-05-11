@@ -27,11 +27,11 @@
 </div>
 
 <!-- Banner -->
-<div id="template-mo-zay-hero-carousel" class="carousel slide" data-bs-ride="carousel">
+<div id="template-the-60s-carousel" class="carousel slide" data-bs-ride="carousel">
     <ol class="carousel-indicators">
-        <li data-bs-target="#template-mo-zay-hero-carousel" data-bs-slide-to="0" class="active"></li>
-        <li data-bs-target="#template-mo-zay-hero-carousel" data-bs-slide-to="1"></li>
-        <li data-bs-target="#template-mo-zay-hero-carousel" data-bs-slide-to="2"></li>
+        <li data-bs-target="#template-the-60s-carousel" data-bs-slide-to="0" class="active"></li>
+        <li data-bs-target="#template-the-60s-carousel" data-bs-slide-to="1"></li>
+        <li data-bs-target="#template-the-60s-carousel" data-bs-slide-to="2"></li>
     </ol>
 
     <div class="carousel-inner">
@@ -85,11 +85,11 @@
         </div>
     </div>
 
-    <a class="carousel-control-prev text-decoration-none w-auto ps-3" href="#template-mo-zay-hero-carousel"
+    <a class="carousel-control-prev text-decoration-none w-auto ps-3" href="#template-the-60s-carousel"
        role="button" data-bs-slide="prev">
         <i class="fas fa-chevron-left"></i>
     </a>
-    <a class="carousel-control-next text-decoration-none w-auto pe-3" href="#template-mo-zay-hero-carousel"
+    <a class="carousel-control-next text-decoration-none w-auto pe-3" href="#template-the-60s-carousel"
        role="button" data-bs-slide="next">
         <i class="fas fa-chevron-right"></i>
     </a>
@@ -123,15 +123,15 @@
 </section>
 
 <!-- Alert -->
-<div th:if="${update == 'success'}" class="alert show show-alert alert-success">
+<div th:if="${update == 'success'}" class="alert perform show-alert alert-success">
     <i class="far fa-thumbs-up">
         <span class="msg">Update successfully!</span>
     </i>
     <div class="close-button">
-        <span class="fas fa-times"></span>
+        <span class="fas fa-times close-icon"></span>
     </div>
 </div>
-<div th:if="${order == 'success'}" class="alert show show-alert alert-success">
+<div th:if="${order == 'success'}" class="alert perform show-alert alert-success">
     <i class="far fa-thumbs-up">
         <span class="msg">Order successfully!</span>
     </i>
@@ -139,7 +139,7 @@
         <span class="fas fa-times"></span>
     </div>
 </div>
-<div th:if="${sent == 'success'}" class="alert show show-alert alert-success">
+<div th:if="${sent == 'success'}" class="alert perform show-alert alert-success">
     <i class="far fa-thumbs-up">
         <span class="msg">Your message is send successfully!</span>
     </i>

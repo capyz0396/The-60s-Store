@@ -6,6 +6,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,34 +14,52 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
+import java.util.Map;
 
+/* UserController resolves features of account having role user. */
 @Controller
 public class UserController {
 
     private final CustomerService customerService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    /* To execute features, it needs to create services below. */
     public UserController(CustomerService customerService, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.customerService = customerService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
+    /* toUserInformation sets url for html user-information.
+    * Username is got from logging account saved at SecurityContextHolder.
+    * By username, customerService can get all data of customer.
+    * Add these to model and show at html. */
     @GetMapping("/user-information")
-    public String userInformation(Model model) {
+    public String toUserInformation(Model model) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        Customer customer = customerService.getCustomerByUsername(userDetails.getUsername());
+        Customer customer = null;
+
+        if (authentication instanceof OAuth2AuthenticationToken oauthToken) {
+            Map<String, Object> attributes = oauthToken.getPrincipal().getAttributes();
+            customer = customerService.getCustomerByEmail(attributes.get("email").toString());
+        }
+        if (authentication.getPrincipal() instanceof Customer) {
+            customer = (Customer) authentication.getPrincipal();
+        }
+
         model.addAttribute("user", customer);
 
         return "user-information";
     }
 
+    /* toUserInformationEdit method sets url for user-information-edit.html. */
     @GetMapping("/user-information-edit")
-    public String userInformationEdit() {
+    public String toUserInformationEdit() {
         return "user-information-edit";
     }
 
+    /* processSignupForm method gets param from /user-information-edit and update data.
+    * After that, redirect to home and show notification. */
     @PostMapping("/update-user-information")
     public String processSignupForm(@RequestParam String firstName, @RequestParam String lastName,
                                     @RequestParam String birthDate,
@@ -54,8 +73,17 @@ public class UserController {
         }
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        customer = customerService.getCustomerByUsername(userDetails.getUsername());
+
+        if (authentication instanceof OAuth2AuthenticationToken oauthToken) {
+            Map<String, Object> attributes = oauthToken.getPrincipal().getAttributes();
+            customer = customerService.getCustomerByEmail(attributes.get("email").toString());
+        }
+        if (authentication.getPrincipal() instanceof Customer) {
+            customer = (Customer) authentication.getPrincipal();
+        }
+
+        assert customer != null;
+        customer = customerService.getCustomerByUsername(customer.getUsername());
         String hashedPassword = bCryptPasswordEncoder.encode(password);
         customer.setFirstName(firstName);
         customer.setLastName(lastName);

@@ -1,5 +1,5 @@
 .btn-default {
-    width: 144px;
+    width: 216px;
 }
 
 .lbl_default {
@@ -74,7 +74,7 @@
 
 .alert {
     padding: 20px 40px;
-    min-width: 420px;
+    min-width: 400px;
     position: fixed;
     right: 0;
     bottom: 10px;
@@ -99,7 +99,8 @@
 }
 
 .alert .msg {
-    padding: 0 20px;
+    padding-left: 10px;
+    padding-right: 100px;
     font-size: 18px;
     color: #146c43;
 }
@@ -123,10 +124,10 @@
     font-size: 22px;
 }
 
-.show {
-    animation: show_slide 1s ease forwards;
+.perform {
+    animation: show_notification 1s ease forwards;
 }
-@keyframes show_slide {
+@keyframes show_notification {
     0%{
         transform: translateX(100%);
     }
@@ -142,9 +143,9 @@
 }
 
 .hide {
-    animation: hide_slide 1s ease forwards;
+    animation: hide_notification 1s ease forwards;
 }
-@keyframes hide_slide {
+@keyframes hide_notification {
     0%{
         transform: translateX(-10%);
     }
@@ -171,4 +172,8 @@
     border-radius: 4px;
     position: fixed;
     left: 50%;
+}
+
+.invoice-table {
+    height: 65px;
 }

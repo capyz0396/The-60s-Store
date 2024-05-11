@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+/* SignupController resolves features related to sign up page.  */
 @Controller
 public class SignupController {
 
@@ -19,14 +20,13 @@ public class SignupController {
     private final EmailSenderService emailSenderService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    /* To execute methods in it, services are created in here. */
     @Autowired
-    public SignupController(
-            CustomerService customerService,
+    public SignupController(CustomerService customerService,
             AccessHistoryService accessHistoryService,
             TokenService tokenService,
             EmailSenderService emailSenderService,
-            BCryptPasswordEncoder bCryptPasswordEncoder
-    ) {
+            BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.customerService = customerService;
         this.accessHistoryService = accessHistoryService;
         this.tokenService = tokenService;
@@ -34,18 +34,25 @@ public class SignupController {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
+    /* toSignup method sets url /signup for user-signup.html. */
     @GetMapping("/signup")
-    public String signup(Model model) {
+    public String toSignup(Model model) {
         model.addAttribute("customer", new Customer());
         return "user-signup";
     }
 
+    /* toAdminSignup method sets url /signup for admin-signup.html. */
     @GetMapping("/admin-signup")
-    public String adminSignup(Model model) {
+    public String toAdminSignup(Model model) {
         model.addAttribute("customer", new Customer());
         return "admin-signup";
     }
 
+    /* Admin and user also use processSignupForm to create new account.
+    * If username or email is exist, return to last page and show notification.
+    * Else, hash password by bCryptPasswordEncoder and create new customer.
+    * Create new history log.
+    * Create new token and send it to customer's email. */
     @PostMapping("/signup")
     public String processSignupForm(@RequestParam String firstName, @RequestParam String lastName,
                                     @RequestParam String birthDate,
@@ -73,20 +80,5 @@ public class SignupController {
         emailSenderService.sendEmail(email, "Welcome to my factory!", "Here is your token:\n http://localhost:8080/register-confirm?token=" + token);
 
         return "register-confirm";
-    }
-
-    @PostMapping("/reconfirm")
-    public String confirmRegistration(@RequestParam("token") String token) {
-
-        Customer customer = tokenService.findByToken(token).getCustomer();
-
-        if (token.equals(tokenService.findNewestTokenForCustomer(customer.getCustomerId()).getToken())) {
-            token = tokenService.generateToken();
-            tokenService.createToken(customer, token);
-            emailSenderService.sendEmail(customer.getEmail(), "Welcome to my factory!", "Here is your token:\n http://localhost:8080/confirm?token=" + token);
-            return "register-confirm";
-        } else {
-            return "redirect:/register-confirm-status?status=renew-denied";
-        }
     }
 }

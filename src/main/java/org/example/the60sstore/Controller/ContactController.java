@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+/* Controller of page contact and contain all features of it. */
 @Controller
 public class ContactController {
 
@@ -18,12 +19,14 @@ public class ContactController {
     private final LanguageService languageService;
     private final EmailSenderService emailSenderService;
 
+    /* To resolve, the controller needs to create 3 services. */
     public ContactController(CustomerService customerService, LanguageService languageService, EmailSenderService emailSenderService) {
         this.customerService = customerService;
         this.languageService = languageService;
         this.emailSenderService = emailSenderService;
     }
 
+    /* Set url "/contact" for "store-contact.html". */
     @GetMapping({"/contact"})
     public String toContact(HttpSession session, HttpServletRequest request, Model model) {
         customerService.addLogged(session, model);
@@ -31,7 +34,9 @@ public class ContactController {
         return "store-contact";
     }
 
-
+    /* When a customer fill all inputs and submit, data will be sent to this method.
+    * emailSenderService uses those data and send email to shop's owner.
+    * Add sent attribute to show notification success after sending. */
     @PostMapping({"/sent-message"})
     public String sentMessage(@RequestParam String name, @RequestParam String email,
                               @RequestParam String subject, @RequestParam String message,

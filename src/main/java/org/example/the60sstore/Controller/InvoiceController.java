@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +20,9 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
+/* InvoiceController solves features related invoice. */
 @Controller
 public class InvoiceController {
 
@@ -31,6 +34,7 @@ public class InvoiceController {
     private final LanguageService languageService;
     private final ProductService productService;
 
+    /* To support features, the controller needs to create below services. */
     @Autowired
     public InvoiceController(CartService cartService,
                              CustomerService customerService,
@@ -48,6 +52,9 @@ public class InvoiceController {
         this.productService = productService;
     }
 
+    /* createInvoice method will get productList and prices from param.
+     * Calculating total amount and create invoice by invoiceService at database.
+     * After that, invoiceDetailService creates one by one product to database. */
     @PostMapping("/create-invoice")
     public String createInvoice(HttpSession session,
                                 Model model,
@@ -59,14 +66,21 @@ public class InvoiceController {
         if (productNameEn.size() == quantity.size() && quantity.size() == price.size()) {
 
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            Customer customer = (Customer) authentication.getPrincipal();
+            Customer customer = null;
+            if (authentication instanceof OAuth2AuthenticationToken oauthToken) {
+                Map<String, Object> attributes = oauthToken.getPrincipal().getAttributes();
+                customer = customerService.getCustomerByEmail(attributes.get("email").toString());
+            }
+            if (authentication.getPrincipal() instanceof Customer) {
+                customer = (Customer) authentication.getPrincipal();
+            }
 
             Invoice invoice = new Invoice();
             invoice.setInvoiceDate(LocalDateTime.now());
             if (!shippingAddress.isEmpty()) {
                 invoice.setShippingAddress(shippingAddress);
-            }
-            else {
+            } else {
+                assert customer != null;
                 invoice.setShippingAddress(customer.getAddress());
             }
             invoice.setTotalAmount(BigDecimal.ZERO);
@@ -98,11 +112,12 @@ public class InvoiceController {
         return "store-home";
     }
 
+    /* When an invoice is confirmed successfully, updateCustomerLevel update level of the customer.
+     * By Loyalty Point, the method can update exactly level. */
     private void updateCustomerLevel(Customer customer) {
-        // Lấy danh sách cấp độ khách hàng từ database
+
         List<CustomerLevel> customerLevels = customerLevelService.getAll();
 
-        // Tìm cấp độ mới dựa trên điểm tích lũy
         for (CustomerLevel level : customerLevels) {
             if (customer.getLoyaltyPoint() >= level.getMinPoints() &&
                     (level.getMaxPoints() == null || customer.getLoyaltyPoint() <= level.getMaxPoints())) {
@@ -112,6 +127,8 @@ public class InvoiceController {
         }
     }
 
+    /* showInvoices method provide invoices by invoiceService.
+     * This adds language to show invoice list suitable at manager-invoice.html. */
     @GetMapping("/invoice")
     public String showInvoices(HttpServletRequest request, Model model) {
         List<Invoice> invoices = invoiceService.getAll();
@@ -120,6 +137,8 @@ public class InvoiceController {
         return "manager-invoice";
     }
 
+    /* showInvoiceDetails method gets id by url and find invoice detail list by it.
+     * After that, list will be added to model and show at manager-detail.html. */
     @GetMapping("/invoice/{id}")
     public String showInvoiceDetails(HttpServletRequest request,
                                      @PathVariable("id") int invoiceId,
@@ -130,10 +149,14 @@ public class InvoiceController {
         return "manager-detail";
     }
 
+    /* actionInvoice method get id by url and action by param.
+     * The method checks invoice by id and update status of it.
+     * If action equal complete, update loyalty point of the customer and return last page.
+     * Else only updating invoice status and return last page. */
     @GetMapping("/invoice/{id}/action")
-    public String completeInvoice(HttpServletRequest request,
-                                  @PathVariable("id") int invoiceId,
-                                  @RequestParam("action") String action) {
+    public String actionInvoice(HttpServletRequest request,
+                                @PathVariable("id") int invoiceId,
+                                @RequestParam("action") String action) {
 
         Invoice invoice = invoiceService.getInvoiceByInvoiceId(invoiceId);
 
@@ -155,29 +178,55 @@ public class InvoiceController {
         }
     }
 
+    /* toUserInvoice method gets all customer's invoices and show at user-invoice.html.
+     * The method gets customer information from SecurityContextHolder. */
     @GetMapping("/user-invoice")
     public String toUserInvoice(Model model) {
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        List<Invoice> invoiceList = invoiceService.getInvoiceByCustomerUserOrderByDateDesc(userDetails.getUsername());
+        Customer customer = null;
+
+        if (authentication instanceof OAuth2AuthenticationToken oauthToken) {
+            Map<String, Object> attributes = oauthToken.getPrincipal().getAttributes();
+            customer = customerService.getCustomerByEmail(attributes.get("email").toString());
+        }
+        if (authentication.getPrincipal() instanceof Customer) {
+            customer = (Customer) authentication.getPrincipal();
+        }
+
+        assert customer != null;
+        List<Invoice> invoiceList = invoiceService.getInvoiceByCustomerUserOrderByDateDesc(customer.getUsername());
         model.addAttribute("invoiceList", invoiceList);
         return "user-invoice";
     }
 
+    /* showUserInvoiceDetails method gets id by url when the customer access.
+     * Using this url to get invoice detail and add these to show at manager-detail.html.
+     * If customers access url of invoice id not of them, redirect to user-invoice.html. */
     @GetMapping("/user-invoice/{id}")
     public String showUserInvoiceDetails(HttpServletRequest request,
-                                     @PathVariable("id") int invoiceId,
-                                     Model model) {
+                                         @PathVariable("id") int invoiceId,
+                                         Model model) {
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        Customer customer = null;
+
+        if (authentication instanceof OAuth2AuthenticationToken oauthToken) {
+            Map<String, Object> attributes = oauthToken.getPrincipal().getAttributes();
+            customer = customerService.getCustomerByEmail(attributes.get("email").toString());
+        }
+        if (authentication.getPrincipal() instanceof Customer) {
+            customer = (Customer) authentication.getPrincipal();
+        }
+
         Invoice invoice = invoiceService.getInvoiceByInvoiceId(invoiceId);
-        if (invoice.getCustomer().getUsername().equals(userDetails.getUsername())) {
+        assert customer != null;
+        if (invoice.getCustomer().getUsername().equals(customer.getUsername())) {
             List<InvoiceDetail> invoiceDetails = invoiceDetailService.findByInvoiceId(invoiceId);
             model.addAttribute("invoiceDetails", invoiceDetails);
             languageService.addLanguagle(request, model);
             return "manager-detail";
-        }
-        else {
+        } else {
             return "redirect:/user-invoice";
         }
     }

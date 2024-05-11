@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>60s Store - Cart</title>
+    <title>60s Store - Log In</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="apple-touch-icon" th:href="@{img/logo-no-background.png}">
@@ -42,6 +42,9 @@
                 </div>
                 <button type="submit" class="btn btn-primary btn-lg btn-block mt-3 btn-default" th:text="#{login.sign.in.button}"></button>
             </form>
+            <div class="m-2">
+                <a class="btn btn-lg btn-secondary fab fa-google" th:href="@{/oauth2/authorization/google}"> Continue with Google</a>
+            </div>
             <form action="signup">
                 <button type="submit" class="btn btn-primary btn-lg btn-light btn-default mt-2 text-primary border border-info" th:text="#{login.sign.up.button}">Sign up</button>
             </form>

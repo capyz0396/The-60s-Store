@@ -9,13 +9,14 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
+/* CustomAuthenticationFailureHandler gets error when logging and return to html by custom design. */
 @Component
 public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 
+    /* When Spring Security meet error when logging, it will return to /login with param error. */
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         super.setDefaultFailureUrl("/login?error=" + exception.getMessage());
-        System.out.println(exception.getMessage());
         super.onAuthenticationFailure(request, response, exception);
     }
 }

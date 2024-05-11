@@ -14,19 +14,24 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.ArrayList;
 import java.util.List;
 
+/* This controller controls and executes features related customer's cart. */
 @Controller
 public class CartController {
 
     private final LanguageService languageService;
     private final ProductService productService;
 
+    /* Controller needs to create languageService and productService to use. */
     public CartController(LanguageService languageService, ProductService productService) {
         this.languageService = languageService;
         this.productService = productService;
     }
 
+    /* toCart method redirect customer to store-cart.html.
+    * Before redirecting, this method add quantity of products if a customer added.
+    * More, the method adds "lang" attribute to html show exactly language customer chosen.  */
     @GetMapping("/cart")
-    public String cart(HttpServletRequest request,
+    public String toCart(HttpServletRequest request,
                        HttpSession session,
                        Model model) {
 
@@ -46,6 +51,7 @@ public class CartController {
         return "store-cart";
     }
 
+    /* addToCard method checks session and add more 1 value to product customer chosen. */
     @PostMapping("/addToCart")
     public String addToCart(@RequestParam int productId, HttpSession session) {
 
@@ -81,9 +87,12 @@ public class CartController {
         }
 
         session.setAttribute("cartSize", cartSize);
+
         return "redirect:/product";
     }
 
+    /* removeOutCart method checks product in session and remove it.
+    * After that, updating quantity product cart and transfer it to html. */
     @GetMapping("/removeOutCart")
     public String removeOutCart(HttpServletRequest request,
                        HttpSession session,
