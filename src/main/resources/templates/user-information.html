@@ -8,11 +8,8 @@
     <link rel="apple-touch-icon" th:href="@{img/logo-no-background.png}">
     <link rel="shortcut icon" type="image/x-icon" th:href="@{/img/logo-no-background.png}">
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
-    <link rel="stylesheet" th:href="@{/css/templatemo.css}">
-    <link rel="stylesheet" th:href="@{/css/custom.css}">
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
     <link rel="stylesheet" th:href="@{css/fontawesome.min.css}">
+    <link rel="stylesheet" th:href="@{/css/custom.css}">
 </head>
 
 <body>
@@ -22,86 +19,61 @@
 
 <!-- Content -->
 <div class="container py-5">
-    <div class="row">
-        <div class="col-lg-4"></div>
-        <div class="col-lg-4">
-            <h2 th:text="#{user.profile.information}" class="text-center"></h2>
-
-            <div class="row mt-4">
-                <div class="col-lg-2"></div>
-                <div class="col-lg-4">
-                    <label for="firstName" class="lbl_default">First Name:</label>
+    <div><h2 class="text-center">User Information</h2></div>
+    <div class="row mt-5 justify-content-center">
+        <div class="col-auto row">
+            <div class="col-auto">
+                <div class="input-height">
+                    <p>First Name:</p>
                 </div>
-                <div class="col-lg-6">
-                    <input type="text" id="firstName" name="firstName" required minlength="4" th:value="${user.firstName}" disabled>
+                <div class="input-height">
+                    <p>Last Name:</p>
                 </div>
-            </div>
-
-            <div class="row mt-2">
-                <div class="col-lg-2"></div>
-                <div class="col-lg-4">
-                    <label for="lastName" class="lbl_default">Last Name:</label>
+                <div class="input-height">
+                    <p>Date of Birth:</p>
                 </div>
-                <div class="col-lg-6">
-                    <input type="text" id="lastName" name="lastName" required minlength="2" th:value="${user.lastName}" disabled>
+                <div class="input-height">
+                    <p>Email:</p>
                 </div>
-            </div>
-
-            <div class="row mt-2">
-                <div class="col-lg-2"></div>
-                <div class="col-lg-4">
-                    <label for="birthDate">Date of Birth:</label>
+                <div class="input-height">
+                    <p>Address:</p>
                 </div>
-                <div class="col-lg-6">
-                    <input type="text" id="birthDate" name="birthDate" required style="width: 213px" th:value="${#temporals.format(user.dateOfBirth, 'dd-MM-yyyy')}" disabled>
+                <div class="input-height">
+                    <p>Username:</p>
+                </div>
+                <div class="input-height">
+                    <p>Role:</p>
                 </div>
             </div>
-
-            <div class="row mt-2">
-                <div class="col-lg-2"></div>
-                <div class="col-lg-4">
-                    <label for="email" class="lbl_default">Email:</label>
+            <div class="col-auto">
+                <div class="input-height">
+                    <input type="text" id="firstName" name="firstName" required minlength="4"
+                           th:value="${user.firstName}" disabled>
                 </div>
-                <div class="col-lg-6">
+                <div class="input-height">
+                    <input type="text" id="lastName" name="lastName" required minlength="2" th:value="${user.lastName}"
+                           disabled>
+                </div>
+                <div class="input-height">
+                    <input type="date" id="birthDate" name="birthDate" required style="width: 213px"
+                           th:value="${#temporals.format(user.dateOfBirth, 'dd-MM-yyyy')}" disabled>
+                </div>
+                <div class="input-height">
                     <input type="email" id="email" name="email" required th:value="${user.email}" disabled>
                 </div>
-            </div>
-
-            <div class="row mt-2">
-                <div class="col-lg-2"></div>
-                <div class="col-lg-4">
-                    <label for="address" class="lbl_default">Address:</label>
-                </div>
-                <div class="col-lg-6">
+                <div class="input-height">
                     <input type="text" id="address" name="address" required th:value="${user.address}" disabled>
                 </div>
-            </div>
-
-            <div class="row mt-2">
-                <div class="col-lg-2"></div>
-                <div class="col-lg-4">
-                    <label for="username" class="lbl_default">Username:</label>
-                </div>
-                <div class="col-lg-6">
+                <div class="input-height">
                     <input type="text" id="username" name="username" required th:value="${user.username}" disabled>
                 </div>
-            </div>
-
-            <div class="row mt-2">
-                <div class="col-lg-2"></div>
-                <div class="col-lg-4">
-                    <label for="role" class="lbl_default">Role:</label>
-                </div>
-                <div class="col-lg-6">
+                <div class="input-height">
                     <input type="text" id="role" name="role" required th:value="${user.role.getRolename()}" disabled>
                 </div>
             </div>
-
         </div>
-        <div class="col-lg-4"></div>
     </div>
 </div>
-
 
 <!-- Brand Fragment -->
 <div th:replace="~{fragments/brandFragment :: brandFragment}"></div>
@@ -113,7 +85,6 @@
 <script th:src="@{/js/jquery-1.11.0.min.js}"></script>
 <script th:src="@{/js/jquery-migrate-1.2.1.min.js}"></script>
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
-<script th:src="@{/js/templatemo.js}"></script>
 <script th:src="@{/js/custom.js}"></script>
 
 </body>

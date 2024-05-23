@@ -8,11 +8,8 @@
     <link rel="apple-touch-icon" th:href="@{img/logo-no-background.png}">
     <link rel="shortcut icon" type="image/x-icon" th:href="@{/img/logo-no-background.png}">
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
-    <link rel="stylesheet" th:href="@{/css/templatemo.css}">
-    <link rel="stylesheet" th:href="@{/css/custom.css}">
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
     <link rel="stylesheet" th:href="@{css/fontawesome.min.css}">
+    <link rel="stylesheet" th:href="@{/css/custom.css}">
 </head>
 
 <body>
@@ -22,42 +19,53 @@
 
 <!-- Content -->
 <div class="container py-5">
-    <div class="row">
+    <div class="row justify-content-center">
         <div class="col-lg-12">
             <h2 th:text="#{cart.title}"></h2>
             <form action="/create-invoice" method="post">
-            <table class="table">
-                <thead>
-                <tr>
-                    <th scope="col" th:text="#{cart.product}"></th>
-                    <th scope="col" th:text="#{cart.quantity}"></th>
-                    <th scope="col" th:text="#{cart.price}"></th>
-                    <th scope="col" th:text="#{cart.remove}"></th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="product : ${products}">
-                    <td th:text="${lang == 'en' ? product.productNameEn : product.productNameVi}"></td>
-                    <input type="hidden" name="productNameEn" th:value="${product.productNameEn}"/>
-                    <td th:text="${product.quantity}"></td>
-                    <input type="hidden" name="quantity" th:value="${product.quantity}"/>
-                    <td th:text="${#numbers.formatDecimal(product.getProductPrices().getLast().getPrice(), 1, 'DEFAULT', 0, 'DEFAULT') + ' VND'}"></td>
-                    <input type="hidden" name="price" th:value="${product.getProductPrices().getLast().getPrice()}"/>
-                    <td><a th:href="'removeOutCart?productId=' + ${product.productId}" th:text="#{cart.delete}"></a></td>
-                </tr>
-                </tbody>
-            </table>
-
-                <div>
-                    <label for="shippingAddress" th:text="#{cart.shipping}"></label>
-                    <input type="text" id="shippingAddress" name="shippingAddress" class="input-shipping">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col" th:text="#{cart.product}"></th>
+                        <th scope="col" th:text="#{cart.quantity}"></th>
+                        <th scope="col" th:text="#{cart.price}"></th>
+                        <th scope="col" th:text="#{cart.remove}"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="product : ${products}">
+                        <td th:text="${lang == 'en' ? product.productNameEn : product.productNameVi}"></td>
+                        <input type="hidden" name="productNameEn" th:value="${product.productNameEn}"/>
+                        <td th:text="${product.quantity}"></td>
+                        <input type="hidden" name="quantity" th:value="${product.quantity}"/>
+                        <td th:text="${#numbers.formatDecimal(product.getProductPrices().getLast().getPrice(), 1, 'DEFAULT', 0, 'DEFAULT') + ' VND'}"></td>
+                        <input type="hidden" name="price"
+                               th:value="${product.getProductPrices().getLast().getPrice()}"/>
+                        <td><a th:href="'removeOutCart?productId=' + ${product.productId}" th:text="#{cart.delete}"></a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="row">
+                    <div class="col-auto">
+                        <div>
+                            <p th:text="#{cart.shipping}"></p>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <input type="text" id="shippingAddress" name="shippingAddress" class="input-shipping" th:value="${user.getAddress()}"
+                               required>
+                    </div>
                 </div>
 
-            <div style="text-align: end">
-                <p class="txt-total" th:text="${lang == 'vi' ? 'Tổng đơn: ' : 'Total: '} + ${#numbers.formatDecimal(total, 1, 'DEFAULT', 0, 'DEFAULT') + ' VND'}">0</p>
 
-                <button type="submit" th:text="#{cart.create.invoice}"></button>
-            </div>
+                <div style="text-align: end">
+                    <p class="txt-total"
+                       th:text="${lang == 'vi' ? 'Tổng đơn: ' : 'Total: '} + ${#numbers.formatDecimal(total, 1, 'DEFAULT', 0, 'DEFAULT') + ' VND'}">
+                        0</p>
+
+                    <button type="submit" th:text="#{cart.create.invoice}"></button>
+                </div>
             </form>
         </div>
     </div>
@@ -73,7 +81,6 @@
 <script th:src="@{/js/jquery-1.11.0.min.js}"></script>
 <script th:src="@{/js/jquery-migrate-1.2.1.min.js}"></script>
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
-<script th:src="@{/js/templatemo.js}"></script>
 <script th:src="@{/js/custom.js}"></script>
 
 </body>

@@ -8,11 +8,8 @@
   <link rel="apple-touch-icon" th:href="@{img/logo-no-background.png}">
   <link rel="shortcut icon" type="image/x-icon" th:href="@{/img/logo-no-background.png}">
   <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
-  <link rel="stylesheet" th:href="@{/css/templatemo.css}">
-  <link rel="stylesheet" th:href="@{/css/custom.css}">
-  <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
   <link rel="stylesheet" th:href="@{css/fontawesome.min.css}">
+  <link rel="stylesheet" th:href="@{/css/custom.css}">
 </head>
 
 <body>
@@ -22,43 +19,39 @@
 
 <!-- Content -->
 <div class="container py-5">
-  <div class="row">
-    <div class="col-lg-3"></div>
-    <div class="col-lg-6">
+  <div class="row justify-content-center">
+    <div class="col-auto">
       <h2 class="text-center">Edit product's price</h2>
-
       <div style="min-height: 27px; width: auto" class="mt-2 text-center">
         <p style="color: red;"></p>
       </div>
-      <div style="margin: 0 auto" class="div-add-product">
-        <form th:action="@{/edited-price}" method="post">
 
-          <p>
-            <label for="product" class="lbl-add-product">Selected product:</label>
-            <select class="custom-select btn-add-product" id="product" name="productId" required>
-              <option th:each="product : ${products}" th:value="${product.productId}" th:text="${product.productNameEn}"></option>
-            </select>
-          </p>
-
-          <p>
-            <label for="price" class="lbl-add-product">New price:</label>
-            <input type="number" id="price" name="price" class="btn-add-product" required min="0">
-          </p>
-
-          <div class="text-center">
-            <button type="submit" class="btn btn-primary btn-lg btn-block mt-3 btn-add-product" style="margin: 0 auto">Save price</button>
+      <form th:action="@{/edited-price}" method="post">
+        <div class="row">
+          <div class="col-auto">
+            <div class="input-height">
+              <p>Selected product:</p>
+            </div>
+            <div class="input-height">
+              <p>New price:</p>
+            </div>
           </div>
-        </form>
-
-        <div class="text-center">
-          <form action="home">
-            <button type="submit" class="btn btn-primary btn-lg btn-light btn-add-product mt-2 text-primary border border-info">Return home page</button>
-          </form>
+          <div class="col-auto">
+            <div class="input-height">
+              <select class="custom-select btn-add-product" id="product" name="productId" required>
+                <option th:each="product : ${products}" th:value="${product.productId}" th:text="${product.productNameEn}"></option>
+              </select>
+            </div>
+            <div class="input-height">
+              <input type="number" id="price" name="price" class="btn-add-product" required min="0">
+            </div>
+          </div>
         </div>
-      </div>
-
+        <div class="text-center">
+          <button type="submit" class="btn btn-primary btn-lg btn-block mt-3 btn-add-product" style="margin: 0 auto">Save price</button>
+        </div>
+      </form>
     </div>
-    <div class="col-lg-3"></div>
   </div>
 </div>
 
@@ -72,7 +65,6 @@
 <script th:src="@{/js/jquery-1.11.0.min.js}"></script>
 <script th:src="@{/js/jquery-migrate-1.2.1.min.js}"></script>
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
-<script th:src="@{/js/templatemo.js}"></script>
 <script th:src="@{/js/custom.js}"></script>
 
 </body>

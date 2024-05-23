@@ -19,7 +19,7 @@ public class MyBean implements WebMvcConfigurer {
     public LocaleResolver localeResolver() {
 
         SessionLocaleResolver resolver = new SessionLocaleResolver();
-        resolver.setDefaultLocale(Locale.ENGLISH);
+        resolver.setDefaultLocale(Locale.US);
         return resolver;
     }
 

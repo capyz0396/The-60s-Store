@@ -9,14 +9,18 @@ import org.example.the60sstore.Service.LanguageService;
 import org.example.the60sstore.Service.ProductPriceService;
 import org.example.the60sstore.Service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.LocaleResolver;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Locale;
 
 /* ProductController resolves features related products. */
 @Controller
@@ -27,13 +31,16 @@ public class ProductController {
     private final ProductService productService;
     private final ProductPriceService productPriceService;
 
+    private final LocaleResolver localeResolver;
+
     /* The controller needs to create 4 services below. */
     @Autowired
-    public ProductController(CartService cartService, LanguageService languageService, ProductService productService, ProductPriceService productPriceService) {
+    public ProductController(CartService cartService, LanguageService languageService, ProductService productService, ProductPriceService productPriceService, LocaleResolver localeResolver) {
         this.cartService = cartService;
         this.languageService = languageService;
         this.productService = productService;
         this.productPriceService = productPriceService;
+        this.localeResolver = localeResolver;
     }
 
     /* Add url add-product to show store-add-product.html.
@@ -108,79 +115,56 @@ public class ProductController {
     * productService get all product from database and use productPriceService add price to them.
     * After that, add quantity in cart and language to show correctly. */
     @GetMapping("/product")
-    public String toProduct(HttpServletRequest request,
-                                  HttpSession session,
-                                  Model model) {
+    public String toProduct(@RequestParam(defaultValue = "0") int page,
+                            @RequestParam(value = "filter", required = false, defaultValue = "") String filter,
+                            @RequestParam(value = "keyword", required = false, defaultValue = "") String keyword,
+                            @RequestParam(value = "sort", required = false, defaultValue = "default") String sortType,
+                            HttpServletRequest request, HttpSession session, Model model) {
 
-        List<Product> products = productService.getAllProducts();
+        PageRequest pageRequest = PageRequest.of(page,9);
+        Page<Product> productPage = null;
 
-        for (Product product : products) {
+        Locale locale = localeResolver.resolveLocale(request);
+        String language = locale.getLanguage();
+
+        /* Having filter and not having sort */
+        if (!filter.isEmpty() && sortType.equals("default")) {
+            productPage = productService.getAllProductByFilter(filter, pageRequest);
+            model.addAttribute("filter", filter);
+        }
+        /* Having filter and having sort */
+        else if (!filter.isEmpty()) {
+            productPage = productService.getAllProductByFilterAndSort(filter, pageRequest, sortType, language);
+            model.addAttribute("filter", filter);
+        }
+
+        /* Having keyword and not having sort */
+        else if (!keyword.isEmpty() && sortType.equals("default")) {
+            productPage = productService.getAllProductByKeyword(keyword, pageRequest);
+            model.addAttribute("keyword", keyword);
+        }
+        /* Having keyword and having sort */
+        else if (!keyword.isEmpty()){
+            productPage = productService.getAllProductByKeywordAndSort(keyword, pageRequest, sortType, language);
+            model.addAttribute("keyword", keyword);
+        }
+        /* Only having sort */
+        else if (filter.isEmpty() && keyword.isEmpty() && !sortType.equals("default")) {
+            productPage = productService.getAllProductByPageAndSort(pageRequest, sortType, language);
+            model.addAttribute("sort", sortType);
+        } else {
+            /* Get all product and add productPrice to them. */
+            productPage = productService.getAllProductByPage(pageRequest);
+        }
+
+        for (Product product : productPage) {
             List<ProductPrice> prices = productPriceService.getProductPriceByProduct(product);
             product.setProductPrices(prices);
         }
 
-        model.addAttribute("products", products);
-        cartService.addNumCart(session, model);
-        languageService.addLanguagle(request, model);
-        return "store-product";
-    }
-
-    /* Depending on type of product, productService get product list by type param.
-    * productPriceService add price to them.
-    * Finally, add quantity in cart and current language to show at html. */
-    @GetMapping("/productType")
-    public String showProductListByType(HttpServletRequest request,
-                                  HttpSession session,
-                                  Model model,
-                                         @RequestParam("typeEn") String typeEn) {
-
-        List<Product> productListByType = productService.getAllProductByType(typeEn);
-
-        for (Product product : productListByType) {
-            List<ProductPrice> prices = productPriceService.getProductPriceByProduct(product);
-            product.setProductPrices(prices);
-        }
-
-        model.addAttribute("products", productListByType);
-        cartService.addNumCart(session, model);
-        languageService.addLanguagle(request, model);
-        return "store-product";
-    }
-
-    /* showSortedProductList contains 4 types of sorting.
-    * If selected param is equal type of sorting, productService get sorted product list like that.
-    * Before finishing, add quantity in cart and language to show at html. */
-    @PostMapping("/sort-product")
-    public String showSortedProductList(HttpServletRequest request,
-                                        HttpSession session,
-                                        Model model,
-                                        @RequestParam("selected") String selected) {
-
-        List<Product> products = switch (selected) {
-            case "sorta" -> productService.getAllProductSortedByNameEnAsc();
-            case "sortz" -> productService.getAllProductSortedByNameEnDesc();
-            case "sortl" -> productService.getAllProductSortedByPriceAsc();
-            case "sorth" -> productService.getAllProductSortedByPriceDesc();
-            default -> null;
-        };
-
-        model.addAttribute("products", products);
-        cartService.addNumCart(session, model);
-        languageService.addLanguagle(request, model);
-        return "store-product";
-    }
-
-    /* showSearchedProductList uses keyword param to get product.
-    * Search process using productService to get product list.
-    * Add quantity in cart and language to show at html. */
-    @PostMapping("/search-product")
-    public String showSearchedProductList(HttpServletRequest request,
-                                          HttpSession session,
-                                          Model model,
-                                          @RequestParam("keyword") String keyword) {
-        System.out.println(keyword);
-        List<Product> products = productService.getAllProductContainKeyword(keyword);
-        model.addAttribute("products", products);
+        model.addAttribute("productPage", productPage);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", productPage.getTotalPages());
         cartService.addNumCart(session, model);
         languageService.addLanguagle(request, model);
         return "store-product";

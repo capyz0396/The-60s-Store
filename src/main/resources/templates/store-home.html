@@ -8,12 +8,8 @@
     <link rel="apple-touch-icon" th:href="@{img/logo-no-background.png}">
     <link rel="shortcut icon" type="image/x-icon" th:href="@{/img/logo-no-background.png}">
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
-    <link rel="stylesheet" th:href="@{/css/templatemo.css}">
-    <link rel="stylesheet" th:href="@{/css/custom.css}">
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
     <link rel="stylesheet" th:href="@{css/fontawesome.min.css}">
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet" th:href="@{/css/custom.css}">
 </head>
 
 <body>
@@ -105,19 +101,19 @@
     </div>
     <div class="row">
         <div class="col-12 col-md-4 p-5 mt-3">
-            <a href="#"><img th:src="@{/img/category_img_01.jpg}" class="rounded-circle img-fluid border" alt="product1"></a>
+            <a th:href="'/productType?typeEn=Hair%20Dye'"><img th:src="@{/img/category_img_01.jpg}" class="rounded-circle img-fluid border" alt="product1"></a>
             <h5 class="text-center mt-3 mb-3" th:text="#{home.categories.1}"></h5>
-            <p class="text-center"><a class="btn btn-success" th:text="#{home.more}"></a></p>
+            <p class="text-center"><a class="btn btn-success" th:text="#{home.more}" th:href="'/productType?typeEn=Hair%20Dye'"></a></p>
         </div>
         <div class="col-12 col-md-4 p-5 mt-3">
-            <a href="#"><img th:src="@{/img/category_img_03.jpg}" class="rounded-circle img-fluid border"  alt="product3"></a>
+            <a th:href="'/productType?typeEn=Functional%20Food'"><img th:src="@{/img/category_img_03.jpg}" class="rounded-circle img-fluid border"  alt="product3"></a>
             <h2 class="h5 text-center mt-3 mb-3" th:text="#{home.categories.2}"></h2>
-            <p class="text-center"><a class="btn btn-success" th:text="#{home.more}"></a></p>
+            <p class="text-center"><a class="btn btn-success" th:text="#{home.more}" th:href="'/productType?typeEn=Functional%20Food'"></a></p>
         </div>
         <div class="col-12 col-md-4 p-5 mt-3">
-            <a href="#"><img th:src="@{/img/category_img_02.jpg}" class="rounded-circle img-fluid border" alt="product2"></a>
+            <a th:href="'/productType?typeEn=Eyes%20Drops'"><img th:src="@{/img/category_img_02.jpg}" class="rounded-circle img-fluid border" alt="product2"></a>
             <h2 class="h5 text-center mt-3 mb-3" th:text="#{home.categories.3}"></h2>
-            <p class="text-center"><a class="btn btn-success" th:text="#{home.more}"></a></p>
+            <p class="text-center"><a class="btn btn-success" th:text="#{home.more}" th:href="'/productType?typeEn=Eyes%20Drops'"></a></p>
         </div>
     </div>
 </section>
@@ -156,7 +152,6 @@
 <script th:src="@{/js/jquery-1.11.0.min.js}"></script>
 <script th:src="@{/js/jquery-migrate-1.2.1.min.js}"></script>
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
-<script th:src="@{/js/templatemo.js}"></script>
 <script th:src="@{/js/custom.js}"></script>
 
 </body>

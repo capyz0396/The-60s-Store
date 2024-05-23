@@ -13,7 +13,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 
     /* When access is denied, redirect client to /home url. */
     @Override
-    public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
+    public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException {
         response.sendRedirect("/home");
     }
 }

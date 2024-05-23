@@ -2,9 +2,14 @@ package org.example.the60sstore.Controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import org.example.the60sstore.Entity.Customer;
 import org.example.the60sstore.Entity.Product;
+import org.example.the60sstore.Service.CustomerService;
 import org.example.the60sstore.Service.LanguageService;
 import org.example.the60sstore.Service.ProductService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,16 +18,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /* This controller controls and executes features related customer's cart. */
 @Controller
 public class CartController {
 
+    private final CustomerService customerService;
     private final LanguageService languageService;
     private final ProductService productService;
 
     /* Controller needs to create languageService and productService to use. */
-    public CartController(LanguageService languageService, ProductService productService) {
+    public CartController(CustomerService customerService, LanguageService languageService, ProductService productService) {
+        this.customerService = customerService;
         this.languageService = languageService;
         this.productService = productService;
     }
@@ -44,12 +52,26 @@ public class CartController {
             }
         }
 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Customer customer = null;
+
+        if (authentication instanceof OAuth2AuthenticationToken oauthToken) {
+            Map<String, Object> attributes = oauthToken.getPrincipal().getAttributes();
+            customer = customerService.getCustomerByEmail(attributes.get("email").toString());
+        }
+        if (authentication.getPrincipal() instanceof Customer) {
+            customer = (Customer) authentication.getPrincipal();
+        }
+
+        model.addAttribute("user", customer);
         model.addAttribute("products", products);
         model.addAttribute("total", total);
         languageService.addLanguagle(request, model);
 
         return "store-cart";
     }
+
+
 
     /* addToCard method checks session and add more 1 value to product customer chosen. */
     @PostMapping("/addToCart")

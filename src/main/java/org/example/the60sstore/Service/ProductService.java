@@ -3,6 +3,8 @@ package org.example.the60sstore.Service;
 import org.example.the60sstore.Entity.Product;
 import org.example.the60sstore.Repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -59,13 +61,66 @@ public class ProductService {
         return productRepository.findAllByEndDateIsNullOrderByPriceDesc();
     }
 
-    /* getAllProductContainKeyword method gets all products containing keyword param. */
-    public List<Product> getAllProductContainKeyword(String keyword) {
-        return productRepository.findProductByProductNameEnContaining(keyword);
+    public Page<Product> getAllProductByPage(PageRequest pageRequest) {
+        return productRepository.findAll(pageRequest);
     }
 
-    /* getAllProductByType method gets all products by type. */
-    public List<Product> getAllProductByType(String keyword) {
-        return productRepository.findProductsByProductTypeEnContaining(keyword);
+    public Page<Product> getAllProductByPageAndSort(PageRequest pageRequest, String sortType, String language) {
+        if (sortType.equals("sorta") && language.equals("en")) {
+            return productRepository.findAllByOrderByProductNameEnAsc(pageRequest);
+        } else if (sortType.equals("sorta") && language.equals("vi")) {
+            return productRepository.findAllByOrderByProductNameViAsc(pageRequest);
+        } else if (sortType.equals("sortz") && language.equals("en")) {
+            return productRepository.findAllByOrderByProductNameEnDesc(pageRequest);
+        } else if (sortType.equals("sortz") && language.equals("vi")) {
+            return productRepository.findAllByOrderByProductNameViDesc(pageRequest);
+        } else if (sortType.equals("sortl")) {
+            return productRepository.findAllOrderByPriceAsc(pageRequest);
+        } else if (sortType.equals("sorth")) {
+            return productRepository.findAllOrderByPriceDesc(pageRequest);
+        }
+        return productRepository.findAll(pageRequest);
+    }
+
+    public Page<Product> getAllProductByFilter(String filter, PageRequest pageRequest) {
+        return productRepository.findByProductTypeEn(filter, pageRequest);
+    }
+
+    public Page<Product> getAllProductByFilterAndSort(String filter, PageRequest pageRequest, String sortType, String language) {
+        if (sortType.equals("sorta") && language.equals("en")) {
+            return productRepository.findByProductTypeEnOrderByProductNameEnAsc(filter, pageRequest);
+        } else if (sortType.equals("sortz") && language.equals("en")) {
+            return productRepository.findByProductTypeEnOrderByProductNameEnDesc(filter, pageRequest);
+        } else if (sortType.equals("sorta") && language.equals("vi")) {
+            return productRepository.findByProductTypeEnOrderByProductNameViAsc(filter, pageRequest);
+        } else if (sortType.equals("sortz") && language.equals("vi")) {
+            return productRepository.findByProductTypeEnOrderByProductNameViDesc(filter, pageRequest);
+        } else if (sortType.equals("sortl")) {
+            return productRepository.findByProductTypeEnOrderByPriceAsc(filter, pageRequest);
+        } else if (sortType.equals("sorth")) {
+            return productRepository.findByProductTypeEnOrderByPriceDesc(filter, pageRequest);
+        }
+        return productRepository.findByProductTypeEn(filter, pageRequest);
+    }
+
+    public Page<Product> getAllProductByKeyword(String keyword, PageRequest pageRequest) {
+        return productRepository.findProductByProductNameEnContaining(keyword, pageRequest);
+    }
+
+    public Page<Product> getAllProductByKeywordAndSort(String keyword, PageRequest pageRequest, String sortType, String language) {
+        if (sortType.equals("sorta") && language.equals("en")) {
+            return productRepository.findProductByProductNameEnContainingOrderByProductNameEnAsc(keyword, pageRequest);
+        } else if (sortType.equals("sortz") && language.equals("en")) {
+            return productRepository.findProductByProductNameEnContainingOrderByProductNameEnDesc(keyword, pageRequest);
+        } else if (sortType.equals("sorta") && language.equals("vi")) {
+            return productRepository.findProductByProductNameViContainingOrderByProductNameViAsc(keyword, pageRequest);
+        } else if (sortType.equals("sortz") && language.equals("vi")) {
+            return productRepository.findProductByProductNameViContainingOrderByProductNameViDesc(keyword, pageRequest);
+        } else if (sortType.equals("sortl")) {
+            return productRepository.findProductByProductNameEnContainingOrderByPriceAsc(keyword, pageRequest);
+        } else if (sortType.equals("sorth")) {
+            return productRepository.findProductByProductNameEnContainingOrderByPriceDesc(keyword, pageRequest);
+        }
+        return productRepository.findAll(pageRequest);
     }
 }

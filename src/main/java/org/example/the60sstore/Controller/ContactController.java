@@ -2,6 +2,7 @@ package org.example.the60sstore.Controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import org.example.the60sstore.Service.CartService;
 import org.example.the60sstore.Service.CustomerService;
 import org.example.the60sstore.Service.EmailSenderService;
 import org.example.the60sstore.Service.LanguageService;
@@ -15,12 +16,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class ContactController {
 
+    private final CartService cartService;
     private final CustomerService customerService;
     private final LanguageService languageService;
     private final EmailSenderService emailSenderService;
 
     /* To resolve, the controller needs to create 3 services. */
-    public ContactController(CustomerService customerService, LanguageService languageService, EmailSenderService emailSenderService) {
+    public ContactController(CartService cartService, CustomerService customerService, LanguageService languageService, EmailSenderService emailSenderService) {
+        this.cartService = cartService;
         this.customerService = customerService;
         this.languageService = languageService;
         this.emailSenderService = emailSenderService;
@@ -29,6 +32,7 @@ public class ContactController {
     /* Set url "/contact" for "store-contact.html". */
     @GetMapping({"/contact"})
     public String toContact(HttpSession session, HttpServletRequest request, Model model) {
+        cartService.addNumCart(session, model);
         customerService.addLogged(session, model);
         languageService.addLanguagle(request, model);
         return "store-contact";

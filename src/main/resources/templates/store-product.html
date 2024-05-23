@@ -8,11 +8,8 @@
     <link rel="apple-touch-icon" th:href="@{img/logo-no-background.png}">
     <link rel="shortcut icon" type="image/x-icon" th:href="@{/img/logo-no-background.png}">
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
-    <link rel="stylesheet" th:href="@{/css/templatemo.css}">
-    <link rel="stylesheet" th:href="@{/css/custom.css}">
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
     <link rel="stylesheet" th:href="@{css/fontawesome.min.css}">
+    <link rel="stylesheet" th:href="@{/css/custom.css}">
 </head>
 
 <body>
@@ -29,13 +26,13 @@
             <h1 class="h2 pb-4" th:text="#{home.categories}"></h1>
             <ul class="list-unstyled templatemo-accordion">
 
-                <a class="collapsed d-flex justify-content-between h3 text-decoration-none" th:href="'/productType?typeEn=' + #{home.categories.1}"
+                <a class="collapsed d-flex justify-content-between h3 text-decoration-none" th:href="'/product?filter=Hair%20Dye'"
                    th:text="#{home.categories.1}">
                 </a>
-                <a class="collapsed d-flex justify-content-between h3 text-decoration-none" th:href="'/productType?typeEn=' + #{home.categories.2}"
+                <a class="collapsed d-flex justify-content-between h3 text-decoration-none" th:href="'/product?filter=Functional%20Food'"
                    th:text="#{home.categories.2}">
                 </a>
-                <a class="collapsed d-flex justify-content-between h3 text-decoration-none" th:href="'/productType?typeEn=' + #{home.categories.3}"
+                <a class="collapsed d-flex justify-content-between h3 text-decoration-none" th:href="'/product?filter=Eyes%20Drops'"
                    th:text="#{home.categories.3}">
                 </a>
             </ul>
@@ -47,7 +44,7 @@
             <!-- Title and sort content-->
             <div class="row">
                 <div class="col-md-9">
-                    <form action="search-product" method="post" id="search-form">
+                    <form action="product" method="get" id="search-form">
                         <input type="text" class="form-control form-control-edited" name="keyword"
                                aria-label="Text input with segmented dropdown button">
                         <button type="submit" class="bt n-default form-select" th:text="#{product.search}"></button>
@@ -56,15 +53,17 @@
 
                 <div class="col-md-3 pb-4">
                     <div class="d-flex">
-                        <form action="sort-product" method="post" id="sort-form">
-                            <select class="form-select form-select-sm text-center" name="selected"
+                        <form action="product" method="get" id="sort-form">
+                            <select class="form-select form-select-sm text-center" name="sort"
                                     onchange="submitForm()">
-                                <option selected th:text="#{product.open.select}">Open select menu</option>
+                                <option value="default" selected th:text="#{product.open.select}">Open select menu</option>
                                 <option value="sorta" th:text="#{product.az}">A to Z</option>
                                 <option value="sortz" th:text="#{product.za}">Z to A</option>
                                 <option value="sortl" th:text="#{product.lh}">Low - High</option>
                                 <option value="sorth" th:text="#{product.hl}">High - Low</option>
                             </select>
+                            <input type="hidden" name="keyword" th:value="${keyword}">
+                            <input type="hidden" name="filter" th:value="${filter}">
                         </form>
                     </div>
                 </div>
@@ -72,7 +71,7 @@
 
             <!--Content-->
             <div class="row">
-                <div th:each="product : ${products}" class="col-md-4">
+                <div th:each="product : ${productPage}" class="col-md-4">
                     <div class="card mb-4 product-wap rounded-0">
                         <div class="card rounded-0">
                             <img class="card-img rounded-0 img-fluid img-product" th:src="${product.imgUrl}"
@@ -113,6 +112,24 @@
                     </div>
                 </div>
             </div>
+
+            <div class="mt-3" div="row">
+                <ul class="pagination pagination-lg justify-content-center">
+                    <li class="page-item page-button" th:classappend="${currentPage == 0} ? 'disabled'">
+                        <a class="page-link rounded-0 shadow-sm border-top-0 border-left-0 text-dark"
+                           th:href="@{/product(page=${currentPage - 1}, filter=${filter}, search=${search}, sort=${sort})}">Previous</a>
+
+                    </li>
+                    <li class="page-item page-button disabled">
+                        <a class="page-link rounded-0 shadow-sm border-top-0 border-left-0 text-dark"
+                           th:text="${currentPage + 1}">1</a>
+                    </li>
+                    <li class="page-item page-button" th:classappend="${currentPage + 1 >= totalPages} ? 'disabled'">
+                        <a class="page-link rounded-0 shadow-sm border-top-0 border-left-0 text-dark"
+                           th:href="@{/product(page=${currentPage + 1}, filter=${filter}, keyword=${keyword}, sort=${sort})}">Next</a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 </div>
@@ -127,7 +144,6 @@
 <script th:src="@{/js/jquery-1.11.0.min.js}"></script>
 <script th:src="@{/js/jquery-migrate-1.2.1.min.js}"></script>
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
-<script th:src="@{/js/templatemo.js}"></script>
 <script th:src="@{/js/custom.js}"></script>
 
 </body>

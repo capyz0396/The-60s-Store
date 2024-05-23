@@ -7,7 +7,6 @@ import org.example.the60sstore.Service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -58,58 +57,59 @@ public class InvoiceController {
     @PostMapping("/create-invoice")
     public String createInvoice(HttpSession session,
                                 Model model,
-                                @RequestParam List<String> productNameEn,
-                                @RequestParam List<Integer> quantity,
-                                @RequestParam List<Integer> price,
-                                @RequestParam String shippingAddress) {
+                                @RequestParam(required = false, defaultValue = "") List<String> productNameEn,
+                                @RequestParam(required = false, defaultValue = "") List<Integer> quantity,
+                                @RequestParam(required = false, defaultValue = "") List<Integer> price,
+                                @RequestParam(required = false, defaultValue = "") String shippingAddress) {
+        if (!productNameEn.isEmpty()) {
+            if (productNameEn.size() == quantity.size() && quantity.size() == price.size()) {
 
-        if (productNameEn.size() == quantity.size() && quantity.size() == price.size()) {
+                Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+                Customer customer = null;
+                if (authentication instanceof OAuth2AuthenticationToken oauthToken) {
+                    Map<String, Object> attributes = oauthToken.getPrincipal().getAttributes();
+                    customer = customerService.getCustomerByEmail(attributes.get("email").toString());
+                }
+                if (authentication.getPrincipal() instanceof Customer) {
+                    customer = (Customer) authentication.getPrincipal();
+                }
 
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            Customer customer = null;
-            if (authentication instanceof OAuth2AuthenticationToken oauthToken) {
-                Map<String, Object> attributes = oauthToken.getPrincipal().getAttributes();
-                customer = customerService.getCustomerByEmail(attributes.get("email").toString());
+                Invoice invoice = new Invoice();
+                invoice.setInvoiceDate(LocalDateTime.now());
+                if (!shippingAddress.isEmpty()) {
+                    invoice.setShippingAddress(shippingAddress);
+                } else {
+                    assert customer != null;
+                    invoice.setShippingAddress(customer.getAddress());
+                }
+                invoice.setTotalAmount(BigDecimal.ZERO);
+                invoice.setCustomer(customer);
+                invoice.setInvoiceStatus("Waiting");
+
+                invoice = invoiceService.save(invoice);
+                BigDecimal totalAmount = BigDecimal.ZERO;
+
+                for (int i = 0; i < productNameEn.size(); i++) {
+
+                    Product product = productService.getProductByNameEn(productNameEn.get(i));
+                    InvoiceDetail invoiceDetail = new InvoiceDetail();
+                    invoiceDetail.setInvoice(invoice);
+                    invoiceDetail.setProduct(product);
+                    invoiceDetail.setQuantity(quantity.get(i));
+                    invoiceDetail.setSubtotal(BigDecimal.valueOf((long) price.get(i) * quantity.get(i)));
+                    totalAmount = totalAmount.add(invoiceDetail.getSubtotal());
+                    invoiceDetailService.save(invoiceDetail);
+                }
+
+                invoice.setTotalAmount(totalAmount);
+                invoiceService.save(invoice);
+                cartService.resetNumCart(session, model);
+                customerService.addLogged(session, model);
+                model.addAttribute("order", "success");
             }
-            if (authentication.getPrincipal() instanceof Customer) {
-                customer = (Customer) authentication.getPrincipal();
-            }
-
-            Invoice invoice = new Invoice();
-            invoice.setInvoiceDate(LocalDateTime.now());
-            if (!shippingAddress.isEmpty()) {
-                invoice.setShippingAddress(shippingAddress);
-            } else {
-                assert customer != null;
-                invoice.setShippingAddress(customer.getAddress());
-            }
-            invoice.setTotalAmount(BigDecimal.ZERO);
-            invoice.setCustomer(customer);
-            invoice.setInvoiceStatus("Waiting");
-
-            invoice = invoiceService.save(invoice);
-            BigDecimal totalAmount = BigDecimal.ZERO;
-
-            for (int i = 0; i < productNameEn.size(); i++) {
-
-                Product product = productService.getProductByNameEn(productNameEn.get(i));
-                InvoiceDetail invoiceDetail = new InvoiceDetail();
-                invoiceDetail.setInvoice(invoice);
-                invoiceDetail.setProduct(product);
-                invoiceDetail.setQuantity(quantity.get(i));
-                invoiceDetail.setSubtotal(BigDecimal.valueOf((long) price.get(i) * quantity.get(i)));
-                totalAmount = totalAmount.add(invoiceDetail.getSubtotal());
-                invoiceDetailService.save(invoiceDetail);
-            }
-
-            invoice.setTotalAmount(totalAmount);
-            invoiceService.save(invoice);
-            cartService.resetNumCart(session, model);
-            customerService.addLogged(session, model);
-            model.addAttribute("order", "success");
+            return "store-home";
         }
-
-        return "store-home";
+        return "redirect:/cart";
     }
 
     /* When an invoice is confirmed successfully, updateCustomerLevel update level of the customer.

@@ -8,11 +8,8 @@
     <link rel="apple-touch-icon" th:href="@{img/logo-no-background.png}">
     <link rel="shortcut icon" type="image/x-icon" th:href="@{/img/logo-no-background.png}">
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
-    <link rel="stylesheet" th:href="@{/css/templatemo.css}">
-    <link rel="stylesheet" th:href="@{/css/custom.css}">
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
     <link rel="stylesheet" th:href="@{css/fontawesome.min.css}">
+    <link rel="stylesheet" th:href="@{/css/custom.css}">
 </head>
 
 <body>
@@ -27,7 +24,10 @@
             <h2 th:text="#{login.title}"></h2>
 
             <div style="min-height: 27px; width: auto" class="mt-2 text-center">
-                <p style="color: red;" th:text="${param.error}"></p>
+                <p style="color: red;" th:if="${param.errorPassword}" th:text="#{error.password}"></p>
+                <p style="color: red;" th:if="${param.errorLocked}" th:text="#{error.locked}"></p>
+                <p style="color: red;" th:if="${param.errorDisable}" th:text="#{error.disable}"></p>
+                <p style="color: red;" th:if="${param.error}" th:text="${param.error}"></p>
             </div>
 
             <form action="/login" method="post">
@@ -43,7 +43,7 @@
                 <button type="submit" class="btn btn-primary btn-lg btn-block mt-3 btn-default" th:text="#{login.sign.in.button}"></button>
             </form>
             <div class="m-2">
-                <a class="btn btn-lg btn-secondary fab fa-google" th:href="@{/oauth2/authorization/google}"> Continue with Google</a>
+                <a class="btn btn-lg btn-secondary fab btn-default" th:href="@{/oauth2/authorization/google}" th:text="#{login.google}"></a>
             </div>
             <form action="signup">
                 <button type="submit" class="btn btn-primary btn-lg btn-light btn-default mt-2 text-primary border border-info" th:text="#{login.sign.up.button}">Sign up</button>
@@ -65,7 +65,6 @@
 <script th:src="@{/js/jquery-1.11.0.min.js}"></script>
 <script th:src="@{/js/jquery-migrate-1.2.1.min.js}"></script>
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
-<script th:src="@{/js/templatemo.js}"></script>
 <script th:src="@{/js/custom.js}"></script>
 
 </body>

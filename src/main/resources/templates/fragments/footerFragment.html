@@ -32,18 +32,17 @@
                 <div class="col-md-4 pt-5">
                     <h2 class="h2 text-light border-bottom pb-3 border-light" th:text="#{footer.title.1}"></h2>
                     <ul class="list-unstyled text-light footer-link-list">
-                        <li><a class="text-decoration-none" th:href="'/productType?typeEn=' + #{home.categories.1}" th:text="#{footer.type.1}"></a></li>
-                        <li><a class="text-decoration-none" th:href="'/productType?typeEn=' + #{home.categories.2}" th:text="#{footer.type.2}"></a></li>
-                        <li><a class="text-decoration-none" th:href="'/productType?typeEn=' + #{home.categories.3}" th:text="#{footer.type.3}"></a></li>
+                        <li><a class="text-decoration-none" th:href="'/productType?typeEn=Hair%20Dye'" th:text="#{footer.type.1}"></a></li>
+                        <li><a class="text-decoration-none" th:href="'/productType?typeEn=Functional%20Food'" th:text="#{footer.type.2}"></a></li>
+                        <li><a class="text-decoration-none" th:href="'/productType?typeEn=Eyes%20Drops'" th:text="#{footer.type.3}"></a></li>
                     </ul>
                 </div>
 
                 <div class="col-md-4 pt-5">
                     <h2 class="h2 text-light border-bottom pb-3 border-light" th:text="#{footer.title.2}"></h2>
                     <ul class="list-unstyled text-light footer-link-list">
-                        <li><a class="text-decoration-none" href="#" th:text="#{footer.home}">Home</a></li>
-                        <li><a class="text-decoration-none" href="#"th:text="#{footer.about}"></a></li>
-                        <li><a class="text-decoration-none" href="#" th:text="#{footer.location}"></a></li>
+                        <li><a class="text-decoration-none" href="/home" th:text="#{footer.home}">Home</a></li>
+                        <li><a class="text-decoration-none" href="/about"th:text="#{footer.about}"></a></li>
                     </ul>
                 </div>
             </div>

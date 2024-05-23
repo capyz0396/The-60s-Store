@@ -2,6 +2,7 @@ package org.example.the60sstore.Controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import org.example.the60sstore.Service.CartService;
 import org.example.the60sstore.Service.CustomerService;
 import org.example.the60sstore.Service.LanguageService;
 import org.springframework.stereotype.Controller;
@@ -12,11 +13,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class AboutController {
 
+    private final CartService cartService;
     private final CustomerService customerService;
     private final LanguageService languageService;
 
     /* This controller needs create 2 service objects to show login status and language. */
-    public AboutController(CustomerService customerService, LanguageService languageService) {
+    public AboutController(CartService cartService, CustomerService customerService, LanguageService languageService) {
+        this.cartService = cartService;
         this.customerService = customerService;
         this.languageService = languageService;
     }
@@ -25,6 +28,7 @@ public class AboutController {
     * toAbout add login status and current language getting from session before sending. */
     @GetMapping({"/about"})
     public String toAbout(HttpSession session, HttpServletRequest request, Model model) {
+        cartService.addNumCart(session, model);
         customerService.addLogged(session, model);
         languageService.addLanguagle(request, model);
         return "store-about";

@@ -62,16 +62,10 @@ public class UserController {
     * After that, redirect to home and show notification. */
     @PostMapping("/update-user-information")
     public String processSignupForm(@RequestParam String firstName, @RequestParam String lastName,
-                                    @RequestParam String birthDate,
-                                    @RequestParam String email, @RequestParam String address,
+                                    @RequestParam String birthDate, @RequestParam String address,
                                     @RequestParam String password, Model model) {
 
-        Customer customer = customerService.getCustomerByEmail(email);
-        if (customer != null) {
-            model.addAttribute("error", "This email address is already in use.");
-            return "user-information-edit";
-        }
-
+        Customer customer = null;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication instanceof OAuth2AuthenticationToken oauthToken) {
@@ -82,13 +76,11 @@ public class UserController {
             customer = (Customer) authentication.getPrincipal();
         }
 
-        assert customer != null;
         customer = customerService.getCustomerByUsername(customer.getUsername());
         String hashedPassword = bCryptPasswordEncoder.encode(password);
         customer.setFirstName(firstName);
         customer.setLastName(lastName);
         customer.setDateOfBirth(LocalDate.parse(birthDate).atStartOfDay());
-        customer.setEmail(email);
         customer.setAddress(address);
         customer.setPassword(hashedPassword);
         customerService.save(customer);
