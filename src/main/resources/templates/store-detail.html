@@ -24,35 +24,61 @@
             <!-- Product's image-->
             <div class="col-lg-4 mt-3">
                 <div class="card mb-3">
-                    <img class="card-img img-fluid img-product" th:src="${product.imgUrl}" th:alt="${product.descriptionEn}">
+                    <img class="card-img img-fluid img-product" th:src="${product.imgUrl}"
+                         th:alt="${product.descriptionEn}">
                 </div>
             </div>
             <!-- Product's content -->
             <div class="col-lg-8 mt-3">
                 <div class="card">
-                    <div class="card-body">
-                        <h1 class="h2" th:text="${lang == 'en' ? product.productNameEn : product.productNameVi}"></h1>
-                        <p class="h3 py-2"
-                           th:text="${#numbers.formatDecimal(product.getProductPrices().getLast().getPrice(), 1, 'DEFAULT', 0, 'DEFAULT') + ' VND'}"></p>
 
-                        <h6 th:text="#{product-detail-type}"></h6>
-                        <p th:text="${lang == 'en' ? product.productTypeEn : product.productTypeVi}"></p>
+                    <form th:action="@{/addToCart}" method="get">
+                        <div class="card-body">
+                            <h1 class="h2"
+                                th:text="${lang == 'en' ? product.productNameEn : product.productNameVi}"></h1>
+                            <p class="h3 py-2"
+                               th:text="${#numbers.formatDecimal(product.getProductPrices().getLast().getPrice(), 1, 'DEFAULT', 0, 'DEFAULT') + ' VND'}"></p>
 
-                        <h6 th:text="#{product-detail-origin}"></h6>
-                        <p th:text="${lang == 'en' ? product.originEn : product.originVi}"></p>
+                            <div class="row mb-3 quantity-location">
+                                <div class="col-auto">
+                                    <div class="row border rounded quantity-background">
+                                        <div class="col-auto align-content-center">
+                                            <div>
+                                                Quantity:
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div>
+                                                <select class="btn" name="productQuantity" required>
+                                                    <option th:each="i : ${#numbers.sequence(1, 10)}" th:value="${i}"
+                                                            th:text="${i}"></option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
-                        <h6 th:text="#{product-detail-description}"></h6>
-                        <p th:text="${lang == 'en' ? product.descriptionEn : product.descriptionVi}"></p>
+                            <h6 th:text="#{product-detail-type}"></h6>
+                            <p th:text="${lang == 'en' ? product.productTypeEn : product.productTypeVi}"></p>
 
-                        <div class="row pb-3">
-                            <div class="col d-grid">
-                                <form th:action="@{/addToCart}" method="post">
+                            <h6 th:text="#{product-detail-origin}"></h6>
+                            <p th:text="${lang == 'en' ? product.originEn : product.originVi}"></p>
+
+                            <h6 th:text="#{product-detail-description}"></h6>
+                            <p th:text="${lang == 'en' ? product.descriptionEn : product.descriptionVi}"></p>
+
+
+                            <div class="row pb-3">
+                                <div class="col d-grid">
+
                                     <input type="hidden" name="productId" th:value="${product.productId}"/>
-                                    <button class="btn btn-success btn-lg" type="submit" th:text="#{product-detail-add}"></button>
-                                </form>
+                                    <button class="btn btn-success btn-lg" type="submit"
+                                            th:text="#{product-detail-add}"></button>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>

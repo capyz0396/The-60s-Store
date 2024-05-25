@@ -357,3 +357,11 @@ body, ul, li, p, a, label, input, div {
 .input-detail-text {
     height: 100px;
 }
+
+.quantity-background {
+    background-color: darkseagreen;
+}
+
+.quantity-location {
+    margin-left: auto;
+}

@@ -21,7 +21,7 @@
 <div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-auto">
-            <h2 class="text-center">Add product</h2>
+            <h2 class="text-center" th:text="#{add.product.title}"></h2>
 
             <div style="min-height: 27px; width: auto" class="mt-2 text-center">
                 <p style="color: red;"></p>
@@ -31,34 +31,34 @@
                 <div class="row">
                     <div class="col-auto">
                         <div class="input-height">
-                            <p>Tên sản phẩm (Tiếng Anh):</p>
+                            <p th:text="#{add.product.en.name}"></p>
                         </div>
                         <div class="input-height">
-                            <p>Tên sản phẩm (Tiếng Việt):</p>
+                            <p th:text="#{add.product.vi.name}"></p>
                         </div>
                         <div class="input-height">
-                            <p>Xuất xứ (Tiếng Anh):</p>
+                            <p th:text="#{add.product.en.origin}"></p>
                         </div>
                         <div class="input-height">
-                            <p>Xuất xứ (Tiếng Việt):</p>
+                            <p th:text="#{add.product.vi.origin}"></p>
                         </div>
                         <div class="input-height">
-                            <p>Loại sản phẩm (Tiếng Anh):</p>
+                            <p th:text="#{add.product.en.type}"></p>
                         </div>
                         <div class="input-height">
-                            <p>Loại sản phẩm (Tiếng Việt):</p>
+                            <p th:text="#{add.product.vi.type}"></p>
                         </div>
                         <div class="input-height">
-                            <p>Image URL:</p>
+                            <p th:text="#{add.product.img.url}"></p>
                         </div>
                         <div class="input-detail-text">
-                            <p>Mô tả (Tiếng Anh):</p>
+                            <p th:text="#{add.product.en.description}"></p>
                         </div>
                         <div class="input-detail-text">
-                            <p>Mô tả (Tiếng Việt):</p>
+                            <p th:text="#{add.product.vi.description}"></p>
                         </div>
                         <div class="input-height">
-                            <p>Giá sản phẩm:</p>
+                            <p th:text="#{add.product.price}"></p>
                         </div>
                     </div>
                     <div class="col-auto">
@@ -103,7 +103,7 @@
                     </div>
                 </div>
                 <div class="text-center">
-                    <button type="submit" class="btn btn-primary btn-lg btn-block mt-3 btn-default" style="margin: 0 auto">Save product</button>
+                    <button type="submit" class="btn btn-primary btn-lg btn-block mt-3 btn-default" style="margin: 0 auto" th:text="#{add.product.save}"></button>
                 </div>
             </form>
         </div>

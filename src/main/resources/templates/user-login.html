@@ -31,25 +31,40 @@
             </div>
 
             <form action="/login" method="post">
-                <div class="mt-2">
-                    <label for="username" th:text="#{login.username}"></label>
-                    <input type="text" id="username" name="username" required minlength="2">
+                <div class="row mt-2 justify-content-center">
+                    <div class="col-auto">
+                        <div class="input-height">
+                            <p th:text="#{login.username}"></p>
+                        </div>
+                        <div class="input-height">
+                            <p th:text="#{login.password}"></p>
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <div class="input-height">
+                            <input type="text" id="username" name="username" required minlength="6">
+                        </div>
+                        <div class="input-height">
+                            <input type="password" id="password" name="password" required minlength="2">
+                        </div>
+                    </div>
                 </div>
 
-                <div class="mt-2">
-                    <label for="password" th:text="#{login.password}"> </label>
-                    <input type="password" id="password" name="password" required minlength="2">
-                </div>
-                <button type="submit" class="btn btn-primary btn-lg btn-block mt-3 btn-default" th:text="#{login.sign.in.button}"></button>
+                <button type="submit" class="btn btn-primary btn-lg btn-block mt-3 btn-default"
+                        th:text="#{login.sign.in.button}"></button>
             </form>
             <div class="m-2">
-                <a class="btn btn-lg btn-secondary fab btn-default" th:href="@{/oauth2/authorization/google}" th:text="#{login.google}"></a>
+                <a class="btn btn-lg btn-secondary fab btn-default" th:href="@{/oauth2/authorization/google}"
+                   th:text="#{login.google}"></a>
             </div>
             <form action="signup">
-                <button type="submit" class="btn btn-primary btn-lg btn-light btn-default mt-2 text-primary border border-info" th:text="#{login.sign.up.button}">Sign up</button>
+                <button type="submit"
+                        class="btn btn-primary btn-lg btn-light btn-default mt-2 text-primary border border-info"
+                        th:text="#{login.sign.up.button}">Sign up
+                </button>
             </form>
             <div class="mt-2">
-                <a href="forgot-password">Forgot password?</a>
+                <a href="forgot-password" th:text="#{login.forget.password}">Forgot password?</a>
             </div>
         </div>
     </div>

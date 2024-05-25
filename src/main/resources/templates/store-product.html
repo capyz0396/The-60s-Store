@@ -90,7 +90,7 @@
 
                                     <li>
                                         <!-- Form to add product to cart -->
-                                        <form th:action="@{/addToCart}" method="post">
+                                        <form th:action="@{/addToCart}" method="get">
                                             <input type="hidden" name="productId" th:value="${product.productId}"/>
                                             <button class="btn btn-success text-white mt-2" type="submit">
                                                 <i class="fas fa-cart-plus"></i>

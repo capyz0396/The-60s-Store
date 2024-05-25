@@ -74,8 +74,9 @@ public class CartController {
 
 
     /* addToCard method checks session and add more 1 value to product customer chosen. */
-    @PostMapping("/addToCart")
-    public String addToCart(@RequestParam int productId, HttpSession session) {
+    @GetMapping("/addToCart")
+    public String addToCart(@RequestParam int productId,@RequestParam(required = false, defaultValue = "1") int productQuantity
+            , HttpSession session) {
 
         List<Product> cart = (List<Product>) session.getAttribute("cart");
         int cartSize = 0;
@@ -83,17 +84,17 @@ public class CartController {
         if (cart == null) {
             cart = new ArrayList<>();
             Product selectedProduct = productService.getProductByProductId(productId);
-            selectedProduct.setQuantity(1);
+            selectedProduct.setQuantity(productQuantity);
             cart.add(selectedProduct);
             session.setAttribute("cart", cart);
-            cartSize++;
+            cartSize += productQuantity;
         } else {
             boolean alreadyProduct = false;
             for (Product product: cart) {
                 cartSize += product.getQuantity();
                 if (product.getProductId() == productId) {
-                    product.setQuantity(product.getQuantity() + 1);
-                    cartSize++;
+                    product.setQuantity(product.getQuantity() + productQuantity);
+                    cartSize += productQuantity;
                     alreadyProduct = true;
                     session.setAttribute("cart", cart);
                 }
