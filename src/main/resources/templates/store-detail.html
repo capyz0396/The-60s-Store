@@ -59,13 +59,13 @@
                                 </div>
                             </div>
 
-                            <h6 th:text="#{product-detail-type}"></h6>
+                            <h6 class="detail-font" th:text="#{product-detail-type}"></h6>
                             <p th:text="${lang == 'en' ? product.productTypeEn : product.productTypeVi}"></p>
 
-                            <h6 th:text="#{product-detail-origin}"></h6>
+                            <h6 class="detail-font" th:text="#{product-detail-origin}"></h6>
                             <p th:text="${lang == 'en' ? product.originEn : product.originVi}"></p>
 
-                            <h6 th:text="#{product-detail-description}"></h6>
+                            <h6 class="detail-font" th:text="#{product-detail-description}"></h6>
                             <p th:text="${lang == 'en' ? product.descriptionEn : product.descriptionVi}"></p>
 
 

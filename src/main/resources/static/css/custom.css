@@ -365,3 +365,13 @@ body, ul, li, p, a, label, input, div {
 .quantity-location {
     margin-left: auto;
 }
+
+.detail-font {
+    font-weight: bold;
+    font-size: inherit;
+}
+
+.about-img {
+    max-width: inherit;
+    height: auto;
+}

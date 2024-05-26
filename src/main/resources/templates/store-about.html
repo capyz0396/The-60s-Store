@@ -26,33 +26,20 @@
 <section class="bg-success py-5">
     <div class="container">
         <div class="row align-items-center py-5">
-            <!--<div class="col-md-8 text-white">
-                <h1>About Us</h1>
-                <p>Welcome to 60s Shop!</p>
-                <p>At 60s Shop, we specialize in providing high-quality Japanese products, ranging from functional foods
-                    to hair dyes and eye drops for seniors. Our mission is to bring the best of Japanese health and
-                    beauty products to our customers, ensuring both quality and efficacy.</p>
-                <p>With a focus on catering to the needs of our older customers, we carefully select each product to
-                    meet the highest standards of safety and effectiveness. Whether you're looking for dietary
-                    supplements to support your health, hair dyes for a vibrant look, or eye drops for clear vision, we
-                    have you covered.</p>
-                <p>Customer satisfaction is our top priority, and we strive to deliver exceptional service with every
-                    purchase. Explore our collection of Japanese products and experience the difference with 60s Shop
-                    today!</p>
-            </div>-->
-            <div class="col-md-8 text-white">
+            <div class="col-xl-9 col-lg-8 col-md-6 col-sm-12 col-xs-12 order-lg-first order-md-first order-sm-first order-xs-first text-white">
                 <h1 th:text="#{about.title}"></h1>
                 <p th:text="#{about.welcome}"></p>
                 <p th:text="#{about.specialize}"></p>
                 <p th:text="#{about.focus}"></p>
                 <p th:text="#{about.satisfaction}"></p>
             </div>
-            <div class="col-md-4">
-                <img th:src="@{/img/japanese-store.png}" alt="About Hero">
+            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-xs-12 order-lg-last order-md-last order-sm-last order-xs-last text-center">
+                <img th:src="@{/img/japanese-store.png}" class="about-img" alt="About Hero">
             </div>
         </div>
     </div>
 </section>
+
 
 <!--Footer Fragment-->
 <div th:replace="~{fragments/footerFragment :: footerFragment}"></div>
