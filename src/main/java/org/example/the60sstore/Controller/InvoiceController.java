@@ -132,9 +132,21 @@ public class InvoiceController {
     @GetMapping("/invoice")
     public String showInvoices(HttpServletRequest request, Model model) {
         List<Invoice> invoices = invoiceService.getAll();
+        int unresolvedOrders = invoiceService.getWaitingInvoiceQuantity();
         model.addAttribute("invoices", invoices);
+        model.addAttribute("unresolvedOrders", unresolvedOrders);
         languageService.addLanguagle(request, model);
         return "manager-invoice";
+    }
+
+    /* showWaitingInvoices provides invoices which has status like 'Waiting'.
+    * This method adds language to show at manager-waiting-invoice.html. */
+    @GetMapping("/waiting-invoice")
+    public String showWaitingInvoices(HttpServletRequest request, Model model) {
+        List<Invoice> invoices = invoiceService.getWaitingInvoice();
+        model.addAttribute("invoices", invoices);
+        languageService.addLanguagle(request, model);
+        return "manager-waiting-invoice";
     }
 
     /* showInvoiceDetails method gets id by url and find invoice detail list by it.

@@ -67,6 +67,8 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     /* Search & Sort By 4 Options */
     Page<Product> findProductByProductNameEnContaining(String keyword, Pageable pageable);
 
+    Page<Product> findProductByProductNameViContaining(String keyword, Pageable pageable);
+
     Page<Product> findProductByProductNameEnContainingOrderByProductNameEnAsc(String keyword, Pageable pageable);
 
     Page<Product> findProductByProductNameEnContainingOrderByProductNameEnDesc(String keyword, Pageable pageable);
@@ -80,4 +82,10 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
     @Query("SELECT p FROM ProductPrice pp JOIN pp.product p WHERE pp.endDate IS NULL AND p.productNameEn like %:productNameEn% ORDER BY pp.price DESC")
     Page<Product> findProductByProductNameEnContainingOrderByPriceDesc(@Param("productNameEn") String productNameEn, Pageable pageable);
+
+    @Query("SELECT p FROM ProductPrice pp JOIN pp.product p WHERE pp.endDate IS NULL AND p.productNameVi like %:productNameVi% ORDER BY pp.price ASC")
+    Page<Product> findProductByProductNameViContainingOrderByPriceAsc(@Param("productNameVi") String productNameVi, Pageable pageable);
+
+    @Query("SELECT p FROM ProductPrice pp JOIN pp.product p WHERE pp.endDate IS NULL AND p.productNameVi like %:productNameVi% ORDER BY pp.price DESC")
+    Page<Product> findProductByProductNameViContainingOrderByPriceDesc(@Param("productNameVi") String productNameVi, Pageable pageable);
 }

@@ -45,7 +45,12 @@ public class SecurityConfig {
                         .requestMatchers("/confirm**", "/register-confirm**", "/login**",
                                 "/forgot-password", "/check-email",
                                 "/check-token-renew-password", "/reconfirm-password",
-                                "update-new-password").anonymous()
+                                "/update-new-password").anonymous()
+                        .requestMatchers("/add-product", "/save-product", "/store-price",
+                                "/store-price-history/", "/edit-price",
+                                "/edited-price", "/invoice").hasRole("OWNER")
+                        .requestMatchers("/admin-signup", "/account-manager",
+                                "change-status").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .oauth2Login(oauth2Login -> oauth2Login
                         .loginPage("/login")

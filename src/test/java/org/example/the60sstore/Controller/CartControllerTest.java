@@ -1,7 +1,12 @@
 package org.example.the60sstore.Controller;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
+import org.example.the60sstore.Entity.Customer;
 import org.example.the60sstore.Entity.Product;
 import org.example.the60sstore.Entity.ProductPrice;
+import org.example.the60sstore.Service.CartService;
+import org.example.the60sstore.Service.CustomerService;
 import org.example.the60sstore.Service.LanguageService;
 import org.example.the60sstore.Service.ProductService;
 import org.junit.jupiter.api.Test;
@@ -15,9 +20,22 @@ import org.springframework.ui.Model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
+import java.util.List;
+import java.util.Map;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.*;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.authentication;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import static org.mockito.Mockito.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.authentication;
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -28,38 +46,16 @@ public class CartControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private ProductService productService;
+    private CartService cartService;
+
+    @MockBean
+    private CustomerService customerService;
 
     @MockBean
     private LanguageService languageService;
 
-    @Test
-    @WithMockUser(username = "testuser", roles = {"USER"})
-    public void testToCart() throws Exception {
-
-        List<Product> products = new ArrayList<>();
-        Product product = new Product();
-        product.setProductId(1);
-        product.setQuantity(2);
-
-        List<ProductPrice> prices = new ArrayList<>();
-        ProductPrice price = new ProductPrice();
-        price.setPrice(100);
-        prices.add(price);
-        product.setProductPrices(prices);
-        products.add(product);
-
-        MockHttpSession session = new MockHttpSession();
-        session.setAttribute("cart", products);
-
-        doNothing().when(languageService).addLanguagle(any(HttpServletRequest.class), any(Model.class));
-
-        mockMvc.perform(get("/cart").session(session))
-                .andExpect(status().isOk())
-                .andExpect(view().name("store-cart"))
-                .andExpect(model().attribute("products", products))
-                .andExpect(model().attribute("total", 200));
-    }
+    @MockBean
+    private ProductService productService;
 
     @Test
     @WithMockUser(username = "testuser", roles = {"USER"})

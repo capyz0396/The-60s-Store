@@ -63,7 +63,8 @@ public class UserController {
     @PostMapping("/update-user-information")
     public String processSignupForm(@RequestParam String firstName, @RequestParam String lastName,
                                     @RequestParam String birthDate, @RequestParam String address,
-                                    @RequestParam String password, Model model) {
+                                    @RequestParam String password, @RequestParam String phoneNumber,
+                                    Model model) {
 
         Customer customer = null;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -81,6 +82,7 @@ public class UserController {
         customer.setFirstName(firstName);
         customer.setLastName(lastName);
         customer.setDateOfBirth(LocalDate.parse(birthDate).atStartOfDay());
+        customer.setPhoneNumber(phoneNumber);
         customer.setAddress(address);
         customer.setPassword(hashedPassword);
         customerService.save(customer);

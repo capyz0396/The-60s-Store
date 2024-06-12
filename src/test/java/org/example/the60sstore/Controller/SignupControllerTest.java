@@ -67,6 +67,7 @@ public class SignupControllerTest {
                         .param("firstName", "John")
                         .param("lastName", "Doe")
                         .param("birthDate", "1990-01-01")
+                        .param("phoneNumber", "091234567")
                         .param("email", "john.doe@example.com")
                         .param("address", "123 Street")
                         .param("username", "johndoe")
@@ -89,6 +90,7 @@ public class SignupControllerTest {
                         .param("firstName", "John")
                         .param("lastName", "Doe")
                         .param("birthDate", "1990-01-01")
+                        .param("phoneNumber", "091234567")
                         .param("email", "john.doe@example.com")
                         .param("address", "123 Street")
                         .param("username", "johndoe")
@@ -108,13 +110,14 @@ public class SignupControllerTest {
         when(customerService.getCustomerByUsername(anyString())).thenReturn(null);
         when(customerService.getCustomerByEmail(anyString())).thenReturn(null);
         when(bCryptPasswordEncoder.encode(anyString())).thenReturn("hashedPassword");
-        when(customerService.createCustomer(anyString(), anyString(), anyString(), anyString(), anyString(), anyString(), anyString(), anyString()))
+        when(customerService.createCustomer(anyString(), anyString(), anyString(), anyString(), anyString(), anyString(), anyString(), anyString(), anyString()))
                 .thenReturn(new Customer());
 
         mockMvc.perform(post("/signup")
                         .param("firstName", "John")
                         .param("lastName", "Doe")
                         .param("birthDate", "1990-01-01")
+                        .param("phoneNumber", "091234567")
                         .param("email", "john.doe@example.com")
                         .param("address", "123 Street")
                         .param("username", "johndoe")
@@ -125,7 +128,7 @@ public class SignupControllerTest {
 
         verify(customerService).getCustomerByUsername(anyString());
         verify(customerService).getCustomerByEmail(anyString());
-        verify(customerService).createCustomer(anyString(), anyString(), anyString(), anyString(), anyString(), anyString(), anyString(), anyString());
+        verify(customerService).createCustomer(anyString(), anyString(), anyString(), anyString(), anyString(), anyString(), anyString(), anyString(), anyString());
         verify(accessHistoryService).logAccess(any(Customer.class));
         verify(emailSenderService).sendEmail(anyString(), anyString(), anyString());
     }

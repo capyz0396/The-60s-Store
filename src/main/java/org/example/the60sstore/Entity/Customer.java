@@ -28,6 +28,9 @@ public class Customer implements UserDetails {
     @Column(name = "date_of_birth")
     private LocalDateTime dateOfBirth;
 
+    @Column(name = "phone_number")
+    private String phoneNumber;
+
     @Column(name = "email", unique = true)
     private String email;
 
@@ -208,5 +211,13 @@ public class Customer implements UserDetails {
 
     public void setLockStatus(Boolean lockStatus) {
         this.lockStatus = lockStatus;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }

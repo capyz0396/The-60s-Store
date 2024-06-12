@@ -55,7 +55,7 @@ public class SignupController {
     * Create new token and send it to customer's email. */
     @PostMapping("/signup")
     public String processSignupForm(@RequestParam String firstName, @RequestParam String lastName,
-                                    @RequestParam String birthDate,
+                                    @RequestParam String birthDate, @RequestParam String phoneNumber,
                                     @RequestParam String email, @RequestParam String address,
                                     @RequestParam String username, @RequestParam String password,
                                     @RequestParam String role, Model model) {
@@ -72,7 +72,7 @@ public class SignupController {
         }
 
         String hashedPassword = bCryptPasswordEncoder.encode(password);
-        Customer newCustomer = customerService.createCustomer(firstName, lastName, birthDate, email, address, username, hashedPassword, role);
+        Customer newCustomer = customerService.createCustomer(firstName, lastName, birthDate, phoneNumber, email, address, username, hashedPassword, role);
         newCustomer.setLockStatus(false);
         String token = tokenService.generateToken();
         accessHistoryService.logAccess(newCustomer);

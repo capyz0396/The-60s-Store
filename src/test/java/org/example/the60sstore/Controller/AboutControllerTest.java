@@ -1,5 +1,6 @@
 package org.example.the60sstore.Controller;
 
+import org.example.the60sstore.Service.CartService;
 import org.example.the60sstore.Service.CustomerService;
 import org.example.the60sstore.Service.LanguageService;
 import org.junit.jupiter.api.Test;
@@ -24,6 +25,9 @@ public class AboutControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @MockBean
+    private CartService cartService;
 
     @MockBean
     private CustomerService customerService;

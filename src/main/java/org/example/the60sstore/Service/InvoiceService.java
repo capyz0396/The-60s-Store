@@ -1,5 +1,6 @@
 package org.example.the60sstore.Service;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.example.the60sstore.Entity.Invoice;
 import org.example.the60sstore.Repository.InvoiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,5 +38,13 @@ public class InvoiceService {
     /* getInvoiceByCustomerUserOrderByDateDesc method use username to find all invoices and return sort list. */
     public List<Invoice> getInvoiceByCustomerUserOrderByDateDesc(String username) {
         return invoiceRepository.getInvoiceByCustomer_UsernameOrderByInvoiceDateDesc(username);
+    }
+
+    public int getWaitingInvoiceQuantity() {
+        return invoiceRepository.countInvoicesByStatus("Waiting");
+    }
+
+    public List<Invoice> getWaitingInvoice() {
+        return invoiceRepository.getInvoicesByInvoiceStatusContains("Waiting");
     }
 }

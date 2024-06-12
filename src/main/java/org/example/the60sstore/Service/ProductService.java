@@ -103,8 +103,13 @@ public class ProductService {
         return productRepository.findByProductTypeEn(filter, pageRequest);
     }
 
-    public Page<Product> getAllProductByKeyword(String keyword, PageRequest pageRequest) {
-        return productRepository.findProductByProductNameEnContaining(keyword, pageRequest);
+    public Page<Product> getAllProductByKeyword(String keyword, PageRequest pageRequest, String language) {
+        if (language.equals("en")) {
+            return productRepository.findProductByProductNameEnContaining(keyword, pageRequest);
+        } else if (language.equals("vi")){
+            return productRepository.findProductByProductNameViContaining(keyword, pageRequest);
+        }
+        return null;
     }
 
     public Page<Product> getAllProductByKeywordAndSort(String keyword, PageRequest pageRequest, String sortType, String language) {
@@ -116,10 +121,14 @@ public class ProductService {
             return productRepository.findProductByProductNameViContainingOrderByProductNameViAsc(keyword, pageRequest);
         } else if (sortType.equals("sortz") && language.equals("vi")) {
             return productRepository.findProductByProductNameViContainingOrderByProductNameViDesc(keyword, pageRequest);
-        } else if (sortType.equals("sortl")) {
+        } else if (sortType.equals("sortl") && language.equals("en")) {
             return productRepository.findProductByProductNameEnContainingOrderByPriceAsc(keyword, pageRequest);
-        } else if (sortType.equals("sorth")) {
+        } else if (sortType.equals("sorth") && language.equals("en")) {
             return productRepository.findProductByProductNameEnContainingOrderByPriceDesc(keyword, pageRequest);
+        } else if (sortType.equals("sortl") && language.equals("vi")) {
+            return productRepository.findProductByProductNameViContainingOrderByPriceAsc(keyword, pageRequest);
+        } else if (sortType.equals("sorth") && language.equals("vi")) {
+            return productRepository.findProductByProductNameViContainingOrderByPriceDesc(keyword, pageRequest);
         }
         return productRepository.findAll(pageRequest);
     }

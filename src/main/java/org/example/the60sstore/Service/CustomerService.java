@@ -27,12 +27,13 @@ public class CustomerService {
     }
 
     @Transactional
-    public Customer createCustomer(String firstName, String lastName, String birthDate, String email,
-                                   String address, String username, String password, String role) {
+    public Customer createCustomer(String firstName, String lastName, String birthDate, String phoneNumber,
+                                   String email, String address, String username, String password, String role) {
         Customer customer = new Customer();
         customer.setFirstName(firstName);
         customer.setLastName(lastName);
         customer.setDateOfBirth(LocalDate.parse(birthDate).atStartOfDay());
+        customer.setPhoneNumber(phoneNumber);
         customer.setEmail(email);
         customer.setAddress(address);
         customer.setUsername(username);

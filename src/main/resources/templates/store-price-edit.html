@@ -38,9 +38,8 @@
           </div>
           <div class="col-auto">
             <div class="input-height">
-              <select class="custom-select btn-add-product" id="product" name="productId" required>
-                <option th:each="product : ${products}" th:value="${product.productId}" th:text="${product.productNameEn}"></option>
-              </select>
+              <input hidden="hidden" th:value="${product.productId}" id="productId  " name="productId">
+              <input type="text" id="name" name="name" class="btn-add-product" th:value="${lang == 'en' ? product.productNameEn : product.productNameVi}" disabled required>
             </div>
             <div class="input-height">
               <input type="number" id="price" name="price" class="btn-add-product" required min="0">

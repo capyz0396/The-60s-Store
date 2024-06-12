@@ -2,6 +2,7 @@ package org.example.the60sstore.Controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import org.example.the60sstore.Entity.InvoiceDetail;
 import org.example.the60sstore.Entity.Product;
 import org.example.the60sstore.Entity.ProductPrice;
 import org.example.the60sstore.Service.CartService;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.LocaleResolver;
@@ -83,17 +85,48 @@ public class ProductController {
         return "redirect:home";
     }
 
-    /* Add url edit-price to show store-edit-price.html.
-    * cartService add quantity to show at cart logo. */
-    @GetMapping("/edit-price")
-    public String showEditPriceForm(HttpSession session, Model model) {
+
+    /* Add url edit-price to show store-price.html.
+     * cartService add quantity to show at cart logo. */
+    @GetMapping("/store-price")
+    public String showProductPrice(HttpSession session, HttpServletRequest request,
+                                   Model model) {
 
         List<Product> products = productService.getAllProducts();
+
+        for (Product product : products) {
+            List<ProductPrice> prices = productPriceService.getProductPriceByProduct(product);
+            product.setProductPrices(prices);
+        }
+
         model.addAttribute("products", products);
-        model.addAttribute("productPrice", new ProductPrice());
+
+        languageService.addLanguagle(request, model);
         cartService.addNumCart(session, model);
 
-        return "store-edit-price";
+        return "store-price";
+    }
+
+    @GetMapping("/store-price/{id}")
+    public String showEditPrice(HttpServletRequest request,
+                                     @PathVariable("id") int productId,
+                                     Model model) {
+        Product product = productService.getProductByProductId(productId);
+        model.addAttribute("product", product);
+        languageService.addLanguagle(request, model);
+        return "store-price-edit";
+    }
+
+    @GetMapping("/store-price-history/{id}")
+    public String showPriceHistory(HttpServletRequest request,
+                                @PathVariable("id") int productId,
+                                Model model) {
+        Product product = productService.getProductByProductId(productId);
+        List <ProductPrice> productPriceList = productPriceService.getProductPriceByProduct(product);
+        model.addAttribute("product", product);
+        model.addAttribute("productPriceList", productPriceList);
+        languageService.addLanguagle(request, model);
+        return "store-price-history";
     }
 
     /* editPrice method receive productId and new price to update them at database.
@@ -140,7 +173,7 @@ public class ProductController {
 
         /* Having keyword and not having sort */
         else if (!keyword.isEmpty() && sortType.equals("default")) {
-            productPage = productService.getAllProductByKeyword(keyword, pageRequest);
+            productPage = productService.getAllProductByKeyword(keyword, pageRequest, language);
             model.addAttribute("keyword", keyword);
         }
         /* Having keyword and having sort */
