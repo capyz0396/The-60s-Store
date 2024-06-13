@@ -121,7 +121,7 @@
 <!-- Alert -->
 <div th:if="${update == 'success'}" class="alert perform show-alert alert-success">
     <i class="far fa-thumbs-up">
-        <span class="msg">Update successfully!</span>
+        <span class="msg" th:text="#{notification.update}"></span>
     </i>
     <div class="close-button">
         <span class="fas fa-times close-icon"></span>
@@ -129,7 +129,7 @@
 </div>
 <div th:if="${order == 'success'}" class="alert perform show-alert alert-success">
     <i class="far fa-thumbs-up">
-        <span class="msg">Order successfully!</span>
+        <span class="msg" th:text="#{notification.order}">></span>
     </i>
     <div class="close-button">
         <span class="fas fa-times"></span>
@@ -137,7 +137,7 @@
 </div>
 <div th:if="${sent == 'success'}" class="alert perform show-alert alert-success">
     <i class="far fa-thumbs-up">
-        <span class="msg">Your message is send successfully!</span>
+        <span class="msg" th:text="#{notification.message}">>Your message is send successfully!</span>
     </i>
     <div class="close-button">
         <span class="fas fa-times"></span>

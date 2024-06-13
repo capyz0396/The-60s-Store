@@ -83,6 +83,16 @@
 <!-- Brand Fragment -->
 <div th:replace="~{fragments/brandFragment :: brandFragment}"></div>
 
+<!-- Alert -->
+<div th:if="${editPrice == 'success'}" class="alert perform show-alert alert-success">
+    <i class="far fa-thumbs-up">
+        <span class="msg" th:text="#{notification.edit.price}"></span>
+    </i>
+    <div class="close-button">
+        <span class="fas fa-times close-icon"></span>
+    </div>
+</div>
+
 <!-- Footer Fragment -->
 <div th:replace="~{fragments/footerFragment :: footerFragment}"></div>
 

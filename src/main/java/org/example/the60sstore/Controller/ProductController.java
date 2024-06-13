@@ -14,11 +14,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -90,7 +88,7 @@ public class ProductController {
      * cartService add quantity to show at cart logo. */
     @GetMapping("/store-price")
     public String showProductPrice(HttpSession session, HttpServletRequest request,
-                                   Model model) {
+                                   Model model, @ModelAttribute("editPrice") String editPrice) {
 
         List<Product> products = productService.getAllProducts();
 
@@ -100,7 +98,7 @@ public class ProductController {
         }
 
         model.addAttribute("products", products);
-
+        model.addAttribute("editPrice", editPrice);
         languageService.addLanguagle(request, model);
         cartService.addNumCart(session, model);
 
@@ -132,7 +130,7 @@ public class ProductController {
     /* editPrice method receive productId and new price to update them at database.
     * When completing, redirect to /home. */
     @PostMapping("edited-price")
-    public String editPrice(@RequestParam("productId") int productId,
+    public String editPrice(RedirectAttributes redirectAttributes, @RequestParam("productId") int productId,
                             @RequestParam("price") int price) {
         productPriceService.updateEndDateByProductId(productId);
         ProductPrice oldProductPrice = productPriceService.getProductPriceByProductId(productId).getFirst();
@@ -141,7 +139,8 @@ public class ProductController {
         newProductPrice.setPrice(price);
         newProductPrice.setStartDate(LocalDateTime.now());
         productPriceService.addProductPrice(newProductPrice);
-        return "redirect:home";
+        redirectAttributes.addFlashAttribute("editPrice", "success");
+        return "redirect:store-price";
     }
 
     /* toProduct set url /product to show store-product.html.

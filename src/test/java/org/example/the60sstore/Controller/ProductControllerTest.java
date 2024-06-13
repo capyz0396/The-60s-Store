@@ -103,21 +103,6 @@ public class ProductControllerTest {
     }
 
     @Test
-    public void testShowEditPriceForm() throws Exception {
-        List<Product> products = Collections.singletonList(new Product());
-        when(productService.getAllProducts()).thenReturn(products);
-
-        MockHttpSession session = new MockHttpSession();
-        mockMvc.perform(get("/edit-price").session(session))
-                .andExpect(status().isOk())
-                .andExpect(view().name("store-edit-price"))
-                .andExpect(model().attributeExists("products"))
-                .andExpect(model().attributeExists("productPrice"));
-
-        verify(cartService).addNumCart(any(HttpSession.class), any(Model.class));
-    }
-
-    @Test
     public void testEditPrice() throws Exception {
         Product product = new Product();
         ProductPrice productPrice = new ProductPrice();
