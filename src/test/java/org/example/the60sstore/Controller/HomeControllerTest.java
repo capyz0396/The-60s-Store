@@ -1,9 +1,7 @@
 package org.example.the60sstore.Controller;
 
 import jakarta.servlet.http.HttpSession;
-import org.example.the60sstore.Controller.HomeController;
 import org.example.the60sstore.Entity.Customer;
-import org.example.the60sstore.Entity.CustomerLevel;
 import org.example.the60sstore.Entity.Role;
 import org.example.the60sstore.Service.AccessHistoryService;
 import org.example.the60sstore.Service.CartService;
@@ -11,7 +9,6 @@ import org.example.the60sstore.Service.CustomerService;
 import org.example.the60sstore.Service.LanguageService;
 import org.example.the60sstore.Service.RoleService;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -25,7 +22,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.ui.Model;
 
-import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -105,7 +101,6 @@ public class HomeControllerTest {
                 .andExpect(view().name("store-home"))
                 .andExpect(model().attributeExists("logged", "order", "update"));
     }
-
 
     private static class OAuth2UserImpl implements OAuth2User {
         private final Map<String, Object> attributes;

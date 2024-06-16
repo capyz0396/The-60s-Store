@@ -11,7 +11,6 @@ import org.springframework.security.oauth2.client.authentication.OAuth2Authentic
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -132,6 +131,7 @@ public class InvoiceController {
     @GetMapping("/invoice")
     public String showInvoices(HttpServletRequest request, Model model) {
         List<Invoice> invoices = invoiceService.getAll();
+        invoices.sort((i1, i2) -> i2.getInvoiceDate().compareTo(i1.getInvoiceDate()));
         int unresolvedOrders = invoiceService.getWaitingInvoiceQuantity();
         model.addAttribute("invoices", invoices);
         model.addAttribute("unresolvedOrders", unresolvedOrders);
@@ -151,9 +151,9 @@ public class InvoiceController {
 
     /* showInvoiceDetails method gets id by url and find invoice detail list by it.
      * After that, list will be added to model and show at manager-detail.html. */
-    @GetMapping("/invoice/{id}")
+    @GetMapping("/detail-invoice")
     public String showInvoiceDetails(HttpServletRequest request,
-                                     @PathVariable("id") int invoiceId,
+                                     @RequestParam("id") int invoiceId,
                                      Model model) {
         List<InvoiceDetail> invoiceDetails = invoiceDetailService.findByInvoiceId(invoiceId);
         model.addAttribute("invoiceDetails", invoiceDetails);
@@ -165,9 +165,9 @@ public class InvoiceController {
      * The method checks invoice by id and update status of it.
      * If action equal complete, update loyalty point of the customer and return last page.
      * Else only updating invoice status and return last page. */
-    @GetMapping("/invoice/{id}/action")
+    @GetMapping("/action-invoice")
     public String actionInvoice(HttpServletRequest request,
-                                @PathVariable("id") int invoiceId,
+                                @RequestParam("id") int invoiceId,
                                 @RequestParam("action") String action) {
 
         Invoice invoice = invoiceService.getInvoiceByInvoiceId(invoiceId);
@@ -215,9 +215,9 @@ public class InvoiceController {
     /* showUserInvoiceDetails method gets id by url when the customer access.
      * Using this url to get invoice detail and add these to show at manager-detail.html.
      * If customers access url of invoice id not of them, redirect to user-invoice.html. */
-    @GetMapping("/user-invoice/{id}")
+    @GetMapping("/detail-user-invoice")
     public String showUserInvoiceDetails(HttpServletRequest request,
-                                         @PathVariable("id") int invoiceId,
+                                         @RequestParam("id") int invoiceId,
                                          Model model) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

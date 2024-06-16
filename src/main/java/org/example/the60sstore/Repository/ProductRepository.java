@@ -30,7 +30,6 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     @Query("SELECT p FROM ProductPrice pp JOIN pp.product p WHERE pp.endDate IS NULL ORDER BY pp.price DESC")
     List<Product> findAllByEndDateIsNullOrderByPriceDesc();
 
-
     /* Only Sort All */
     Page<Product> findAllByOrderByProductNameEnAsc(Pageable pageable);
 
@@ -62,7 +61,6 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
     @Query("SELECT p FROM ProductPrice pp JOIN pp.product p WHERE pp.endDate IS NULL ORDER BY pp.price DESC")
     Page<Product> findAllOrderByPriceDesc(Pageable pageable);
-
 
     /* Search & Sort By 4 Options */
     Page<Product> findProductByProductNameEnContaining(String keyword, Pageable pageable);

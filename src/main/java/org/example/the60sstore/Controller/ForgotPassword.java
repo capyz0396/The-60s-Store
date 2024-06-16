@@ -44,11 +44,20 @@ public class ForgotPassword {
     public String checkEmailAndSentToken(@RequestParam(name = "email") String email) {
 
         Customer customer = customerService.getCustomerByEmail(email);
+
         if (customer != null) {
-            String token = tokenService.generateToken();
-            tokenService.createToken(customer, token);
-            emailSenderService.sendEmail(email, "Welcome to my factory!", "Here is your token:\n http://localhost:8080/check-token-renew-password?token=" + token);
-            return "register-confirm";
+            /* Kiểm tra xem customer có token nào đang tồn tại k
+            * Nếu tn tại thi khong gui nua.*/
+            Token customerToken = tokenService.findNewestTokenForCustomer(customer.getCustomerId());
+            if (!customerToken.getExpiryDate().isAfter(LocalDateTime.now())) {
+                String token = tokenService.generateToken();
+                tokenService.createToken(customer, token);
+                emailSenderService.sendEmail(email, "Welcome to my factory!", "Here is your token:\n http://localhost:8080/check-token-renew-password?token=" + token);
+                return "register-confirm";
+            }
+            else {
+                return "redirect:/register-confirm-status?status=token-existing";
+            }
         } else {
             return "redirect:/register-confirm-status?status=renew-password-denied";
         }

@@ -18,7 +18,6 @@ public class AccessHistoryService {
         this.accessHistoryRepository = accessHistoryRepository;
     }
 
-
     public void logAccess(Customer customer) {
         AccessHistory accessHistory = new AccessHistory();
         accessHistory.setCustomer(customer);

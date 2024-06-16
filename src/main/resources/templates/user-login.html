@@ -73,6 +73,16 @@
 <!-- Brand Fragment -->
 <div th:replace="~{fragments/brandFragment :: brandFragment}"></div>
 
+<!-- Notification -->
+<div th:if="${param.logout}" class="alert perform show-alert alert-success">
+    <i class="far fa-thumbs-up">
+        <span class="msg" th:text="#{logout.success}"></span>
+    </i>
+    <div class="close-button">
+        <span class="fas fa-times"></span>
+    </div>
+</div>
+
 <!-- Footer Fragment -->
 <div th:replace="~{fragments/footerFragment :: footerFragment}"></div>
 

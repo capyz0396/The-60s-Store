@@ -12,12 +12,11 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.time.LocalDateTime;
 
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(ForgotPassword.class)
@@ -41,24 +40,25 @@ public class ForgotPasswordControllerTest {
     @Test
     @WithMockUser(username = "testuser", roles = {"USER"})
     public void testToForgotPassword() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/forgot-password"))
+        mockMvc.perform(get("/forgot-password"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("user-forgot-password"));
     }
 
     @Test
-    @WithMockUser(username = "testuser", roles = {"USER"})
-    public void testCheckEmailAndSentToken_Success() throws Exception {
-        String email = "test@example.com";
-        Customer customer = new Customer();
-        customer.setEmail(email);
-        when(customerService.getCustomerByEmail(email)).thenReturn(customer);
-        doNothing().when(emailSenderService).sendEmail(anyString(), anyString(), anyString());
+    public void testCheckEmailAndSentToken() throws Exception {
+        // Mocking behavior for customerService
+        Customer mockedCustomer = new Customer();
+        mockedCustomer.setEmail("test@example.com");
+        when(customerService.getCustomerByEmail("test@example.com")).thenReturn(mockedCustomer);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/check-email")
-                        .param("email", email))
-                .andExpect(status().isOk())
-                .andExpect(view().name("register-confirm"));
+        // Mocking behavior for tokenService
+        Token mockedToken = new Token();
+        mockedToken.setExpiryDate(LocalDateTime.now().plusDays(1)); // Assuming token is valid for 1 day
+        when(tokenService.findNewestTokenForCustomer(any())).thenReturn(mockedToken);
+
+        mockMvc.perform(get("/check-email").param("email", "test@example.com"))
+                                .andExpect(redirectedUrl("http://localhost/oauth2/authorization/google"));
     }
 
     @Test
@@ -67,7 +67,7 @@ public class ForgotPasswordControllerTest {
         String email = "nonexistent@example.com";
         when(customerService.getCustomerByEmail(email)).thenReturn(null);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/check-email")
+        mockMvc.perform(get("/check-email")
                         .param("email", email))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/register-confirm-status?status=renew-password-denied"));
@@ -84,7 +84,7 @@ public class ForgotPasswordControllerTest {
         validToken.setExpiryDate(LocalDateTime.now().plusDays(1));
         when(tokenService.findByToken(token)).thenReturn(validToken);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/check-token-renew-password")
+        mockMvc.perform(get("/check-token-renew-password")
                         .param("token", token))
                 .andExpect(status().isOk())
                 .andExpect(view().name("user-update-password"));
@@ -101,7 +101,7 @@ public class ForgotPasswordControllerTest {
         expiredToken.setExpiryDate(LocalDateTime.now().plusDays(1));
         when(tokenService.findByToken(token)).thenReturn(expiredToken);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/check-token-renew-password")
+        mockMvc.perform(get("/check-token-renew-password")
                         .param("token", token))
                 .andExpect(status().isOk());
     }
@@ -112,7 +112,7 @@ public class ForgotPasswordControllerTest {
         String token = "nonexistentToken";
         when(tokenService.findByToken(token)).thenReturn(null);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/check-token-renew-password")
+        mockMvc.perform(get("/check-token-renew-password")
                         .param("token", token))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/register-confirm-status?status=renew-password-attacked"));

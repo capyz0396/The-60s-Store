@@ -45,7 +45,7 @@
             <div class="row">
                 <div class="col-md-9">
                     <form action="product" method="get" id="search-form">
-                        <input type="text" class="form-control form-control-edited" name="keyword"
+                        <input type="text" class="form-control form-control-edited" name="keyword" th:placeholder="#{product.search.bar}"
                                aria-label="Text input with segmented dropdown button">
                         <button type="submit" class="bt n-default form-select" th:text="#{product.search}"></button>
                     </form>
@@ -80,8 +80,8 @@
                                 <ul class="list-unstyled">
                                     <li>
                                         <!-- Form to see detail product -->
-                                        <form th:action="@{/detailProduct}" method="post">
-                                            <input type="hidden" name="productId" th:value="${product.productId}"/>
+                                        <form th:action="@{/detailProduct}" method="get">
+                                            <input name="id" th:value="${product.productId}" hidden="true">
                                             <button class="btn btn-success text-white mt-2" type="submit">
                                                 <i class="far fa-eye"></i>
                                             </button>
@@ -141,6 +141,20 @@
 <div th:replace="~{fragments/footerFragment :: footerFragment}"></div>
 
 <!-- Script -->
+<script>
+    window.addEventListener("beforeunload", function() {
+        localStorage.setItem("scrollPosition", window.scrollY);
+    });
+</script>
+<script th:if="${addCartCompleted}">
+    window.addEventListener("load", function() {
+        var scrollPosition = localStorage.getItem("scrollPosition");
+        if (scrollPosition !== null) {
+            window.scrollTo(scrollPosition, scrollPosition);
+            localStorage.removeItem("scrollPosition");
+        }
+    });
+</script>
 <script th:src="@{/js/jquery-1.11.0.min.js}"></script>
 <script th:src="@{/js/jquery-migrate-1.2.1.min.js}"></script>
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>

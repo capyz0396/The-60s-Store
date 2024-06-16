@@ -1,6 +1,5 @@
 package org.example.the60sstore.Service;
 
-import jakarta.persistence.criteria.CriteriaBuilder;
 import org.example.the60sstore.Entity.Invoice;
 import org.example.the60sstore.Repository.InvoiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;

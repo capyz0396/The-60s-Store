@@ -22,14 +22,17 @@
     <div class="row">
         <h2 th:text="#{confirm.title}"></h2>
 
-        <p th:text="${status == 'agreed' ? 'Token confirmed successfully.': ''}"></p>
-        <p th:text="${status == 'denied' ? 'Token confirmation failed.': ''}"></p>
-        <p th:text="${status == 'expired' ? 'Token has expired. Click the button below to request a new token.' : ''}"></p>
-        <p th:text="${status == 'renew-password-agreed' ? 'Your password is changed successfully.': ''}"></p>
-        <p th:text="${status == 'renew-denied' ? 'Token already has sent. We cannot renew in this time.' : ''}"></p>
-        <p th:text="${status == 'renew-expired' ? 'Token has expired. Click the button below to request a new token to update password.' : ''}"></p>
-        <p th:text="${status == 'renew-password-denied' ? 'Your email has not been registered. Please check again.' : ''}"></p>
-        <p th:text="${status == 'renew-password-attacked' ? 'Your password can not been updated.' : ''}"></p>
+        <div class="mt-2">
+            <p th:if="${status == 'agreed'}" th:text="#{notification.token.confirm.success}"></p>
+            <p th:if="${status == 'denied'}" th:text="#{notification.token.confirm.fail}"></p>
+            <p th:if="${status == 'expired'}" th:text="#{notification.token.expired}"></p>
+            <p th:if="${status == 'renew-password-agreed'}" th:text="#{notification.password.changed}"></p>
+            <p th:if="${status == 'renew-denied'}" th:text="#{notification.token.sent}"></p>
+            <p th:if="${status == 'renew-expired'}" th:text="#{notification.token.expired.twice}"></p>
+            <p th:if="${status == 'renew-password-denied'}" th:text="#{notification.email.unexist}"></p>
+            <p th:if="${status == 'renew-password-attacked'}" th:text="#{notification.password.cannot.changed}"></p>
+            <p th:if="${status == 'token-existing'}" th:text="#{notification.isnt.expired}"></p>
+        </div>
 
         <form action="/reconfirm" method="post">
             <input type="hidden" name="token" th:value="${token}" />

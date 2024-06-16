@@ -4,7 +4,6 @@ import org.example.the60sstore.Entity.Customer;
 import org.example.the60sstore.Service.CustomerService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Controller;
@@ -63,8 +62,7 @@ public class UserController {
     @PostMapping("/update-user-information")
     public String processSignupForm(@RequestParam String firstName, @RequestParam String lastName,
                                     @RequestParam String birthDate, @RequestParam String address,
-                                    @RequestParam String password, @RequestParam String phoneNumber,
-                                    Model model) {
+                                    @RequestParam String password, @RequestParam String phoneNumber) {
 
         Customer customer = null;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

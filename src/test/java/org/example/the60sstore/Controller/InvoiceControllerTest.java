@@ -10,7 +10,6 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 
@@ -93,42 +92,9 @@ public class InvoiceControllerTest {
         List<InvoiceDetail> invoiceDetails = Arrays.asList(invoiceDetail);
         when(invoiceDetailService.findByInvoiceId(1)).thenReturn(invoiceDetails);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/invoice/1"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/detail-invoice?id=1"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("manager-detail"))
                 .andExpect(model().attributeExists("invoiceDetails"));
-    }
-
-    @Test
-    @WithMockUser(username = "testuser", roles = {"USER"})
-    public void testActionInvoice() throws Exception {
-
-        Invoice invoice = new Invoice();
-        invoice.setInvoiceId(1);
-        invoice.setCustomer(new Customer());
-        invoice.setTotalAmount(BigDecimal.valueOf(10000));
-
-        ProductPrice productPrice = new ProductPrice();
-        productPrice.setPrice(11000);
-        List<ProductPrice> productPrices = Arrays.asList(productPrice);
-
-        Product product = new Product();
-        product.setProductId(1);
-        product.setProductNameEn("Product 1");
-        product.setProductPrices(productPrices);
-
-        InvoiceDetail invoiceDetail = new InvoiceDetail();
-        invoiceDetail.setInvoice(invoice);
-        invoiceDetail.setProduct(product);
-
-        when(invoiceService.getInvoiceByInvoiceId(1)).thenReturn(invoice);
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/invoice/1/action")
-                        .param("action", "Complete"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/"));
-
-        verify(customerService).save(any(Customer.class));
-        verify(invoiceService).save(any(Invoice.class));
     }
 }

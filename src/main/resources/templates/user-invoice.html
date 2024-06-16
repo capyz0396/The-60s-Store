@@ -40,11 +40,11 @@
                     <td th:utext="${#temporals.format(invoice.invoiceDate, 'dd-MM-yyyy HH:mm:ss')}"></td>
                     <td th:text="${invoice.shippingAddress}"></td>
                     <td th:text="${#numbers.formatDecimal(invoice.totalAmount, 1, 'DEFAULT', 0, 'DEFAULT') + ' VND'}"></td>
-                    <td><a th:href="@{/user-invoice/{id}(id=${invoice.invoiceId})}" th:text="..."></a></td>
+                    <td><a th:href="@{'/detail-user-invoice?id=' + ${invoice.invoiceId}}" th:text="..."></a></td>
                     <td th:text="${invoice.invoiceStatus}"></td>
                     <td th:if="${invoice.invoiceStatus == 'Waiting'}" class="manager-invoice-line">
-                        <form class="manager-invoice-inline"
-                              th:action="@{/invoice/{id}/action(id=${invoice.invoiceId})}" method="get">
+                        <form class="manager-invoice-inline" th:action="@{/action-invoice}" method="get">
+                            <input hidden="hidden" name="id" th:value="${invoice.invoiceId}">
                             <label><input hidden="hidden" name="action" value="Cancel"></label>
                             <span>
                                 <button type="submit" class="btn btn-lg btn-danger"

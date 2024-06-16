@@ -1,6 +1,5 @@
 package org.example.the60sstore.Controller;
 
-import org.example.the60sstore.Controller.ManagerController;
 import org.example.the60sstore.Entity.Customer;
 import org.example.the60sstore.Entity.Role;
 import org.example.the60sstore.Service.CartService;

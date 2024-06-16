@@ -1,15 +1,12 @@
 package org.example.the60sstore.Controller;
 
-
 import jakarta.servlet.http.HttpSession;
 import org.example.the60sstore.Entity.Customer;
-import org.example.the60sstore.Entity.Role;
 import org.example.the60sstore.Service.CartService;
 import org.example.the60sstore.Service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

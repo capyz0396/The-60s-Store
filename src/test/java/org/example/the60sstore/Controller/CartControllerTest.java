@@ -1,10 +1,7 @@
 package org.example.the60sstore.Controller;
+
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
-import org.example.the60sstore.Entity.Customer;
 import org.example.the60sstore.Entity.Product;
-import org.example.the60sstore.Entity.ProductPrice;
 import org.example.the60sstore.Service.CartService;
 import org.example.the60sstore.Service.CustomerService;
 import org.example.the60sstore.Service.LanguageService;
@@ -20,14 +17,9 @@ import org.springframework.ui.Model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
-import java.util.List;
-import java.util.Map;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.authentication;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;

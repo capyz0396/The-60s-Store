@@ -2,7 +2,6 @@ package org.example.the60sstore.Controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import org.example.the60sstore.Entity.InvoiceDetail;
 import org.example.the60sstore.Entity.Product;
 import org.example.the60sstore.Entity.ProductPrice;
 import org.example.the60sstore.Service.CartService;
@@ -151,6 +150,7 @@ public class ProductController {
                             @RequestParam(value = "filter", required = false, defaultValue = "") String filter,
                             @RequestParam(value = "keyword", required = false, defaultValue = "") String keyword,
                             @RequestParam(value = "sort", required = false, defaultValue = "default") String sortType,
+                            @RequestParam(value = "addCartCompleted", required = false, defaultValue ="") String addCartCompleted,
                             HttpServletRequest request, HttpSession session, Model model) {
 
         PageRequest pageRequest = PageRequest.of(page,9);
@@ -168,6 +168,7 @@ public class ProductController {
         else if (!filter.isEmpty()) {
             productPage = productService.getAllProductByFilterAndSort(filter, pageRequest, sortType, language);
             model.addAttribute("filter", filter);
+            model.addAttribute("sort", sortType);
         }
 
         /* Having keyword and not having sort */
@@ -179,6 +180,7 @@ public class ProductController {
         else if (!keyword.isEmpty()){
             productPage = productService.getAllProductByKeywordAndSort(keyword, pageRequest, sortType, language);
             model.addAttribute("keyword", keyword);
+            model.addAttribute("sort", sortType);
         }
         /* Only having sort */
         else if (filter.isEmpty() && keyword.isEmpty() && !sortType.equals("default")) {
@@ -203,18 +205,17 @@ public class ProductController {
     }
 
     /* toDetailProduct receives productId in param and use it to get product.
-    * It get product by productService.
-    * Before completing, the method add quantity cart and language to model, return html. */
-    @PostMapping("/detailProduct")
-    public String toDetailProduct(HttpServletRequest request,
-                                    HttpSession session,
-                                    Model model,
-                                    @RequestParam int productId) {
+     * It get product by productService.
+     * Before completing, the method add quantity cart and language to model, return html. */
+    @GetMapping("/detailProduct")
+    public String toDetailProduct(HttpServletRequest request, HttpSession session,
+                                  Model model, @RequestParam("id") int productId) {
 
         Product selectedProduct = productService.getProductByProductId(productId);
         model.addAttribute("product", selectedProduct);
         cartService.addNumCart(session, model);
         languageService.addLanguagle(request, model);
+
         return "store-detail";
     }
 }

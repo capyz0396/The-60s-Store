@@ -1,7 +1,6 @@
 package org.example.the60sstore.Security;
 
 import org.example.the60sstore.Security.Oauth2.CustomOAuth2UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;

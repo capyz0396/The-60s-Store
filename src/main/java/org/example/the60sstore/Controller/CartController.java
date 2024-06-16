@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,8 +40,7 @@ public class CartController {
     * Before redirecting, this method add quantity of products if a customer added.
     * More, the method adds "lang" attribute to html show exactly language customer chosen.  */
     @GetMapping("/cart")
-    public String toCart(HttpServletRequest request,
-                       HttpSession session,
+    public String toCart(HttpServletRequest request, HttpSession session,
                        Model model) {
 
         List<Product> products = (List<Product>) session.getAttribute("cart");
@@ -71,12 +71,11 @@ public class CartController {
         return "store-cart";
     }
 
-
-
     /* addToCard method checks session and add more 1 value to product customer chosen. */
     @GetMapping("/addToCart")
-    public String addToCart(@RequestParam int productId,@RequestParam(required = false, defaultValue = "1") int productQuantity
-            , HttpSession session) {
+    public String addToCart(HttpServletRequest request, @RequestParam int productId,
+                            @RequestParam(required = false, defaultValue = "1") int productQuantity
+            ,HttpSession session, RedirectAttributes redirectAttributes) {
 
         List<Product> cart = (List<Product>) session.getAttribute("cart");
         int cartSize = 0;
@@ -110,8 +109,15 @@ public class CartController {
         }
 
         session.setAttribute("cartSize", cartSize);
+        String referer = request.getHeader("Referer");
+        redirectAttributes.addFlashAttribute("addCartCompleted", "addCartCompleted");
 
-        return "redirect:/product";
+        if (referer != null && !referer.contains("detailProduct")) {
+            return "redirect:" + referer;
+        } else {
+            // Nếu không có referer, quay về trang chủ hoặc trang mặc định
+            return "redirect:/product";
+        }
     }
 
     /* removeOutCart method checks product in session and remove it.

@@ -6,11 +6,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
-import org.springframework.web.servlet.LocaleResolver;
-import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import java.io.IOException;
-import java.util.Locale;
 
 /* CustomAuthenticationFailureHandler gets error when logging and return to html by custom design. */
 @Component
